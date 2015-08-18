@@ -1,62 +1,62 @@
 {
   "templates": [
-    "{gives} {user} {flavor} {meat} and {meat} {type} with {salad} and {sauce}!",
-    "{gives} {user} {flavor} {meat} and {meat} {type} with {salad}, {salad}, and {sauce}!",
-    "{gives} {user} {flavor} {meat} and {meat} {type} with {salad}, {salad}, {salad}, and {sauce}!",
-    "{gives} {user} {flavor} {meat} {type} with {salad} and {sauce}!",
-    "{gives} {user} {flavor} {meat} {type} with {salad}, {salad}, and {sauce}!",
-    "{gives} {user} {flavor} {meat} {type} with {salad}, {salad}, {salad}, and {sauce}!"
+    "{gives} {user} {flavor} {type} {meat} avec {salad} et de la {sauce}!",
+    "{gives} {user} {flavor} {type} {meat} avec {salad}, {salad}, et de la {sauce}!",
+    "{gives} {user} {flavor} {type} {meat} avec {salad}, {salad}, {salad}, et de la {sauce}!"
   ],
   "parts": {
     "gives": [
-      "hands",
-      "gives",
-      "makes",
-      "passes"
+      "tends à",
+      "donne à",
+      "fait à",
+      "prépare pour",
+      "passe à"
     ],
     "flavor": [
-      "a tasty",
-      "a delicious",
-      "an awesome",
-      "an excellent",
-      "a beautifully-made"
+      "un succulent",
+      "un délicieux",
+      "un intense",
+      "un énorme",
+      "un super",
+      "un formidable"
     ],
     "meat": [
-      "ham",
-      "salami",
-      "steak",
-      "meatball",
-      "tuna",
-      "pork",
-      "chicken",
-      "roast beef",
-      "corned beef",
-      "pastrami",
-      "turkey"
+      "au jambon",
+      "au salami",
+      "au steak",
+      "à la viande hachée",
+      "au thon",
+      "au porc",
+      "au poulet",
+      "au boeuf grillé",
+      "à la dinde",
+      "aux rillettes",
+      "au saucisson"
     ],
     "type": [
-      "roll",
       "wrap",
-      "pita",
+      "pain pita",
       "sandwich",
-      "bun"
+      "petit pain"
     ],
     "salad": [
-      "tomatoes",
-      "lettuce",
-      "pickles",
-      "cucumbers",
-      "red onions",
-      "jalapenos"
+      "des tomates",
+      "de la laitue",
+      "des cornichons",
+      "du concombre",
+      "des oeufs",
+      "des oignons  rouges"
     ],
     "sauce":[
-      "sweet onion sauce",
-      "honey mustard sauce",
-      "mayo",
-      "sweet chili sauce",
-      "italian sauce",
-      "ranch dressing",
-      "barbecue sauce"
+      "sauce ketchup",
+      "moutarde",
+      "mayonnaise",
+      "sauce pomme frites",
+      "sauce hamburger",
+      "sauce barbecue",
+      "sauce américaine",
+      "sauce blanche",
+      "sauce tartare"
     ]
   }
 }

@@ -10,154 +10,142 @@ from cloudbot.util import textgen
 
 nick_re = re.compile("^[A-Za-z0-9_|.\-\]\[\{\}]*$", re.I)
 
-cakes = ['Chocolate', 'Ice Cream', 'Angel', 'Boston Cream', 'Birthday', 'Bundt', 'Carrot', 'Coffee', 'Devils', 'Fruit',
-         'Gingerbread', 'Pound', 'Red Velvet', 'Stack', 'Welsh', 'Yokan']
+cakes = ['au chocolat', 'à la glace', 'de l\'ange', 'à la crème', 'd\'anniversaire', 'à la carotte', 'au café', 'du diable', 'aux fruits',
+		 'en pain d\'épice', 'au fromage', 'basque', 'de lunne', 'de ménage', 'marbré au chocolat', 'aux pépites de chocolat', 'moelleux']
 
-cookies = ['Chocolate Chip', 'Oatmeal', 'Sugar', 'Oatmeal Raisin', 'Macadamia Nut', 'Jam Thumbprint', 'Medican Wedding',
-           'Biscotti', 'Oatmeal Cranberry', 'Chocolate Fudge', 'Peanut Butter', 'Pumpkin', 'Lemon Bar',
-           'Chocolate Oatmeal Fudge', 'Toffee Peanut', 'Danish Sugar', 'Triple Chocolate', 'Oreo']
+cookies = ['aux pépites de chocolat noir', 'aux pépites de chocolat blanc', 'aux pépites de chocolat au lait', 'au sucre', 'aux raisons secs',
+           'aux noix de Macadamia', 'au caramel', 'à la confiture', 'au beurre de cacahuètes', 'à la citrouille', 'aux trois chocolats', 'aux Oreos']
 
 # <Luke> Hey guys, any good ideas for plugins?
 # <User> I don't know, something that lists every potato known to man?
 # <Luke> BRILLIANT
-potatoes = ['AC Belmont', 'AC Blue Pride', 'AC Brador', 'AC Chaleur', 'AC Domino', 'AC Dubuc', 'AC Glacier Chip',
-            'AC Maple Gold', 'AC Novachip', 'AC Peregrine Red', 'AC Ptarmigan', 'AC Red Island', 'AC Saguenor',
-            'AC Stampede Russet', 'AC Sunbury', 'Abeille', 'Abnaki', 'Acadia', 'Acadia Russet', 'Accent',
-            'Adirondack Blue', 'Adirondack Red', 'Adora', 'Agria', 'All Blue', 'All Red', 'Alpha', 'Alta Russet',
-            'Alturas Russet', 'Amandine', 'Amisk', 'Andover', 'Anoka', 'Anson', 'Aquilon', 'Arran Consul', 'Asterix',
-            'Atlantic', 'Austrian Crescent', 'Avalanche', 'Banana', 'Bannock Russet', 'Batoche', 'BeRus',
-            'Belle De Fonteney', 'Belleisle', 'Bintje', 'Blossom', 'Blue Christie', 'Blue Mac', 'Brigus',
-            'Brise du Nord', 'Butte', 'Butterfinger', 'Caesar', 'CalWhite', 'CalRed', 'Caribe', 'Carlingford',
-            'Carlton', 'Carola', 'Cascade', 'Castile', 'Centennial Russet', 'Century Russet', 'Charlotte', 'Cherie',
-            'Cherokee', 'Cherry Red', 'Chieftain', 'Chipeta', 'Coastal Russet', 'Colorado Rose', 'Concurrent',
-            'Conestoga', 'Cowhorn', 'Crestone Russet', 'Crispin', 'Cupids', 'Daisy Gold', 'Dakota Pearl', 'Defender',
-            'Delikat', 'Denali', 'Desiree', 'Divina', 'Dundrod', 'Durango Red', 'Early Rose', 'Elba', 'Envol',
-            'Epicure', 'Eramosa', 'Estima', 'Eva', 'Fabula', 'Fambo', 'Fremont Russet', 'French Fingerling',
-            'Frontier Russet', 'Fundy', 'Garnet Chile', 'Gem Russet', 'GemStar Russet', 'Gemchip', 'German Butterball',
-            'Gigant', 'Goldrush', 'Granola', 'Green Mountain', 'Haida', 'Hertha', 'Hilite Russet', 'Huckleberry',
-            'Hunter', 'Huron', 'IdaRose', 'Innovator', 'Irish Cobbler', 'Island Sunshine', 'Ivory Crisp',
-            'Jacqueline Lee', 'Jemseg', 'Kanona', 'Katahdin', 'Kennebec', "Kerr's Pink", 'Keswick', 'Keuka Gold',
-            'Keystone Russet', 'King Edward VII', 'Kipfel', 'Klamath Russet', 'Krantz', 'LaRatte', 'Lady Rosetta',
-            'Latona', 'Lemhi Russet', 'Liberator', 'Lili', 'MaineChip', 'Marfona', 'Maris Bard', 'Maris Piper',
-            'Matilda', 'Mazama', 'McIntyre', 'Michigan Purple', 'Millenium Russet', 'Mirton Pearl', 'Modoc', 'Mondial',
-            'Monona', 'Morene', 'Morning Gold', 'Mouraska', 'Navan', 'Nicola', 'Nipigon', 'Niska', 'Nooksack',
-            'NorValley', 'Norchip', 'Nordonna', 'Norgold Russet', 'Norking Russet', 'Norland', 'Norwis', 'Obelix',
-            'Ozette', 'Peanut', 'Penta', 'Peribonka', 'Peruvian Purple', 'Pike', 'Pink Pearl', 'Prospect', 'Pungo',
-            'Purple Majesty', 'Purple Viking', 'Ranger Russet', 'Reba', 'Red Cloud', 'Red Gold', 'Red La Soda',
-            'Red Pontiac', 'Red Ruby', 'Red Thumb', 'Redsen', 'Rocket', 'Rose Finn Apple', 'Rose Gold', 'Roselys',
-            'Rote Erstling', 'Ruby Crescent', 'Russet Burbank', 'Russet Legend', 'Russet Norkotah', 'Russet Nugget',
-            'Russian Banana', 'Saginaw Gold', 'Sangre', 'Satina', 'Saxon', 'Sebago', 'Shepody', 'Sierra',
-            'Silverton Russet', 'Simcoe', 'Snowden', 'Spunta', "St. John's", 'Summit Russet', 'Sunrise', 'Superior',
-            'Symfonia', 'Tolaas', 'Trent', 'True Blue', 'Ulla', 'Umatilla Russet', 'Valisa', 'Van Gogh', 'Viking',
-            'Wallowa Russet', 'Warba', 'Western Russet', 'White Rose', 'Willamette', 'Winema', 'Yellow Finn',
-            'Yukon Gold']
+
+# <Akwaryoum> Hey et si je me tapais la trad de toute cette merde ?
+# <Akwaryoum> SUPER IDEE
+potatoes = ['Accord', 'Adirondack Blue', 'Adora', 'Adriana', 'Agata', 'Agria', 'Alaska', 'Albane', 'Alcmaria', 'Alexia', 'Allians', 'Alowa',
+ 		'Altesse', 'Amandine', 'Amazone', 'Amelie', 'Amflora', 'Aminca', 'Amora', 'Amyla', 'Anais', 'Aniel', 'Annabelle', 'Anoe', 'Appell',
+ 		'Apolline', 'Ariane', 'Arielle', 'Armada', 'Asterix', 'Atlas', 'Aubele', 'Aurea', 'Barima', 'Béa', 'Belle de Fontenay', 'Bellona',
+ 		'Bernadette', 'BF 15', 'Bintje', 'Bleue d\'Auvergne', 'Blondine', 'Blue Congo', 'Bonnotte de Noirmoutier', 'Cabaret', 'Caesar',
+ 		'Cara', 'Casablanca', 'Chacasina', 'Challenger', 'Charlène', 'Charlotte', 'Celtiane', 'Chérie', 'Columbo', 'Cooperation-88',
+ 		'Corne de Bamberg', 'Crisp4All', 'Cultra', 'Désirée', 'Diamant', 'Early Rose', 'Estima', 'Europa', 'Fambo', 'Felsina', 'Reine des sables',
+ 		'Fontane', 'Fortuna', 'Franceline', 'Garnet Chili', 'Gloria', 'Gourmandine', 'Hankkijan Tanu', 'Hankkijan Timo', 'Harmony', 'Hermes',
+ 		'Idole', 'Innovator', 'Institut de Beauvais', 'Kaptah Vandel', 'Kardal', 'Katahdin', 'Kennebec', 'Œil de Perdrix', 'Kufri Bahar', 'Kulta',
+ 		'Lady Claire', 'Lady Felicia', 'Lady Cristl', 'Lady Rosetta', 'Lenape', 'Linda', 'Lumper', 'Magnum Bonum', 'Mandola', 'Marabel', 'Marfona',
+ 		'Maris Bard', 'Maris Peer', 'Maris Piper', 'Markies', 'Matilda', 'Melody', 'Monalisa', 'Morene', 'Mozart', 'Nadine', 'Nectar', 'Nevsky',
+ 		'NewLeaf', 'NewLeaf Plus', 'Nicola', 'Olympia', 'Opperdoezer Ronde', 'Ostara', 'Osprey', 'Ozette', 'Pastusa suprema', 'Pentland Dell',
+ 		'Pink Fir Apple', 'Pito', 'Pompadour', 'Posmo', 'Premiere', 'Producent', 'Puikula', 'Quarantina bianca genovese', 'Quarta', 'Ramos',
+ 		'Ratte', 'Red Pontiac', 'Redstar', 'Record', 'Rikea', 'Rocket', 'Romano', 'Rooster', 'Rosa', 'Rosamunda', 'Roseval', 'Royal',
+ 		'Russet Burbank', 'Sabina', 'Sagitta', 'Saphire', 'Sarpo Mira', 'Sassy', 'Satu', 'Saturna', 'Saxon', 'Schwarzblaue aus dem Frankenwald',
+ 		'Shannon', 'Shepody', 'Sieglinde', 'Siikli', 'Sini', 'Spunta', 'Sirtema', 'Stemster', 'Súper Chola', 'Suvi', 'Sylvana', 'Turbo',
+ 		'Ukama', 'Fin de Siècle', 'Vales Sovereign', 'Valor', 'Van Gogh', 'Velox', 'Venla', 'Victoria', 'Vital', 'Vitelotte noire', 'Vivaldi',
+ 		'Wilja', 'Yukon Gold']
 
 
 def is_valid(target):
-    """ Checks if a string is a valid IRC nick. """
-    if nick_re.match(target):
-        return True
-    else:
-        return False
+	""" Checks if a string is a valid IRC nick. """
+	if nick_re.match(target):
+		return True
+	else:
+		return False
 
 @hook.on_start()
 def load_foods(bot):
-    """
-    :type bot: cloudbot.bot.CloudBot
-    """
-    global sandwich_data, taco_data
+	"""
+	:type bot: cloudbot.bot.CloudBot
+	"""
+	global sandwich_data, taco_data
 
-    with codecs.open(os.path.join(bot.data_dir, "sandwich.json"), encoding="utf-8") as f:
-        sandwich_data = json.load(f)
+	with codecs.open(os.path.join(bot.data_dir, "sandwich.json"), encoding="utf-8") as f:
+		sandwich_data = json.load(f)
 
-    with codecs.open(os.path.join(bot.data_dir, "taco.json"), encoding="utf-8") as f:
-        taco_data = json.load(f)
+	with codecs.open(os.path.join(bot.data_dir, "taco.json"), encoding="utf-8") as f:
+		taco_data = json.load(f)
 
 
 @asyncio.coroutine
-@hook.command
+@hook.command(permissions=["food"])
 def potato(text, action):
-    """<user> - makes <user> a tasty little potato"""
-    user = text.strip()
+	"""<user> - makes <user> a tasty little potato"""
+	user = text.strip()
 
-    if not is_valid(user):
-        return "I can't give a potato to that user."
+	if not is_valid(user):
+		return "Je n'arrive pas à donner une patate à cette personne."
 
-    potato_type = random.choice(potatoes)
-    size = random.choice(['small', 'little', 'mid-sized', 'medium-sized', 'large', 'gigantic'])
-    flavor = random.choice(['tasty', 'delectable', 'delicious', 'yummy', 'toothsome', 'scrumptious', 'luscious'])
-    method = random.choice(['bakes', 'fries', 'boils', 'roasts'])
-    side_dish = random.choice(['side salad', 'dollop of sour cream', 'piece of chicken', 'bowl of shredded bacon'])
+	potato_type = random.choice(potatoes)
+	size = random.choice(['moyenne', 'grosse', 'grande', 'gigantesque'])
+	flavor = random.choice(['gouteuse', 'super', 'délicieuse', 'bonne'])
+	method = random.choice(['cuisine', 'fait frire', 'fait bouillir', 'fait griller'])
+	side_dish = random.choice(['une petite salade', 'un peu de crème fraîche', 'un bout de poulet', 'un bol de bacon'])
 
-    action("{} a {} {} {} potato for {} and serves it with a small {}!".format(method, flavor, size, potato_type, user,
-                                                                               side_dish))
+	action("{} une {} {} patate {} pour {} et la sert avec {}!".format(method, flavor, size, potato_type, user,
+																			   side_dish))
 
 
 @asyncio.coroutine
-@hook.command
+@hook.command(permissions=["food"])
 def cake(text, action):
-    """<user> - gives <user> an awesome cake"""
-    user = text.strip()
+	"""<user> - gives <user> an awesome cake"""
+	user = text.strip()
 
-    if not is_valid(user):
-        return "I can't give a cake to that user."
+	if not is_valid(user):
+		return "Je n'arrive pas à donner un gateau à cette personne."
 
-    cake_type = random.choice(cakes)
-    size = random.choice(['small', 'little', 'mid-sized', 'medium-sized', 'large', 'gigantic'])
-    flavor = random.choice(['tasty', 'delectable', 'delicious', 'yummy', 'toothsome', 'scrumptious', 'luscious'])
-    method = random.choice(['makes', 'gives', 'gets', 'buys'])
-    side_dish = random.choice(['glass of chocolate milk', 'bowl of ice cream', 'jar of cookies',
-                               'some chocolate sauce'])
+	cake_type = random.choice(cakes)
+	size = random.choice(['moyen', 'gros', 'gigantesque'])
+	flavor = random.choice(['gouteux', 'super', 'délicieux', 'bon'])
+	method = random.choice(['prépare', 'donne', 'cuit', 'achète'])
+	side_dish = random.choice(['un chocolat chaud', 'une coupe de glace', 'un pot de cookies',
+							   'de la sauce au chocolat'])
 
-    action("{} {} a {} {} {} cake and serves it with a small {}!".format(method, user, flavor, size, cake_type,
-                                                                         side_dish))
+	action("{} à {} un {} {} gateau {} et le sert avec {}!".format(method, user, flavor, size, cake_type,
+																		 side_dish))
 
 
 @asyncio.coroutine
-@hook.command
+@hook.command(permissions=["food"])
 def cookie(text, action):
-    """<user> - gives <user> a cookie"""
-    user = text.strip()
+	"""<user> - gives <user> a cookie"""
+	user = text.strip()
 
-    if not is_valid(user):
-        return "I can't give a cookie to that user."
+	if not is_valid(user):
+		return "Je n'arrive pas à donner un cookie à cette personne."
 
-    cookie_type = random.choice(cookies)
-    size = random.choice(['small', 'little', 'medium-sized', 'large', 'gigantic'])
-    flavor = random.choice(['tasty', 'delectable', 'delicious', 'yummy', 'toothsome', 'scrumptious', 'luscious'])
-    method = random.choice(['makes', 'gives', 'gets', 'buys'])
-    side_dish = random.choice(['glass of milk', 'bowl of ice cream', 'bowl of chocolate sauce'])
+	cookie_type = random.choice(cookies)
+	size = random.choice(['moyen', 'grand', 'gigantesque'])
+	flavor = random.choice(['gouteux', 'délectable', 'délicieux', 'bon'])
+	method = random.choice(['prépare', 'donne', 'cuit', 'achète'])
+	side_dish = random.choice(['un verre de lait', 'un bol de glace', 'un bol de sauce au chocolat'])
 
-    action("{} {} a {} {} {} cookie and serves it with a {}!".format(method, user, flavor, size, cookie_type,
-                                                                     side_dish))
+	action("{} à {} un {} et {} cookie {} et le sert avec {}!".format(method, user, size, flavor, cookie_type,
+																	 side_dish))
 
 
 @asyncio.coroutine
-@hook.command
+@hook.command(permissions=["food"])
 def sandwich(text, action):
-    """<user> - give a tasty sandwich to <user>"""
-    user = text.strip()
+	"""<user> - give a tasty sandwich to <user>"""
+	user = text.strip()
 
-    if not is_valid(user):
-        return "I can't give a sandwich to that user."
+	if not is_valid(user):
+		return "Je n'arrive pas à donner un sandwich à cette personne."
 
-    generator = textgen.TextGenerator(sandwich_data["templates"], sandwich_data["parts"],
-                                      variables={"user": user})
+	generator = textgen.TextGenerator(sandwich_data["templates"], sandwich_data["parts"],
+									  variables={"user": user})
 
-    # act out the message
-    action(generator.generate_string())
+	# act out the message
+	action(generator.generate_string())
 
 @asyncio.coroutine
-@hook.command
+@hook.command(permissions=["food"])
 def taco(text, action):
-    """<user> - give a taco to <user>"""
-    user = text.strip()
+	"""<user> - give a taco to <user>"""
+	user = text.strip()
 
-    if not is_valid(user):
-        return "I can't give a taco to that user."
+	if not is_valid(user):
+		return "Je n'arrive pas à donner un taco à cette personne."
 
-    generator = textgen.TextGenerator(taco_data["templates"], taco_data["parts"],
-                                      variables={"user": user})
+	generator = textgen.TextGenerator(taco_data["templates"], taco_data["parts"],
+									  variables={"user": user})
 
-    # act out the message
-    action(generator.generate_string())
+	# act out the message
+	action(generator.generate_string())
