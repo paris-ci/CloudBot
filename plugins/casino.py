@@ -52,6 +52,7 @@ def getCards(nick):
 
 def savePlayerData(nick, argent=None, mise=None, cards=None):
 	if not argent:
+
 		argent = getMoney(nick)
 
 	if not mise:
@@ -67,17 +68,30 @@ def savePlayerData(nick, argent=None, mise=None, cards=None):
 	saveToDisk(data)  # Save to disk
 
 
+@hook.command("reset", "resetPlayer", permissions=["botcontrol"])
+def reset(nick, reply, text):
+	data = loadFromDisk()
+	data[text] = default  # Save to data
+	saveToDisk(data)  # Save to disk
+	reply(text + " stats was deleted by " + nick)
+
+
 # Money
 
 @hook.command("setMoney", permissions=["botcontrol"])
 def setMoney(reply, text):
 	args = text.split()
-	nick = args[0]
-	argent = args[1]
+	try :
+		nick = args[0]
+		argent = args[1]
+	except IndexError:
+		reply("Syntax error : !setMoney nickname number")
+		return None
+
 
 	oldArgent = getMoney(nick)  # Extract money of a player
 
-	savePlayerData(nick, argent=money)
+	savePlayerData(nick, argent=argent)
 
 	reply(nick + " had " + str(oldArgent) + "$. He/She have " + str(argent) + "$ now!")
 
@@ -124,7 +138,7 @@ def runEngine(argent, mise, reply, notice):
 	notice("You bet on >> " + str(nombre_mise) + " <<")
 
 	if numero_gagnant == nombre_mise:
-		print("Congrats, the exact same number ! You won" + str(mise * 3) + "$ !")
+		reply("Congrats, the exact same number ! You won " + str(mise * 3) + "$ !")
 
 		argent += mise * 3
 
@@ -203,7 +217,7 @@ class BlackJack:
 
 
 def startBJ(notice, nick):
-	if not getCards(nick):
+	if not getCards(nick) or getCards(nick)[0] == "end":
 		notice("You started a new BlackJack game with the dealer")
 		game = BlackJack()
 		game.reset()
@@ -224,14 +238,18 @@ def startBJ(notice, nick):
 	notice("End getting cards with !bj end, get another with !bj get")
 
 
-def getBJ(notice, nick):
+def getBJ(notice, nick, reply):
 	game = BlackJack()
 	cards = getCards(nick)
 
-	PT = int(cards[0])
+	try:
+		PT = int(cards[0])
+	except ValueError:
+		notice("Start the game with !bj start")
+		return None
 
 	if PT > 21:
-		endBJ(notice, nick)
+		endBJ(notice, nick, reply)
 		return None
 
 	PX = int(game.draw())
@@ -241,16 +259,27 @@ def getBJ(notice, nick):
 	savePlayerData(nick, cards=[PT, cards[1]])
 
 
-def endBJ(notice, nick):
+def endBJ(notice, nick, reply):
 	game = BlackJack()
+	argent, mise = checkMoneyBet(nick, notice)
 
 	cards = getCards(nick)
-	PT = int(cards[0])
+	try:
+		PT = int(cards[0])
+	except ValueError:
+		notice("Start the game with !bj start")
+		return None
 	D1 = int(cards[1])
 	if PT > 21:
-		notice("Bust!")
+		notice("Oh NOOO ! You busted!")
+		notice("You got " + str(PT))
+		argent = argent - mise
+		reply("You've lost " + str(mise) + "$ ! You now have " + str(argent) + "$ ")
+		savePlayerData(nick, argent=argent, cards=["end"])
+		return None
+
 	elif PT == 21:
-		notice("Yay! 21!")
+		notice("Yay! You've got 21!")
 	else:
 		notice("Your hand was " + str(PT))
 	# end player hand
@@ -264,29 +293,48 @@ def endBJ(notice, nick):
 		DX = game.draw()
 		notice("Dealer drew a " + str(DX))
 		DT = DX + DT
-		notice("Dealer's hand is: " + str(DT))
-	# end while the dealer's hand is < 17
 
 	if DT == 21:
 		notice("Dealer got 21!")
-		notice("You got " + str(PT))
 	elif DT < 21:
-		notice("Dealer got" + str(DT))
-		notice("You got " + str(PT))
+		notice("Dealer got " + str(DT))
 	else:
 		notice("Dealer busts")
-		notice("You got " + str(PT))
+		argent += mise * 3
+		reply("You won " + str(mise * 3) + "$ ! You now have " + str(argent) + "$ ")
+		savePlayerData(nick, argent=argent, cards=["end"])
+		return None
 
-	savePlayerData(nick, cards=[])
+	if PT > DT:
+		argent += 1.5 * mise
+		reply("You won " + str(mise * 1.5) + "$ ! You now have " + str(argent) + "$ ")
+
+
+	elif PT == DT:
+		argent += mise
+		reply("You won " + str(mise) + "$ ! You now have " + str(argent) + "$ ")
+
+
+	else:
+
+		argent = argent - mise
+		reply("You've lost " + str(mise) + "$ ! You now have " + str(argent) + "$ ")
+
+	savePlayerData(nick, argent=argent, cards=["end"])
+	game.reset()
+	return None
 
 
 @hook.command("bj", "blackjack")
-def blackJack(notice, text, nick):
+def blackJack(notice, text, nick, reply):
 	if text == "start":
 		startBJ(notice, nick)
 
 	elif text == "get":
-		getBJ(notice, nick)
+		getBJ(notice, nick, reply)
 
-	if text == "end":
-		endBJ(notice, nick)
+	elif text == "end":
+		endBJ(notice, nick, reply)
+
+	else:
+		notice("!bj start|get|end ")
