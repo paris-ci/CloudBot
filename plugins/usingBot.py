@@ -1,21 +1,32 @@
 from cloudbot import hook
 import json
 
-default = {"tokens": 0}
+default = """{
+"tokens": 0
+}"""
 
-def saveToDisk(data):
-	with open('data/tokens.json', 'w') as outfile:
+def saveToDisk(data, nick):
+	with open('data/usedata/' + nick +'.json', 'w') as outfile:
 		json.dump(data, outfile, sort_keys=True, indent=4, ensure_ascii=False)
 
 
-def loadFromDisk():
-	file = open('data/tokens.json')
-	data = json.load(file)
-	return data
+def loadFromDisk(nick):
+	try:
+		file = open('data/usedata/' + nick +'.json', 'r')
+		data = json.load(file)
+		return data
+	except IOError:
+		file = open('data/usedata/' + nick +'.json', 'w')
+		file.write(str(default))
+		file.close()
+		file = open('data/usedata/' + nick +'.json', 'r')
+		data = json.load(file)
+		return data
+
 
 def getTokens(nick):
-	data = loadFromDisk()  # Get data from file
-	argent = int(data.get(nick, default)["tokens"])  # Extract tokens of a player
+	data = loadFromDisk(nick)  # Get data from file
+	argent = int(data.get("tokens", default))  # Extract tokens of a player
 	return argent
 
 def giveTokens(NumberOftokens,nick):
@@ -23,9 +34,11 @@ def giveTokens(NumberOftokens,nick):
 	argent += NumberOftokens
 	savePlayerData(nick=nick,argent=argent)
 
-def takeTokens(NumberOftokens,nick):
+def takeTokens(NumberOftokens,nick,notice=None):
 	argent = getTokens(nick)
 	argent = argent - NumberOftokens
+	if notice is not None:
+		notice("-" + str(NumberOftokens) + " Left: " + str(argent) )
 	savePlayerData(nick=nick,argent=argent)
 
 def savePlayerData(nick, argent=None):
@@ -34,16 +47,13 @@ def savePlayerData(nick, argent=None):
 
 		argent = getTokens(nick)
 
-	data = loadFromDisk()
-	data[nick] = {"tokens": int(argent)}  # Save to data
-	saveToDisk(data)  # Save to disk
+	data = {"tokens": int(argent)}  # Save to data
+	saveToDisk(data, nick)  # Save to disk
 
 
 @hook.command("Treset", "TresetPlayer", permissions=["botcontrol"])
 def reset(nick, reply, text):
-	data = loadFromDisk()
-	data[text] = default  # Save to data
-	saveToDisk(data)  # Save to disk
+	saveToDisk(default, nick)  # Save to disk
 	reply(text + " usetokens was deleted by " + nick)
 
 @hook.command("setTokens", permissions=["botcontrol"])
@@ -75,6 +85,6 @@ def tokens(nick, notice, text):
 		notice("You have " + str(getTokens(nick)) + " tokens !")
 		return None
 
-@hook.irc_raw("PRIVMSG")
+@hook.regex("(.*)")
 def addTokensPriv(nick):
 	giveTokens(10, nick)

@@ -5,15 +5,52 @@ from cloudbot import hook
 from plugins.usingBot import getTokens, takeTokens
 
 
-@hook.command("scan", "portscan", "ps")
-def Main(reply, text, nick, notice):
+def scanport(IP, PORT):
+	time.sleep(0.005)
+	# noinspection PyBroadException
+	try:
+		s = socket.socket()
+		s.connect((IP, PORT))
+		return True
+	except:
+		return False
 
+
+@hook.command("portscan1", "ps1", "scan1")
+def scanOne(reply, text, nick, notice):
 	if getTokens(nick) < 1000:
 		notice("You don't have enough tokens to do a portscan... Help a little more !")
 		return None
-	else:
-		notice("-100 tokens")
-		takeTokens(100,nick)
+
+	args = text.split()
+
+	try:
+		IP = str(args[0])
+		PORT = int(args[1])
+	except IndexError:
+		notice("Syntaxe : !ps1 IP PORT. Utilisez !ps3000 pour les 3000 ports les plus utilisés")
+		return None
+
+	takeTokens(10, nick, notice)
+	socket.setdefaulttimeout(2)
+	reply("Scanning port number " + str(PORT) + " for ip " + str(IP))
+
+	result = scanport(IP, PORT)
+
+	if result:
+		reply("Le port " + str(PORT) + " de l'IP " + IP + " est OUVERT !")
+	elif not result:
+		reply("Le port " + str(PORT) + " de l'IP " + IP + " est FERMÉ ! ")
+
+
+
+@hook.command("scan3000", "portscan3000", "ps3000")
+def scan3000(reply, text, nick, notice):
+	if getTokens(nick) < 1000:
+		notice("You don't have enough tokens to do a portscan... Help a little more !")
+		return None
+
+	takeTokens(100, nick, notice)
 	IP = text
 	openPorts = []
 	socket.setdefaulttimeout(2)
@@ -202,14 +239,8 @@ def Main(reply, text, nick, notice):
 			  20111, 20106, 20102, 20089, 20085, 20080, 20076, 20052]
 
 	for PORT in toScan:
-		time.sleep(0.005)
-		# noinspection PyBroadException
-		try:
-			s = socket.socket()
-			s.connect((IP, PORT))
+		if scanport(IP, PORT):
 			openPorts.append(PORT)
-		except:
-			pass
 
 	openPorts.sort()
-	reply("Open ports found for " + text + " (" + str(len(openPorts)) +"): " + str(openPorts))
+	reply("Open ports found for " + text + " (" + str(len(openPorts)) + "): " + str(openPorts))

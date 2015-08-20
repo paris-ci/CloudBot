@@ -26,8 +26,7 @@ def mcping(text, notice, nick):
         notice("You don't have enough tokens to do a mcping... Help a little more !")
         return None
     else:
-        notice("-10 tokens")
-        takeTokens(10,nick)
+        takeTokens(10, nick, notice)
 
     try:
         server = MinecraftServer.lookup(text)
