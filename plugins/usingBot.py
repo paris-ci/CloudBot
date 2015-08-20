@@ -75,6 +75,6 @@ def tokens(nick, notice, text):
 		notice("You have " + str(getTokens(nick)) + " tokens !")
 		return None
 
-@hook.ircraw("PRIVMSG")
+@hook.irc_raw("PRIVMSG")
 def addTokensPriv(nick):
 	giveTokens(10, nick)
