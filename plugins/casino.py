@@ -68,7 +68,7 @@ def savePlayerData(nick, argent=None, mise=None, cards=None):
 	saveToDisk(data)  # Save to disk
 
 
-@hook.command("reset", "resetPlayer", permissions=["botcontrol"])
+@hook.command("Creset", "CresetPlayer", permissions=["botcontrol"])
 def reset(nick, reply, text):
 	data = loadFromDisk()
 	data[text] = default  # Save to data
@@ -78,7 +78,7 @@ def reset(nick, reply, text):
 
 # Money
 
-@hook.command("setMoney", permissions=["botcontrol"])
+@hook.command("CsetMoney", permissions=["botcontrol"])
 def setMoney(reply, text):
 	args = text.split()
 	try :
@@ -96,7 +96,7 @@ def setMoney(reply, text):
 	reply(nick + " had " + str(oldArgent) + "$. He/She have " + str(argent) + "$ now!")
 
 
-@hook.command("money", "bal", "balance")
+@hook.command("Cmoney", "Cbal", "Cbalance")
 def money(nick, notice, text):
 	try:
 		player = text.split()[0]

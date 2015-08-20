@@ -3,6 +3,7 @@ import socket
 from mcstatus import MinecraftServer
 
 from cloudbot import hook
+from plugins.usingBot import getTokens, takeTokens
 
 mc_colors = [('\xa7f', '\x0300'), ('\xa70', '\x0301'), ('\xa71', '\x0302'), ('\xa72', '\x0303'),
              ('\xa7c', '\x0304'), ('\xa74', '\x0305'), ('\xa75', '\x0306'), ('\xa76', '\x0307'),
@@ -19,8 +20,15 @@ def format_colors(description):
 
 
 @hook.command("mcping", "mcp")
-def mcping(text):
+def mcping(text, notice, nick):
     """<server[:port]> - gets info about the Minecraft server at <server[:port]>"""
+    if getTokens(nick) < 100:
+        notice("You don't have enough tokens to do a mcping... Help a little more !")
+        return None
+    else:
+        notice("-10 tokens")
+        takeTokens(10,nick)
+
     try:
         server = MinecraftServer.lookup(text)
     except (IOError, ValueError) as e:
@@ -43,9 +51,7 @@ def mcping(text):
         description = format_colors(" ".join(s.description["text"].split()))
     else:
         description = format_colors(" ".join(s.description.split()))
-        
-    # I really hate people for putting colors IN THE VERSION
-    # WTF REALLY THIS IS A THING NOW?
+
 
     if s.latency:
         return "{}\x0f - \x02{}\x0f - \x02{:.1f}ms\x02" \
