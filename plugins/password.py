@@ -1,10 +1,11 @@
-import string
+#import string
 import random as std_random
 
 from cloudbot import hook
 
 
 try:
+    # noinspection PyUnresolvedReferences
     from Crypto.Random import random
     gen = random.StrongRandom()
 except ImportError:
@@ -15,53 +16,53 @@ with open("data/password_words.txt") as f:
     common_words = [line.strip() for line in f.readlines()]
 
 
-@hook.command(autohelp=False)
-def password(text, notice):
-    """[length [types]] - generates a password of <length> (default 10). [types] can include 'alpha', 'no caps',
-    'numeric', 'symbols' or any combination: eg. 'numbers symbols'"""
-    okay = []
-
-    # find the length needed for the password
-    numb = text.split(" ")
-
-    try:
-        length = int(numb[0])
-    except ValueError:
-        length = 12
-
-    if length > 50:
-        notice("Maximum length is 50 characters.")
-        return
-
-    # add alpha characters
-    if "alpha" in text or "letter" in text:
-        okay += list(string.ascii_lowercase)
-        # adds capital characters if not told not to
-        if "no caps" not in text:
-            okay += list(string.ascii_uppercase)
-
-    # add numbers
-    if "numeric" in text or "number" in text:
-        okay += list(string.digits)
-
-    # add symbols
-    if "symbol" in text or "special" in text:
-        sym = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '=', '_', '+', '[', ']', '{', '}', '\\', '|', ';',
-               ':', "'", '.', '>', ',', '<', '/', '?', '`', '~', '"']
-        okay += sym
-
-    # defaults to lowercase alpha + numbers password if the okay list is empty
-    if not okay:
-        okay = list(string.ascii_lowercase) + list(string.digits)
-
-    # extra random lel
-    random.shuffle(okay)
-    chars = []
-
-    for i in range(length):
-        chars.append(random.choice(okay))
-
-    notice("".join(chars))
+# @hook.command(autohelp=False)
+# def password(text, notice):
+#     """[length [types]] - generates a password of <length> (default 10). [types] can include 'alpha', 'no caps',
+#     'numeric', 'symbols' or any combination: eg. 'numbers symbols'"""
+#     okay = []
+#
+#     # find the length needed for the password
+#     numb = text.split(" ")
+#
+#     try:
+#         length = int(numb[0])
+#     except ValueError:
+#         length = 12
+#
+#     if length > 50:
+#         notice("Maximum length is 50 characters.")
+#         return
+#
+#     # add alpha characters
+#     if "alpha" in text or "letter" in text:
+#         okay += list(string.ascii_lowercase)
+#         # adds capital characters if not told not to
+#         if "no caps" not in text:
+#             okay += list(string.ascii_uppercase)
+#
+#     # add numbers
+#     if "numeric" in text or "number" in text:
+#         okay += list(string.digits)
+#
+#     # add symbols
+#     if "symbol" in text or "special" in text:
+#         sym = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '=', '_', '+', '[', ']', '{', '}', '\\', '|', ';',
+#                ':', "'", '.', '>', ',', '<', '/', '?', '`', '~', '"']
+#         okay += sym
+#
+#     # defaults to lowercase alpha + numbers password if the okay list is empty
+#     if not okay:
+#         okay = list(string.ascii_lowercase) + list(string.digits)
+#
+#     # extra random lel
+#     std_random.shuffle(okay)
+#     chars = []
+#
+#     for i in range(length):
+#         chars.append(random.choice(okay))
+#
+#     notice("".join(chars))
 
 
 @hook.command("wpass", "wordpass", "wordpassword", autohelp=False)
