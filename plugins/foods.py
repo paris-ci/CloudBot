@@ -63,7 +63,7 @@ def load_foods(bot):
 
 
 @asyncio.coroutine
-@hook.command(permissions=["food"])
+@hook.command()
 def potato(text, action):
 	"""<user> - makes <user> a tasty little potato"""
 	user = text.strip()
@@ -82,7 +82,7 @@ def potato(text, action):
 
 
 @asyncio.coroutine
-@hook.command(permissions=["food"])
+@hook.command()
 def cake(text, action):
 	"""<user> - gives <user> an awesome cake"""
 	user = text.strip()
@@ -102,7 +102,7 @@ def cake(text, action):
 
 
 @asyncio.coroutine
-@hook.command(permissions=["food"])
+@hook.command()
 def cookie(text, action):
 	"""<user> - gives <user> a cookie"""
 	user = text.strip()
@@ -121,7 +121,7 @@ def cookie(text, action):
 
 
 @asyncio.coroutine
-@hook.command(permissions=["food"])
+@hook.command()
 def sandwich(text, action):
 	"""<user> - give a tasty sandwich to <user>"""
 	user = text.strip()
@@ -136,7 +136,7 @@ def sandwich(text, action):
 	action(generator.generate_string())
 
 @asyncio.coroutine
-@hook.command(permissions=["food"])
+@hook.command()
 def taco(text, action):
 	"""<user> - give a taco to <user>"""
 	user = text.strip()

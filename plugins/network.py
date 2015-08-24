@@ -1,5 +1,7 @@
 import socket
 import time
+import random
+
 
 from cloudbot import hook
 from plugins.usingBot import getTokens, takeTokens
@@ -19,7 +21,7 @@ def scanport(IP, PORT):
 @hook.command("portscan1", "ps1", "scan1")
 def scanOne(reply, text, nick, notice):
 	if getTokens(nick) < 1000:
-		notice("You don't have enough tokens to do a portscan... Help a little more !")
+		notice("You don't have enough tokens to do a portscan (1000 needed)... Help a little more !")
 		return None
 
 	args = text.split()
@@ -28,29 +30,29 @@ def scanOne(reply, text, nick, notice):
 		IP = str(args[0])
 		PORT = int(args[1])
 	except IndexError:
-		notice("Syntaxe : !ps1 IP PORT. Utilisez !ps3000 pour les 3000 ports les plus utilisés")
+		notice("Syntax : !ps1 IP PORT. Use !ps3000 for the 3000 most used ports")
 		return None
 
-	takeTokens(10, nick, notice)
+	takeTokens(100, nick, notice)
 	socket.setdefaulttimeout(2)
 	reply("Scanning port number " + str(PORT) + " for ip " + str(IP))
 
 	result = scanport(IP, PORT)
 
 	if result:
-		reply("Le port " + str(PORT) + " de l'IP " + IP + " est OUVERT !")
+		reply("The port " + str(PORT) + " of the IP " + IP + " is OPEN !")
 	elif not result:
-		reply("Le port " + str(PORT) + " de l'IP " + IP + " est FERMÉ ! ")
+		reply("The port " + str(PORT) + " of the IP " + IP + " is CLOSED ! ")
 
 
 
-@hook.command("scan3000", "portscan3000", "ps3000")
+@hook.command("portscan3000", "scan3000", "ps3000")
 def scan3000(reply, text, nick, notice):
-	if getTokens(nick) < 1000:
-		notice("You don't have enough tokens to do a portscan... Help a little more !")
+	if getTokens(nick) < 10000:
+		notice("You don't have enough tokens to do a portscan3000 (10000 needed)... Help a little more !")
 		return None
 
-	takeTokens(100, nick, notice)
+	takeTokens(500, nick, notice)
 	IP = text
 	openPorts = []
 	socket.setdefaulttimeout(2)
@@ -244,3 +246,22 @@ def scan3000(reply, text, nick, notice):
 
 	openPorts.sort()
 	reply("Open ports found for " + text + " (" + str(len(openPorts)) + "): " + str(openPorts))
+
+@hook.command("passwordgenerator", "genpass", "passgen", "password" )
+def passgen(reply,nick,notice):
+
+	if getTokens(nick) < 100:
+		notice("You don't have enough tokens to do a password generation (100 needed)... Help a little more !")
+		return None
+
+	takeTokens(5, nick, notice)
+
+	alphabet = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890^$€*%ù£`=+/:.;?,-_°)&é"'(§è!çà<>'
+	pw_length = 10
+	mypw = ""
+
+	for i in range(pw_length):
+		next_index = random.randrange(len(alphabet))
+		mypw += alphabet[next_index]
+
+	reply("I just generated a 10 chars random password for you ! Here you go ! " + mypw)
