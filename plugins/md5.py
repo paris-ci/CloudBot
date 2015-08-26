@@ -120,3 +120,5 @@ def md5hash(text, reply, notice, nick):
 	tohash = str(text)
 	output = str(hashlib.md5(tohash.encode()).hexdigest())
 	reply("Hash of " + tohash + " : " + output)
+
+

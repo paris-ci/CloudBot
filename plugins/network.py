@@ -265,3 +265,4 @@ def passgen(reply,nick,notice):
 		mypw += alphabet[next_index]
 
 	reply("I just generated a 10 chars random password for you ! Here you go ! " + mypw)
+
