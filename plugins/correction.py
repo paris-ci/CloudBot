@@ -16,13 +16,14 @@ def correction(match, conn, chan, message):
     """
     groups = [b.replace("\/", "/") for b in re.split(r"(?<!\\)/", match.groups()[0])]
     find = groups[0]
-    replace = groups[1]
+    replace = groups[1].replace("\n","\\n").replace("\r","\\r")
 
     for item in conn.history[chan].__reversed__():
         nick, timestamp, msg = item
         if correction_re.match(msg):
             # don't correct corrections, it gets really confusing
             continue
+        msg = msg.replace("\n","\\n").replace("\r","\\r")
 
         if find.lower() in msg.lower():
             if "\x01ACTION" in msg:
