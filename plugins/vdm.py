@@ -1,5 +1,7 @@
 import urllib.request
+
 from cloudbot import hook
+
 
 class vdm:
 	def __init__(self):
@@ -7,10 +9,11 @@ class vdm:
 			self.page = urllib.request.urlopen("http://feeds.feedburner.com/viedemerde").read().decode('utf-8')
 		except IOError:
 			self.page = ''
+
 	def new_story(self):
 		"""The fastest and the recomended option"""
 		start_quote = self.page.find("Aujourd'hui, ")
-		end_quote = self.page.find(". VDM")+5
+		end_quote = self.page.find(". VDM") + 5
 		vdm = self.page[start_quote:end_quote]
 		self.page = self.page[end_quote:]
 		if len(vdm) >= 310:
@@ -23,7 +26,7 @@ class vdm:
 						   "</a>", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "/inclassable/", "/amour/",
 						   "/enfants/", "/argent/", '"', "?quot;"]
 		page = urllib.request.urlopen("http://www.viedemerde.fr/aleatoire").read().decode('utf-8')
-		story = (page[page.find('class="fmllink">')+16:page.find('" class="fmllink"> VDM</a>')+26])
+		story = (page[page.find('class="fmllink">') + 16:page.find('" class="fmllink"> VDM</a>') + 26])
 		del page
 		for x in chars_to_delete:
 			story = story.replace(x, "")
@@ -31,7 +34,8 @@ class vdm:
 			return story
 		return self.random_story()
 
-@hook.command("vdm","viedemerde")
+
+@hook.command("vdm", "viedemerde")
 def main(reply):
 	x = vdm()
 	try:

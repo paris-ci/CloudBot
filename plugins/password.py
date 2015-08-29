@@ -1,19 +1,19 @@
-#import string
+# import string
 import random as std_random
 
 from cloudbot import hook
 
-
 try:
-    # noinspection PyUnresolvedReferences
-    from Crypto.Random import random
-    gen = random.StrongRandom()
+	# noinspection PyUnresolvedReferences
+	from Crypto.Random import random
+
+	gen = random.StrongRandom()
 except ImportError:
-    # Just use the regular random module, not the strong one
-    gen = std_random.SystemRandom()
+	# Just use the regular random module, not the strong one
+	gen = std_random.SystemRandom()
 
 with open("data/password_words.txt") as f:
-    common_words = [line.strip() for line in f.readlines()]
+	common_words = [line.strip() for line in f.readlines()]
 
 
 # @hook.command(autohelp=False)
@@ -67,19 +67,19 @@ with open("data/password_words.txt") as f:
 
 @hook.command("wpass", "wordpass", "wordpassword", autohelp=False)
 def word_password(text, notice):
-    """[length] - generates an easy to remember password with [length] (default 4) commonly used words"""
-    try:
-        length = int(text)
-    except ValueError:
-        length = 3
+	"""[length] - generates an easy to remember password with [length] (default 4) commonly used words"""
+	try:
+		length = int(text)
+	except ValueError:
+		length = 3
 
-    if length > 10:
-        notice("Maximum length is 50 characters.")
-        return
+	if length > 10:
+		notice("Maximum length is 50 characters.")
+		return
 
-    words = []
-    # generate password
-    for x in range(length):
-        words.append(gen.choice(common_words))
+	words = []
+	# generate password
+	for x in range(length):
+		words.append(gen.choice(common_words))
 
-    notice("Your password is '{}'. Feel free to remove the spaces when using it.".format(" ".join(words)))
+	notice("Your password is '{}'. Feel free to remove the spaces when using it.".format(" ".join(words)))

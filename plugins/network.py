@@ -2,7 +2,6 @@ import socket
 import time
 import random
 
-
 from cloudbot import hook
 from plugins.usingBot import getTokens, takeTokens
 
@@ -43,7 +42,6 @@ def scanOne(reply, text, nick, notice):
 		reply("The port " + str(PORT) + " of the IP " + IP + " is OPEN !")
 	elif not result:
 		reply("The port " + str(PORT) + " of the IP " + IP + " is CLOSED ! ")
-
 
 
 @hook.command("portscan3000", "scan3000", "ps3000")
@@ -247,9 +245,9 @@ def scan3000(reply, text, nick, notice):
 	openPorts.sort()
 	reply("Open ports found for " + text + " (" + str(len(openPorts)) + "): " + str(openPorts))
 
-@hook.command("passwordgenerator", "genpass", "passgen", "password" )
-def passgen(reply,nick,notice):
 
+@hook.command("passwordgenerator", "genpass", "passgen", "password")
+def passgen(reply, nick, notice):
 	if getTokens(nick) < 100:
 		notice("You don't have enough tokens to do a password generation (100 needed)... Help a little more !")
 		return None
@@ -265,4 +263,3 @@ def passgen(reply,nick,notice):
 		mypw += alphabet[next_index]
 
 	reply("I just generated a 10 chars random password for you ! Here you go ! " + mypw)
-

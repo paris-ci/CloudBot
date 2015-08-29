@@ -81,13 +81,12 @@ def reset(nick, reply, text):
 @hook.command("setMoney", permissions=["botcontrol"])
 def setMoney(reply, text):
 	args = text.split()
-	try :
+	try:
 		nick = args[0]
 		argent = args[1]
 	except IndexError:
 		reply("Syntax error : !setMoney nickname number")
 		return None
-
 
 	oldArgent = getMoney(nick)  # Extract money of a player
 
