@@ -158,9 +158,15 @@ def base64_check(text):
 
 @hook.command
 def unescape(text):
+<<<<<<< HEAD
 	"""<string> -- Unicode unescapes <string>."""
 	decoder = codecs.getdecoder("unicode_escape")
 	return decoder(text)[0].replace("\r", "").replace("\n", "")
+=======
+    """<string> -- Unicode unescapes <string>."""
+    decoder = codecs.getdecoder("unicode_escape")
+    return decoder(text)[0]
+>>>>>>> upstream/master
 
 
 @hook.command
