@@ -1,3 +1,9 @@
+""" Tokens system for the network commands
+
+it expects a valid empty folder in data/usedata
+
+"""
+
 import json
 
 from cloudbot import hook

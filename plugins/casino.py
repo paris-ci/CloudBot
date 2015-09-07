@@ -3,6 +3,8 @@ casino.py
 
 A little fun game
 
+it expects a valid empty json file in data/casino.json (contents : {})
+
 Created By:
     - paris-ci <http://api-d.com/>
 
