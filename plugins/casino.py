@@ -199,9 +199,8 @@ class BlackJack:
 
 	@staticmethod
 	def draw():
-		result = BlackJack.cards[0]
-		BlackJack.cards.remove(BlackJack.cards[0])
-		return result
+
+		return randrange(10)
 
 	# end draw and remove a card
 

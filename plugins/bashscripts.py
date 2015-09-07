@@ -29,3 +29,7 @@ def sysinfo(reply):
 @hook.command("screensaver", "screensave")
 def screensaver(reply):
 	reply("Tape : wget https://raw.githubusercontent.com/pipeseroni/pipes.sh/master/pipes.sh && bash ./pipes.sh -p 5 -f 50 -r 0 -R && rm pipes.sh")
+
+@hook.command("installjava8", "java8")
+def cheat(reply):
+	reply("Commande pour l'installation de java 8 : wget -O - http://serv.api-d.com/scripts/java.bash | bash")

@@ -20,7 +20,7 @@ env:
 notifications:
   irc:
     channels:
-      - "irc.esper.net#cloudbot"
+      - "irc.esper.net#himself"
     template:
       - "%{repository}#%{build_number} (%{branch} - %{commit}) %{author}: %{message} - %{build_url}"
   on_failure: always
