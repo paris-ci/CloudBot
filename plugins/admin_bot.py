@@ -352,3 +352,4 @@ def me(text, conn, chan):
 		channel = chan
 		text = text
 	conn.ctcp(channel, "ACTION", text)
+
