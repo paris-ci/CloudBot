@@ -20,6 +20,7 @@ from cloudbot.util import formatting, web
 
 
 
+
 # CONSTANTS
 
 ITEM_URL = "http://www.newegg.com/Product/Product.aspx?Item={}"

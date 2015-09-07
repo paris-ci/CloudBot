@@ -201,7 +201,6 @@ class BlackJack:
 
 	@staticmethod
 	def draw():
-
 		return randrange(10)
 
 	# end draw and remove a card

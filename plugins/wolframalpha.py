@@ -8,6 +8,7 @@ from cloudbot import hook
 from cloudbot.util import web, formatting
 
 
+
 # security
 parser = etree.XMLParser(resolve_entities=False, no_network=True)
 
