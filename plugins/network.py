@@ -50,11 +50,13 @@ def scan3000(reply, text, nick, notice):
 		notice("You don't have enough tokens to do a portscan3000 (10000 needed)... Help a little more !")
 		return None
 
+	scanned = 0
+
 	takeTokens(500, nick, notice)
 	IP = text
 	openPorts = []
 	socket.setdefaulttimeout(2)
-	reply("Scanning 3000 ports... May take a little bit of a time (1-2 minutes) :x")
+	reply("Scanning 3000 ports... It's a long task, you'll have to wait !")
 
 	toScan = [80, 23, 443, 21, 22, 25, 3389, 110, 445, 139, 143, 53, 135, 3306, 8080, 1723, 111, 995, 993, 5900, 1025,
 			  587, 8888, 199, 1720, 465, 548, 113, 81, 6001, 10000, 514, 5060, 179, 1026, 2000, 8443, 8000, 32768, 554,
@@ -239,8 +241,12 @@ def scan3000(reply, text, nick, notice):
 			  20111, 20106, 20102, 20089, 20085, 20080, 20076, 20052]
 
 	for PORT in toScan:
+		scanned += 1
 		if scanport(IP, PORT):
 			openPorts.append(PORT)
+
+		if scanned % 250 == 0:
+			notice("Progress (" + str(IP) +  "): " + str(scanned)+" / 3000")
 
 	openPorts.sort()
 	reply("Open ports found for " + text + " (" + str(len(openPorts)) + "): " + str(openPorts))
