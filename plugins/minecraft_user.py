@@ -58,7 +58,7 @@ def mcuser(text, bot):
 	id = uuid.UUID(results['data']['uuid'])
 
 	return 'The account \x02{}\x02 ({}) exists. It is a \x02paid\x02' \
-		   ' account.'.format(username, id)
+	       ' account.'.format(username, id)
 
 
 @hook.command("minecraftalt", "mcalt", "alt")

@@ -13,7 +13,7 @@ def suggest(text):
 
 	try:
 		request = requests.get('http://google.com/complete/search',
-							   params=params)
+		                       params=params)
 		request.raise_for_status()
 	except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError) as e:
 		return "Could not get suggestions: {}".format(e)

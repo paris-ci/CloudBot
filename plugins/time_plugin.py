@@ -95,11 +95,11 @@ def beats(text):
 
 	if text.lower() == "wut":
 		return "Instead of hours and minutes, the mean solar day is divided " \
-			   "up into 1000 parts called \".beats\". Each .beat lasts 1 minute and" \
-			   " 26.4 seconds. Times are notated as a 3-digit number out of 1000 af" \
-			   "ter midnight. So, @248 would indicate a time 248 .beats after midni" \
-			   "ght representing 248/1000 of a day, just over 5 hours and 57 minute" \
-			   "s. There are no timezones."
+		       "up into 1000 parts called \".beats\". Each .beat lasts 1 minute and" \
+		       " 26.4 seconds. Times are notated as a 3-digit number out of 1000 af" \
+		       "ter midnight. So, @248 would indicate a time 248 .beats after midni" \
+		       "ght representing 248/1000 of a day, just over 5 hours and 57 minute" \
+		       "s. There are no timezones."
 	elif text.lower() == "guide":
 		return "1 day = 1000 .beats, 1 hour = 41.666 .beats, 1 min = 0.6944 .beats, 1 second = 0.01157 .beats"
 

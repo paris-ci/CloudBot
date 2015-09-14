@@ -66,7 +66,7 @@ def get_episode_info(episode):
 		return None
 
 	episode_num = "S%02dE%02d" % (int(episode.findtext("SeasonNumber")),
-								  int(episode.findtext("EpisodeNumber")))
+	                              int(episode.findtext("EpisodeNumber")))
 
 	episode_name = episode.findtext("EpisodeName")
 	# in the event of an unannounced episode title, users either leave the

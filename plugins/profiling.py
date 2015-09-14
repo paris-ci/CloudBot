@@ -53,7 +53,7 @@ def get_name(thread_id):
 def get_thread_dump():
 	code = []
 	threads = [(get_name(thread_id), traceback.extract_stack(stack))
-			   for thread_id, stack in sys._current_frames().items()]
+	           for thread_id, stack in sys._current_frames().items()]
 	for thread_name, stack in threads:
 		code.append("# {}".format(thread_name))
 		for filename, line_num, name, line in stack:

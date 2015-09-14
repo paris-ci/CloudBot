@@ -3,8 +3,11 @@ import re
 import time
 
 from sqlalchemy import select
+
 from sqlalchemy import Table, Column, String, PrimaryKeyConstraint
+
 from sqlalchemy.types import REAL
+
 from sqlalchemy.exc import IntegrityError
 
 from cloudbot import hook
@@ -27,7 +30,7 @@ def format_quote(q, num, n_quotes):
 	"""Returns a formatted string of a quote"""
 	ctime, nick, msg = q
 	return "[{}/{}] <{}> {}".format(num, n_quotes,
-									nick, msg)
+	                                nick, msg)
 
 
 def add_quote(db, chan, target, sender, message):

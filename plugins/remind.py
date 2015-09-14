@@ -113,7 +113,7 @@ def check_reminders(bot, async, db):
 			if delta > (30 * 60):
 				late_time = time_since(remind_time, count=2)
 				late = "(I'm sorry for delivering this message $(b){}$(clear) late," \
-					   " it seems I was unable to deliver it on time)".format(late_time)
+				       " it seems I was unable to deliver it on time)".format(late_time)
 				conn.message(user, colors.parse(late))
 
 			yield from delete_reminder(async, db, network, remind_time, user)
@@ -145,7 +145,7 @@ def remind(text, nick, chan, db, conn, notice, async):
 
 	if count > 10:
 		return "Sorry, you already have too many reminders queued (10), you will need to wait or " \
-			   "clear your reminders to add any more."
+		       "clear your reminders to add any more."
 
 	time_string = parts[0].strip()
 	message = colors.strip_all(parts[1].strip())

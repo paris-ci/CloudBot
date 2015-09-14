@@ -38,7 +38,7 @@ def rotten_tomatoes(text, bot):
 
 	if critics_score == -1:
 		return "\x02{}\x02 - Critics Rating: \x02No Reviews\x02, " \
-			   "Audience Rating: \x02{}%\x02 - {}".format(title, audience_score, url)
+		       "Audience Rating: \x02{}%\x02 - {}".format(title, audience_score, url)
 
 	review_params = {
 		'review_type': 'all',
@@ -56,4 +56,4 @@ def rotten_tomatoes(text, bot):
 	rotten = review_count - fresh
 
 	return "\x02{}\x02 - Critics Rating: \x02{}%\x02 ({} liked, {} disliked), " \
-		   "Audience Rating: \x02{}%\x02 - {}".format(title, critics_score, fresh, rotten, audience_score, url)
+	       "Audience Rating: \x02{}%\x02 - {}".format(title, critics_score, fresh, rotten, audience_score, url)

@@ -13,7 +13,7 @@ def load_responses(bot):
 	global responses
 	with codecs.open(path, encoding="utf-8") as f:
 		responses = [line.strip() for line in
-					 f.readlines() if not line.startswith("//")]
+		             f.readlines() if not line.startswith("//")]
 
 
 @asyncio.coroutine

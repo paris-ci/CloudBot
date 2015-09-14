@@ -23,8 +23,8 @@ class vdm:
 	def random_story(self):
 		"""Get a story from vdm"""
 		chars_to_delete = ['</a><a href="', 'class="fmllink">', "/sante/'", "/sexe/", "/travail/", "/animaux/",
-						   "</a>", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "/inclassable/", "/amour/",
-						   "/enfants/", "/argent/", '"', "?quot;"]
+		                   "</a>", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "/inclassable/", "/amour/",
+		                   "/enfants/", "/argent/", '"', "?quot;"]
 		page = urllib.request.urlopen("http://www.viedemerde.fr/aleatoire").read().decode('utf-8')
 		story = (page[page.find('class="fmllink">') + 16:page.find('" class="fmllink"> VDM</a>') + 26])
 		del page

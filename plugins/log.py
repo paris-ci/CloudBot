@@ -10,6 +10,10 @@ from cloudbot.event import EventType
 
 
 
+
+
+
+
 # +---------+
 # | Formats |
 # +---------+
@@ -36,10 +40,10 @@ irc_default = "[{server}] {irc_raw}"
 
 ctcp_known = "[{server}:{channel}] {nick} [{user}@{host}] has requested CTCP {ctcp_command}"
 ctcp_known_with_message = ("[{server}:{channel}] {nick} [{user}@{host}] "
-						   "has requested CTCP {ctcp_command}: {ctcp_message}")
+                           "has requested CTCP {ctcp_command}: {ctcp_message}")
 ctcp_unknown = "[{server}:{channel}] {nick} [{user}@{host}] has requested unknown CTCP {ctcp_command}"
 ctcp_unknown_with_message = ("[{server}:{channel}] {nick} [{user}@{host}] "
-							 "has requested unknown CTCP {ctcp_command}: {ctcp_message}")
+                             "has requested unknown CTCP {ctcp_command}: {ctcp_message}")
 
 
 # +------------+

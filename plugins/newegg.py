@@ -21,6 +21,10 @@ from cloudbot.util import formatting, web
 
 
 
+
+
+
+
 # CONSTANTS
 
 ITEM_URL = "http://www.newegg.com/Product/Product.aspx?Item={}"
@@ -40,7 +44,7 @@ def format_item(item, show_url=True):
 	# format the rating nicely if it exists
 	if not item["ReviewSummary"]["TotalReviews"] == "[]":
 		rating = "Rated {}/5 ({} ratings)".format(item["ReviewSummary"]["Rating"],
-												  item["ReviewSummary"]["TotalReviews"][1:-1])
+		                                          item["ReviewSummary"]["TotalReviews"][1:-1])
 	else:
 		rating = "No Ratings"
 
@@ -75,10 +79,10 @@ def format_item(item, show_url=True):
 		# create the item URL and shorten it
 		url = web.try_shorten(ITEM_URL.format(item["NeweggItemNumber"]))
 		return "\x02{}\x02 ({}) - {} - {} - {}".format(title, price, rating,
-													   tag_text, url)
+		                                               tag_text, url)
 	else:
 		return "\x02{}\x02 ({}) - {} - {}".format(title, price, rating,
-												  tag_text)
+		                                          tag_text)
 
 
 # HOOK FUNCTIONS
@@ -90,7 +94,7 @@ def newegg_url(match):
 	# newegg thinks it's so damn smart blocking my scraper
 	headers = {
 		'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) '
-					  'Version/5.1 Mobile/9A334 Safari/7534.48.3',
+		              'Version/5.1 Mobile/9A334 Safari/7534.48.3',
 		'Referer': 'http://www.newegg.com/'
 	}
 
@@ -111,7 +115,7 @@ def newegg(text):
 	# newegg thinks it's so damn smart blocking my scraper
 	headers = {
 		'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) '
-					  'Version/5.1 Mobile/9A334 Safari/7534.48.3',
+		              'Version/5.1 Mobile/9A334 Safari/7534.48.3',
 		'Referer': 'http://www.newegg.com/'
 	}
 

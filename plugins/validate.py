@@ -26,7 +26,7 @@ def validate(text):
 		error_count = info['x-w3c-validator-errors']
 		warning_count = info['x-w3c-validator-warnings']
 		return "{} was found to be {} with {} error{} and {} warning{}" \
-			   " - {}".format(text, status, error_count, "s"[error_count == 1:], warning_count,
-							  "s"[warning_count == 1:], url)
+		       " - {}".format(text, status, error_count, "s"[error_count == 1:], warning_count,
+		                      "s"[warning_count == 1:], url)
 	elif status == "abort":
 		return "Invalid input."

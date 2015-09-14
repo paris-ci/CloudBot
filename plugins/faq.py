@@ -1,4 +1,6 @@
 from cloudbot import hook
+
+
 @hook.command("faq")
 def faq(text, reply, notice):
 	reponses = {
@@ -13,15 +15,28 @@ def faq(text, reply, notice):
 		"p22": "Port ssh",
 		"p23": "Port telnet",
 		"p25": "Port SMTP (envoi d'e-mails)",
+		"p37": "Port NTP (time)",
+		"p42": "Port Nameserv",
+		"p43": "Port Whois",
 		"p53": "Port DNS",
 		"p80": "Port web (http://)",
+		"p109": "Port pop2",
 		"p110": "Port pop3",
+		"p118": "Port SQLservices",
 		"p119": "Port NNTP",
 		"p143": "Port IMAP",
+		"p156": "Port SQLserver",
 		"p194": "Port IRC",
 		"p443": "Port web (https://)",
+		"p445": "Port micrsoftDS",
 		"p465": "Port SMTPS (envoi d'e-mails)",
-		"p25565": "Port des serveurs minecraft par défaut"
+		"p546": "Port DHCP client",
+		"p547": "Port DHCP serveur",
+		"p1080": "Port socks",
+		"p11371": "Port OPENPGP",
+		"p25565": "Port des serveurs minecraft par défaut",
+		"p*": "http://packetlife.net/media/library/23/common-ports.pdf Informations sur un port précis X: !faq pX",
+		"ports": "http://packetlife.net/media/library/23/common-ports.pdf Informations sur un port précis X: !faq pX"
 	}
 
 	text = text.split()
@@ -32,7 +47,6 @@ def faq(text, reply, notice):
 	except:
 		reply("Le mot recherché n'as pas été trouvé dans la FAQ !")
 		return
-
 
 	try:
 		notice(reponse, text[1])

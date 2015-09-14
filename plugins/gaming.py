@@ -39,8 +39,8 @@ def n_rolls(count, n):
 			return [random.randint(1, n) for x in range(count)]
 		else:  # fake it
 			return [int(random.normalvariate(.5 * (1 + n) * count,
-											 (((n + 1) * (2 * n + 1) / 6. -
-											   (.5 * (1 + n)) ** 2) * count) ** .5))]
+			                                 (((n + 1) * (2 * n + 1) / 6. -
+			                                   (.5 * (1 + n)) ** 2) * count) ** .5))]
 
 
 @asyncio.coroutine

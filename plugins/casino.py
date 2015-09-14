@@ -115,7 +115,7 @@ def checkMoneyBet(nick, notice):
 	if argent < 50:
 		notice("Hey, you're lucky, you found money in the back of the casino.")
 		notice("You now have 150$")
-		argent = 150
+		argent = str(150)
 		savePlayerData(nick, argent=argent)
 
 	if mise > argent:
@@ -195,21 +195,21 @@ def setBet(nick, notice, text):
 
 class BlackJack:
 	cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
-			 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
-			 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
-			 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+	         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
+	         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
+	         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
 	@staticmethod
 	def draw():
-		return randrange(1,10)
+		return randrange(1, 10)
 
 	# end draw and remove a card
 
 	def reset(self):
 		self.cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
-					  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
-					  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
-					  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+		              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
+		              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
+		              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 		random.shuffle(BlackJack.cards)
 
 	# end reset deck and shuffle

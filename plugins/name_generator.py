@@ -21,7 +21,7 @@ from cloudbot.util import formatting, textgen
 def get_generator(_json):
 	data = json.loads(_json)
 	return textgen.TextGenerator(data["templates"],
-								 data["parts"], default_templates=data["default_templates"])
+	                             data["parts"], default_templates=data["default_templates"])
 
 
 @hook.command(autohelp=False)

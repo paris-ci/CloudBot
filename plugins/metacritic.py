@@ -14,7 +14,7 @@ def metacritic(text):
 	args = text.strip()
 
 	game_platforms = ('x360', 'ps3', 'pc', 'gba', 'ds', '3ds', 'wii',
-					  'vita', 'wiiu', 'xone', 'ps4')
+	                  'vita', 'wiiu', 'xone', 'ps4')
 
 	all_platforms = game_platforms + ('all', 'movie', 'tv', 'album')
 
@@ -38,7 +38,7 @@ def metacritic(text):
 	# metacritic thinks it's so damn smart blocking my scraper
 	headers = {
 		'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, '
-					  'like Gecko) Chrome/41.0.2228.0 Safari/537.36',
+		              'like Gecko) Chrome/41.0.2228.0 Safari/537.36',
 		'Referer': 'http://www.metacritic.com/'
 	}
 
@@ -109,5 +109,5 @@ def metacritic(text):
 		score = None
 
 	return '[{}] {} - \x02{}/100\x02, {} - {}'.format(plat.upper(), name, score or 'no score',
-													  'release: \x02%s\x02' % release if release else 'unreleased',
-													  link)
+	                                                  'release: \x02%s\x02' % release if release else 'unreleased',
+	                                                  link)

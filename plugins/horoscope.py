@@ -30,7 +30,7 @@ def horoscope(text, db, bot, notice, nick):
 
 	if not sign:
 		sign = db.execute("select sign from horoscope where "
-						  "nick=lower(:nick)", {'nick': nick}).fetchone()
+		                  "nick=lower(:nick)", {'nick': nick}).fetchone()
 		if not sign:
 			notice("horoscope <sign> -- Get your horoscope")
 			return
@@ -57,7 +57,7 @@ def horoscope(text, db, bot, notice, nick):
 
 	if text and not dontsave:
 		db.execute("insert or replace into horoscope(nick, sign) values (:nick, :sign)",
-				   {'nick': nick.lower(), 'sign': sign})
+		           {'nick': nick.lower(), 'sign': sign})
 		db.commit()
 
 	return result

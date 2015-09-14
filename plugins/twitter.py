@@ -173,5 +173,5 @@ def twuser(text):
 		desc_str = ""
 
 	return "{}@\x02{}\x02 ({}){} has \x02{:,}\x02 tweets and \x02{:,}\x02 followers.{}" \
-		   "".format(prefix, user.screen_name, user.name, loc_str, user.statuses_count, user.followers_count,
-					 desc_str)
+	       "".format(prefix, user.screen_name, user.name, loc_str, user.statuses_count, user.followers_count,
+	                 desc_str)

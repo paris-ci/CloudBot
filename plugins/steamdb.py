@@ -47,7 +47,7 @@ def get_data(user, currency="us"):
 		else:
 			headers = {
 				'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, '
-							  'like Gecko) Chrome/41.0.2228.0 Safari/537.36',
+				              'like Gecko) Chrome/41.0.2228.0 Safari/537.36',
 				'Referer': 'https://steamdb.info/'
 			}
 			request = requests.get(CALC_URL, params=params, headers=headers)
@@ -58,7 +58,7 @@ def get_data(user, currency="us"):
 			raise SteamError("Could not get user info: {}".format(e))
 		else:
 			raise SteamError("Could not get user info: {} (You may have been blocked by CloudFlare, try installing the "
-							 "cfscrape module)".format(e))
+			                 "cfscrape module)".format(e))
 
 	# parse that page!
 	soup = bs4.BeautifulSoup(request.content)
@@ -74,9 +74,9 @@ def get_data(user, currency="us"):
 		data["value_sales"] = soup.find("h1", {"class": "calculator-price-lowest"}).text
 
 		data["count"] = int(soup.find("div",
-									  {"class": "pull-right"
-												" price-container"}).find("p").find("span", {"class":
-																								 "number"}).text.replace(
+		                              {"class": "pull-right"
+		                                        " price-container"}).find("p").find("span", {"class":
+			                                                                                     "number"}).text.replace(
 			',', ''))
 
 		played = soup.find('td', text='Games not played').find_next('td').text
@@ -107,5 +107,5 @@ def steamcalc(text):
 	data["short_url"] = web.try_shorten(data["url"])
 
 	return "\x02{name}\x02 has \x02{count:,}\x02 games with a total value of \x02{value}\x02" \
-		   " (\x02{value_sales}\x02 during sales). \x02{count_unplayed:,}\x02" \
-		   " (\x02{percent_unplayed}%\x02) have never been played - {short_url}".format(**data)
+	       " (\x02{value_sales}\x02 during sales). \x02{count_unplayed:,}\x02" \
+	       " (\x02{percent_unplayed}%\x02) have never been played - {short_url}".format(**data)

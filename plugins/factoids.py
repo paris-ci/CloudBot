@@ -151,8 +151,8 @@ def factoid(match, async, event, message, action):
 		if data.startswith("<py>"):
 			code = data[4:].strip()
 			variables = 'input="""{}"""; nick="{}"; chan="{}"; bot_nick="{}";'.format(arguments.replace('"', '\\"'),
-																					  event.nick, event.chan,
-																					  event.conn.nick)
+			                                                                          event.nick, event.chan,
+			                                                                          event.conn.nick)
 			result = yield from async(web.pyeval, variables + code)
 		else:
 			result = data

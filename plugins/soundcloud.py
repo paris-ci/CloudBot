@@ -70,8 +70,8 @@ def format_track(track, show_url=True):
 		out += " - \x02{}\x02".format(track['genre'])
 
 	out += " - \x02{:,}\x02 plays, \x02{:,}\x02 favorites, \x02{:,}\x02 comments".format(track['playback_count'],
-																						 track['favoritings_count'],
-																						 track['comment_count'])
+	                                                                                     track['favoritings_count'],
+	                                                                                     track['comment_count'])
 
 	if show_url:
 		out += " - {}".format(web.try_shorten(track['permalink_url']))
@@ -94,7 +94,7 @@ def format_user(user, show_url=True):
 		out += ", {}".format(formatting.truncate(user['country']))
 
 	out += " - \x02{track_count:,}\x02 tracks, \x02{playlist_count:,}\x02 playlists, \x02{followers_count:,}\x02 " \
-		   "followers, \x02{followings_count:,}\x02 followed".format(**user)
+	       "followers, \x02{followings_count:,}\x02 followed".format(**user)
 
 	if show_url:
 		out += " - {}".format(web.try_shorten(user['permalink_url']))
@@ -195,7 +195,7 @@ def soundcloud_url(match):
 		return
 
 	url = match.group(1).split(' ')[-1] + "//" + (match.group(2) if match.group(2) else "") + match.group(3) + \
-		  match.group(4).split(' ')[0]
+	      match.group(4).split(' ')[0]
 
 	item = get_with_url(url)
 	if not item:

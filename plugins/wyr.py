@@ -46,6 +46,7 @@ def get_wyr(headers):
 @hook.command("wyr", "wouldyourather", autohelp=False)
 def wyr(bot):
 	""" -- What would you rather do? """
+	global data
 	headers = {"User-Agent": bot.user_agent}
 
 	# keep trying to get entries until we find one that is not filtered

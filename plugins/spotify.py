@@ -10,7 +10,7 @@ spuri = 'spotify:{}:{}'
 
 spotify_re = re.compile(r'(spotify:(track|album|artist|user):([a-zA-Z0-9]+))', re.I)
 http_re = re.compile(r'(open\.spotify\.com/(track|album|artist|user)/'
-					 '([a-zA-Z0-9]+))', re.I)
+                     '([a-zA-Z0-9]+))', re.I)
 
 
 @hook.command('spotify', 'sptrack')
@@ -31,7 +31,7 @@ def spotify(text):
 	url = web.try_shorten(gateway.format(_type, _id))
 
 	return "\x02{}\x02 by \x02{}\x02 - {}".format(data["tracks"][0]["name"],
-												  data["tracks"][0]["artists"][0]["name"], url)
+	                                              data["tracks"][0]["artists"][0]["name"], url)
 
 
 @hook.command
@@ -52,7 +52,7 @@ def spalbum(text):
 	url = web.try_shorten(gateway.format(_type, _id))
 
 	return "\x02{}\x02 by \x02{}\x02 - {}".format(data["albums"][0]["name"],
-												  data["albums"][0]["artists"][0]["name"], url)
+	                                              data["albums"][0]["artists"][0]["name"], url)
 
 
 @hook.command

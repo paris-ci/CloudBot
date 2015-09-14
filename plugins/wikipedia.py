@@ -42,7 +42,7 @@ def wiki(text):
 
 	def extract(item):
 		return [item.find(ns + i).text for i in
-				('Text', 'Description', 'Url')]
+		        ('Text', 'Description', 'Url')]
 
 	title, desc, url = extract(items[0])
 

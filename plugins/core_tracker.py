@@ -42,7 +42,7 @@ def on_kick(conn, chan, target, loop):
 		if conn.config.get('auto_rejoin', False):
 			loop.call_later(5, conn.join, chan)
 			loop.call_later(5, logger.info, "[{}|tracker] Bot was kicked from {}, "
-											"rejoining channel.".format(conn.name, chan))
+			                                "rejoining channel.".format(conn.name, chan))
 
 
 @asyncio.coroutine

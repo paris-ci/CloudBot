@@ -7,6 +7,10 @@ import cloudbot
 
 
 
+
+
+
+
 # CTCP responses
 @asyncio.coroutine
 @hook.regex(r'^\x01VERSION\x01$')
