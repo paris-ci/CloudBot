@@ -7,7 +7,7 @@ from cloudbot import hook
 
 xkcd_re = re.compile(r'(.*:)//(www.xkcd.com|xkcd.com)(.*)', re.I)
 months = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August',
-          9: 'September', 10: 'October', 11: 'November', 12: 'December'}
+		  9: 'September', 10: 'October', 11: 'November', 12: 'December'}
 
 
 def xkcd_info(xkcd_id, url=False):
@@ -23,7 +23,7 @@ def xkcd_info(xkcd_id, url=False):
 def xkcd_search(term):
 	search_term = requests.utils.quote(term)
 	request = requests.get("http://www.ohnorobot.com/index.pl?s={}&Search=Search&"
-	                       "comic=56&e=0&n=0&b=0&m=0&d=0&t=0".format(search_term))
+						   "comic=56&e=0&n=0&b=0&m=0&d=0&t=0".format(search_term))
 	soup = BeautifulSoup(request.text)
 	result = soup.find('li')
 	if result:

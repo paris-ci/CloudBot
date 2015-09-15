@@ -33,7 +33,7 @@ def imdb(text, bot):
 			out += ' \x02%(Runtime)s\x02.'
 		if content['imdbRating'] != 'N/A' and content['imdbVotes'] != 'N/A':
 			out += ' \x02%(imdbRating)s/10\x02 with \x02%(imdbVotes)s\x02' \
-			       ' votes.'
+				   ' votes.'
 		out += ' %(URL)s'
 		return out % content
 	else:
@@ -58,5 +58,5 @@ def imdb_url(match, bot):
 			out += ' \x02%(Runtime)s\x02.'
 		if content['imdbRating'] != 'N/A' and content['imdbVotes'] != 'N/A':
 			out += ' \x02%(imdbRating)s/10\x02 with \x02%(imdbVotes)s\x02' \
-			       ' votes.'
+				   ' votes.'
 		return out % content

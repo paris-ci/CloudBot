@@ -31,7 +31,7 @@ def crack_single_hash(h):
 		"http://www.google.com/search?q={hash}".format(hash=h))
 
 	wordlist = str(response.read()).replace('.', ' ').replace(':', ' ').replace('?', '').replace("('", ' ').replace("'",
-	                                                                                                                ' ').split(
+																													' ').split(
 		' ')
 	plaintext = dictionary_attack(h, set(wordlist))
 
@@ -44,7 +44,7 @@ class BozoCrack(object):
 
 		with open(filename, 'r') as f:
 			hashes = [h.lower() for line in f if HASH_REGEX.match(line)
-			          for h in HASH_REGEX.findall(line.replace('\n', ''))]
+					  for h in HASH_REGEX.findall(line.replace('\n', ''))]
 
 		self.hashes = sorted(set(hashes))
 

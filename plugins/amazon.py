@@ -29,7 +29,7 @@ def amazon(text, _parsed=False):
 	"""<query> -- Searches Amazon for query"""
 	headers = {
 		'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, '
-		              'like Gecko) Chrome/41.0.2228.0 Safari/537.36',
+					  'like Gecko) Chrome/41.0.2228.0 Safari/537.36',
 		'Referer': 'http://www.amazon.com/'
 	}
 	params = {
@@ -71,7 +71,7 @@ def amazon(text, _parsed=False):
 	# we use regex because we need to recognise text for this part
 	# the other parts detect based on html tags, not text
 	if re.search(r"(Kostenlose Lieferung|Livraison gratuite|FREE Shipping|Envío GRATIS"
-	             r"|Spedizione gratuita)", item.text, re.I):
+				 r"|Spedizione gratuita)", item.text, re.I):
 		tags.append("$(b)Free Shipping$(b)")
 
 	price = item.find('span', {'class': ['s-price', 'a-color-price']}).text

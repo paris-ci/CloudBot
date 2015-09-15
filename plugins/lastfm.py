@@ -61,7 +61,7 @@ def lastfm(text, nick, db, bot, notice):
 			return
 
 	params = {'method': 'user.getrecenttracks',
-	          'api_key': api_key, 'user': user, 'limit': 1}
+			  'api_key': api_key, 'user': user, 'limit': 1}
 	request = requests.get(api_url, params=params)
 
 	if request.status_code != requests.codes.ok:
@@ -114,7 +114,7 @@ def lastfm(text, nick, db, bot, notice):
 
 	if text and not dontsave:
 		db.execute("insert or replace into lastfm(nick, acc) values (:nick, :account)",
-		           {'nick': nick.lower(), 'account': user})
+				   {'nick': nick.lower(), 'account': user})
 		db.commit()
 		load_cache(db)
 	return out
@@ -170,13 +170,13 @@ def lastfmcompare(text, nick, bot, ):
 	artists = [f["name"] for f in data["comparison"]["result"]["artists"]["artist"]] if \
 		type(data["comparison"]["result"]["artists"]["artist"]) == list else \
 		[data["comparison"]["result"]["artists"]["artist"]["name"]] if "artist" \
-		                                                               in data["comparison"]["result"][
-			                                                               "artists"] else ""
+																	   in data["comparison"]["result"][
+																		   "artists"] else ""
 	artist_string = "\x02In Common:\x02 " + \
-	                ", ".join(artists) if artists else ""
+					", ".join(artists) if artists else ""
 
 	return "Musical compatibility between \x02{}\x02 and \x02{}\x02: {} (\x02{}%\x02) {}".format(user1, user2, level,
-	                                                                                             score, artist_string)
+																								 score, artist_string)
 
 
 @hook.command("ltop", "ltt", autohelp=False)

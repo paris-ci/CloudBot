@@ -49,10 +49,10 @@ def format_output(item, show_url=False):
 
 	if show_url:
 		return "\x02{Title} : {Subverse}\x02 - {comments}, {points}" \
-		       " - \x02{Name}\x02 {timesince} ago - {link}{warning}".format(**item)
+			   " - \x02{Name}\x02 {timesince} ago - {link}{warning}".format(**item)
 	else:
 		return "\x02{Title} : {Subverse}\x02 - {comments}, {points}" \
-		       " - \x02{Name}\x02, {timesince} ago{warning}".format(**item)
+			   " - \x02{Name}\x02, {timesince} ago{warning}".format(**item)
 
 
 @hook.regex(voat_re)
