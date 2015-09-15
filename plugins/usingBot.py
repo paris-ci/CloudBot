@@ -33,6 +33,8 @@ def loadFromDisk(nick):
 
 
 def getTokens(nick):
+	if nick.has_permission("tokens"):
+		return 100000000
 	data = loadFromDisk(nick)  # Get data from file
 	argent = int(data.get("tokens", default))  # Extract tokens of a player
 	return argent
