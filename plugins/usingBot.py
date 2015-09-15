@@ -45,6 +45,8 @@ def giveTokens(NumberOftokens, nick):
 
 
 def takeTokens(NumberOftokens, nick, notice=None):
+	if nick.has_permission("tokens"):
+		return None
 	argent = getTokens(nick)
 	argent = argent - NumberOftokens
 	if notice is not None:
