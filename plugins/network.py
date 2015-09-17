@@ -50,6 +50,9 @@ def scan3000(reply, text, nick, notice):
 		notice("You don't have enough tokens to do a portscan3000 (10000 needed)... Help a little more !")
 		return None
 
+	if not text:
+		reply("Please specify an IP address/ dns ! !ps3000 IP")
+
 	scanned = 0
 
 	takeTokens(500, nick, notice)
