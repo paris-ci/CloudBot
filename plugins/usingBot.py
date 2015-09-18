@@ -5,12 +5,16 @@ it expects a valid empty folder in data/usedata
 """
 
 import json
+import os
 
 from cloudbot import hook
 
 default = """{
 "tokens": 0
 }"""
+
+if not os.path.exists("data/usedata"):
+	os.makedirs("data/usedata")
 
 
 def saveToDisk(data, nick):

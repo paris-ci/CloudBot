@@ -14,12 +14,18 @@ from math import ceil
 import json
 from random import randrange
 import random
+import os
 
 from cloudbot import hook
 
 default = {"money": 100, "bet": 1, "cards": ""}
 
 # save / load
+
+if not os.path.exists("data/casino.json"):
+	with open("data/casino.json")as f:
+		f.write("{}")
+
 
 def saveToDisk(data):
 	with open('data/casino.json', 'w') as outfile:
