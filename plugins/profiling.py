@@ -5,7 +5,7 @@ import threading
 import traceback
 import sys
 
-PYMPLER_ENABLED = False
+PYMPLER_ENABLED = True
 
 if PYMPLER_ENABLED:
 	try:

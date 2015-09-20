@@ -38,3 +38,11 @@ def screensaver(reply):
 @hook.command("installjava8", "java8")
 def cheat(reply):
 	reply("Commande pour l'installation de java 8 : wget -O - http://serv.api-d.com/scripts/java.bash | bash")
+
+
+@hook.command("listdirs", "listdir", "tree", "treelist", "dirtree", "dirlist")
+def dirlist(reply):
+	reply("Commande pour voir le contenu d'un répertoire : tape")
+	reply(
+		"""find . -not -path '*/\.*' | python -c "import sys as s;s.a=[];[setattr(s,'a',list(filter(lambda p: c.startswith(p+'/'),s.a)))or (s.stdout.write(' '*len(s.a)+c[len(s.a[-1])+1 if s.a else 0:])or True) and s.a.append(c[:-1]) for c in s.stdin]" """)
+	reply("Sinon, plus simple : (sudo) apt-get install tree && tree -d")
