@@ -15,6 +15,7 @@ import json
 from random import randrange
 import random
 import os
+import time
 
 from cloudbot import hook
 
@@ -296,6 +297,7 @@ def endBJ(notice, nick, reply):
 
 	while DT < 17:
 		DX = game.draw()
+		time.sleep(randrange(0, 5))
 		notice("Dealer drew a " + str(DX))
 		DT = DX + DT
 
