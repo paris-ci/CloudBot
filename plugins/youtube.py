@@ -73,7 +73,9 @@ def load_key(bot):
 
 
 @hook.regex(youtube_re)
-def youtube_url(match):
+def youtube_url(match, event):
+	if event.chan == "#harmonyhosting":  # if the channel is #harmonyhosting
+		return None  # return None, canceling the action
 	return get_video_description(match.group(1))
 
 
@@ -146,7 +148,10 @@ ytpl_re = re.compile(r'(.*:)//(www.youtube.com/playlist|youtube.com/playlist)(:[
 
 
 @hook.regex(ytpl_re)
-def ytplaylist_url(match):
+def ytplaylist_url(match, event):
+	if event.chan == "#harmonyhosting":  # if the channel is #harmonyhosting
+		return None  # return None, canceling the action
+
 	location = match.group(4).split("=")[-1]
 	json = requests.get(playlist_api_url, params={"id": location, "key": dev_key}).json()
 
