@@ -138,6 +138,7 @@ def faqadd(text, reply):
 	text = text.split()
 
 	word = text[0]
+
 	answer = ' '.join(text[1:])
 
 	data[word] = answer

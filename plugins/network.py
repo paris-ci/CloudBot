@@ -7,6 +7,7 @@ import os
 
 from cloudbot import hook
 from plugins.usingBot import getTokens, takeTokens
+from cloudbot.util.colors import parse
 
 
 def scanport(IP, PORT):
@@ -322,3 +323,54 @@ def ping(text, reply):
 		return "min: %sms, max: %sms, average: %sms, range: %sms, count: %s" \
 			   % (m.group(1), m.group(3), m.group(2), m.group(4), count)
 
+
+def pingavg(host):
+	if os.name == "nt":
+		args = ["ping", "-n", "2", host]
+	else:
+		args = ["ping", "-c", "2", host]
+
+	try:
+		pingcmd = subprocess.check_output(args).decode("utf-8")
+	except subprocess.CalledProcessError:
+		return -1
+
+	if re.search("(?:not find host|timed out|unknown host)", pingcmd, re.I):
+		return -1
+
+	if os.name == "nt":
+		m = re.search(win_ping_regex, pingcmd)
+		r = int(m.group(2)) - int(m.group(1))
+
+		return m.group(3)
+	else:
+		m = re.search(unix_ping_regex, pingcmd)
+		return m.group(2)
+
+
+@hook.command("harmonystatus", "hhstatus", "harmony", "ddos", "pinghh", "hh")
+def hhstatus(reply):
+	reply("Je vérifie le statut des serveurs !")
+	hosts = ["lisa", "homer", "marge", "maggie", "flanders", "bart", "apu", "burns"]
+	#	dead = []
+	#	good = []
+	#	bad = []
+	toreply = ""
+
+	for host in hosts:
+		avg = float(pingavg(host + ".harmony-hosting.com"))
+
+		if avg == -1:
+			# dead.append(host)
+			toreply += "$(dark_red)" + host + "$(clear) "
+		elif avg <= 15:
+			# good.append(host)
+			toreply += "$(green)" + host + "$(clear) "
+		elif avg <= 1000:
+			# bad.append(host)
+			toreply += "$(orange)" + host + "$(clear) "
+		else:
+			# dead.append(host)
+			toreply += "$(red)" + host + "$(clear) "
+	toreply = parse(toreply)
+	reply(toreply)
