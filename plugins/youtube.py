@@ -83,7 +83,7 @@ def youtube_url(match, event):
 	try:
 		with open('data/lastYT.url', 'r') as infile:
 			if infile.readline().strip() == match.group(1):
-				return "NOPE !"
+				return
 	except:
 		open('data/lastYT.url', 'a').close()
 
@@ -169,7 +169,7 @@ def ytplaylist_url(match, event):
 	try:
 		with open('data/lastYT.url', 'r') as infile:
 			if infile.readline().strip() == match.group(1):
-				return "NOPE !"
+				return
 	except:
 		open('data/lastYT.url', 'a').close()
 
