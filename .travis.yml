@@ -6,7 +6,7 @@ install:
   - "sudo apt-get update -q"
   - "sudo apt-get install -y python3-lxml"
   - "sudo pip install -r ./travis/requirements.txt"
-  - "sudo pip install -r ./requirements.txt"s
+  - "sudo pip install -r ./requirements.txt"
 
 script:
   - "python ./travis/test_json.py"
