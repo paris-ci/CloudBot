@@ -7,6 +7,7 @@ import requests
 from cloudbot import hook
 from cloudbot.util import timeformat
 from cloudbot.util.formatting import pluralize
+from cloudbot.util.colors import parse
 
 youtube_re = re.compile(r'(?:youtube.*?(?:v=|/v/)|youtu\.be/|yooouuutuuube.*?id=)([-_a-zA-Z0-9]+)', re.I)
 
@@ -47,6 +48,8 @@ def get_video_description(video_id):
 		dislikes = pluralize(int(statistics['dislikeCount']), "dislike")
 
 		percent = 100 * float(statistics['likeCount']) / total_votes
+		likes = parse("$(dark_green)" + likes + "$(clear)")
+		dislikes = parse("$(dark_red)" + dislikes + "$(clear)")
 		out += ' - {}, {} (\x02{:.1f}\x02%)'.format(likes,
 		                                            dislikes, percent)
 
