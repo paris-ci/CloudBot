@@ -368,7 +368,7 @@ def hhstatus(reply, notice, nick):
 			toreply += "$(dark_red)" + host + "(ERR)" + "$(clear) "
 		elif avg <= 20:
 			# good.append(host)
-			toreply += "$(green)" + host + "$(clear) "
+			toreply += "$(dark_green)" + host + "$(clear) "
 		elif avg <= 1000:
 			# bad.append(host)
 			toreply += "$(orange)" + host + "(" + str(avg) + " ms)" + "$(clear) "
@@ -389,7 +389,7 @@ def hhstatus(reply, notice, nick):
 			toreply += "$(dark_red)" + host + "$(clear) "
 		elif avg <= 20:
 			# good.append(host)
-			toreply += "$(green)" + host + "$(clear) "
+			toreply += "$(dark_green)" + host + "$(clear) "
 		elif avg <= 1000:
 			# bad.append(host)
 			toreply += "$(orange)" + host + "(" + str(avg) + " ms)" + "$(clear) "
