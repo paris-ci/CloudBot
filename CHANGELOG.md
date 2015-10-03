@@ -1,5 +1,7 @@
 ## Changelog
 
+## WE ARE NO LONGER A FORK ! Read commit messages !
+
 ## 1.0.9
 TBA
 
