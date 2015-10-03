@@ -352,7 +352,7 @@ def hhstatus(reply, notice, nick):
 		notice("You don't have enough tokens. (100 needed)... Help a little more !")
 		return None
 
-	reply("Je vérifie le statut des serveurs ! Cela prends environ 20 secondes, voire moins !")
+	notice("Je vérifie le statut des serveurs ! Cela prends environ 20 secondes, voire moins !")
 	InternalHosts = sorted(["lisa", "homer", "marge", "maggie", "flanders", "www", "apu", "burns", "irc"])
 	ExternalHosts = sorted(["bukkit.fr", "google.fr", "ovh.com", "proof.ovh.net"])
 	#	dead = []
@@ -381,6 +381,8 @@ def hhstatus(reply, notice, nick):
 	toreply = "SERVICES: "
 	for host in ExternalHosts:
 		avg = float(pingavg(host))
+
+		host = host.replace('.', '_')
 
 		if avg == -1:
 			# dead.append(host)
