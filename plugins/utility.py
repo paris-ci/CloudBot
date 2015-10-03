@@ -22,8 +22,8 @@ import json
 import codecs
 import urllib.parse
 import random
-import binascii
 
+import binascii
 from cloudbot import hook
 from cloudbot.util import formatting, web, colors
 
@@ -140,7 +140,7 @@ def base64_encode(text):
 def base64_decode(text, notice):
 	"""<string> -- Decode <string> with base64."""
 	try:
-		return base64.b64decode(text.encode()).decode()
+		return base64.b64decode(text.encode()).decode().replace("\r", "").replace("\n", "")
 	except binascii.Error:
 		notice("Invalid base64 string '{}'".format(text))
 
