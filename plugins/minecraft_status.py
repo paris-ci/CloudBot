@@ -3,6 +3,7 @@ import json
 import requests
 
 from cloudbot import hook
+from cloudbot.util.colors import parse
 
 
 @hook.command(autohelp=False)
@@ -33,15 +34,15 @@ def mcstatus():
 
 	if green:
 		green.sort()
-		out.append("\x02Online\x02: " + ", ".join(green))
+		out.append("\x02Online\x02: $(dark_green)" + ", ".join(green) + "$(clear)")
 	if yellow:
 		yellow.sort()
-		out.append("\x02Issues\x02: " + ", ".join(yellow))
+		out.append("\x02Issues\x02: $(orange)" + ", ".join(yellow) + "$(clear)")
 	if red:
 		red.sort()
-		out.append("\x02Offline\x02: " + ", ".join(red))
+		out.append("\x02Offline\x02: $(dark_red)" + ", ".join(red) + "$(clear)")
 
-	out = " ".join(out)
+	out = parse(" ".join(out))
 
 	return "\x0f" + out.replace(".mojang.com", ".mj") \
 		.replace(".minecraft.net", ".mc")
