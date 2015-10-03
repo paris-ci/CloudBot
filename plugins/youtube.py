@@ -66,10 +66,11 @@ def get_video_description(video_id):
 	if 'contentRating' in content_details:
 		out += ' - \x034NSFW\x02'
 
-	return re.sub(
-		r'(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))',
-		'[URL]', out)
+	#	return re.sub(
+	#		r'(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))',
+	#		'[URL]', out)
 
+	return out.replace("youtu", "you tu")
 
 @hook.on_start()
 def load_key(bot):
