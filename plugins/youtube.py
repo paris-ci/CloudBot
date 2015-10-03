@@ -66,7 +66,9 @@ def get_video_description(video_id):
 	if 'contentRating' in content_details:
 		out += ' - \x034NSFW\x02'
 
-	return out
+	return re.sub(
+		r'(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))',
+		'[URL]', out)
 
 
 @hook.on_start()
@@ -80,15 +82,6 @@ def youtube_url(match, event):
 	if event.chan == "#harmonyhosting":  # if the channel is #harmonyhosting
 		return None  # return None, canceling the action
 
-	try:
-		with open('data/lastYT.url', 'r') as infile:
-			if infile.readline().strip() == match.group(1):
-				return
-	except:
-		open('data/lastYT.url', 'a').close()
-
-	with open('data/lastYT.url', 'w') as outfile:
-		outfile.write(match.group(1))
 
 	return get_video_description(match.group(1))
 
@@ -165,18 +158,6 @@ ytpl_re = re.compile(r'(.*:)//(www.youtube.com/playlist|youtube.com/playlist)(:[
 def ytplaylist_url(match, event):
 	if event.chan == "#harmonyhosting":  # if the channel is #harmonyhosting
 		return None  # return None, canceling the action
-
-	try:
-		with open('data/lastYT.url', 'r') as infile:
-			if infile.readline().strip() == match.group(1):
-				return
-	except:
-		open('data/lastYT.url', 'a').close()
-
-	with open('data/lastYT.url', 'w') as outfile:
-		outfile.write(match.group(1))
-
-
 
 	location = match.group(4).split("=")[-1]
 	json = requests.get(playlist_api_url, params={"id": location, "key": dev_key}).json()
