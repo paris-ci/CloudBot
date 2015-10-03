@@ -1,4 +1,6 @@
 import random
+import subprocess
+import sys
 
 import requests
 
@@ -8,6 +10,12 @@ from cloudbot.util import web, formatting
 shortcuts = {
 	'cloudbot': 'CloudBotIRC/CloudBot'
 }
+
+
+@hook.command("version", "ver")
+def version(reply):
+	reply("GIT : " + str(subprocess.check_output(['git', 'rev-parse', 'HEAD'])))
+	reply("PYTHON: " + str(sys.version))
 
 
 @hook.command("ghissue", "issue")
