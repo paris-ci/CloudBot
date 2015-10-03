@@ -10,13 +10,13 @@ Created By:
 
 License:
     GNU General Public License (Version 3)"""
-from math import ceil
 import json
 from random import randrange
 import random
 import os
 import time
 
+from math import ceil
 from cloudbot import hook
 
 default = {"money": 100, "bet": 1, "cards": ""}
@@ -101,18 +101,18 @@ def setMoney(reply, text):
 
 	savePlayerData(nick, argent=argent)
 
-	reply(nick + " had " + str(oldArgent) + "$. He/She have " + str(argent) + "$ now!")
+	reply(nick + " had $" + str(oldArgent) + ". He/She have $" + str(argent) + " now!")
 
 
 @hook.command("money", "bal", "balance")
 def money(nick, notice, text):
 	try:
 		player = text.split()[0]
-		notice(player + " have " + str(getMoney(player)) + "$ !")
+		notice(player + " have $" + str(getMoney(player)) + " !")
 		return None
 
 	except IndexError:
-		notice("You have " + str(getMoney(nick)) + "$ !")
+		notice("You have $" + str(getMoney(nick)) + " !")
 		return None
 
 
@@ -121,12 +121,12 @@ def checkMoneyBet(nick, notice):
 	mise = getBet(nick)
 	if argent < 50:
 		notice("Hey, you're lucky, you found money in the back of the casino.")
-		notice("You now have 150$")
+		notice("You now have $150")
 		argent = str(150)
 		savePlayerData(nick, argent=argent)
 
 	if mise > argent:
-		notice("You try to bet too much ! You have only " + str(argent) + ". Change bet with !bet")
+		notice("You try to bet too much ! You have only $" + str(argent) + ". Change bet with !bet")
 		return None
 
 	if mise == 1:
@@ -140,13 +140,13 @@ def checkMoneyBet(nick, notice):
 ########
 
 def runEngine(argent, mise, reply, notice):
-	notice("Welcome to the casino ! You have " + str(argent) + "$ !")
+	notice("Welcome to the casino ! You have $" + str(argent) + " !")
 	numero_gagnant = randrange(50)
 	nombre_mise = randrange(50)
 	notice("You bet on >> " + str(nombre_mise) + " <<")
 
 	if numero_gagnant == nombre_mise:
-		reply("Congrats, the exact same number ! You won " + str(mise * 3) + "$ !")
+		reply("Congrats, the exact same number ! You won $" + str(mise * 3) + " !")
 
 		argent += mise * 3
 
@@ -154,7 +154,7 @@ def runEngine(argent, mise, reply, notice):
 
 		mise = ceil(mise * 0.5)
 
-		reply("Same color ! (The wheel was on " + str(numero_gagnant) + " ). You won : " + str(mise) + "$")
+		reply("Same color ! (The wheel was on " + str(numero_gagnant) + " ). You won : $" + str(mise))
 
 		argent += mise
 
@@ -175,7 +175,7 @@ def launchGame(nick, reply, notice):
 
 	savePlayerData(nick, argent=argent)
 
-	notice("You now have " + str(getMoney(nick)) + "$ !")
+	notice("You now have $" + str(getMoney(nick)) + " !")
 
 
 @hook.command("bet")
@@ -184,7 +184,7 @@ def setBet(nick, notice, text):
 	mise = int(text)  # Save the bet
 
 	if mise > argent:
-		notice("You try to bet too much ! You have only " + str(argent) + ".")
+		notice("You try to bet too much ! You have only $" + str(argent) + ".")
 		return None
 
 	if mise < 1:
@@ -193,7 +193,7 @@ def setBet(nick, notice, text):
 
 	savePlayerData(nick, mise=mise)
 
-	notice("Done. Your bet is now : " + str(mise) + "$")
+	notice("Done. Your bet is now : $" + str(mise))
 
 
 #######
@@ -308,24 +308,24 @@ def endBJ(notice, nick, reply):
 	else:
 		notice("Dealer busts")
 		argent += mise * 3
-		reply("You won " + str(mise * 3) + "$ ! You now have " + str(argent) + "$ ")
+		reply("You won " + str(mise * 3) + "$ ! You now have $ " + str(argent))
 		savePlayerData(nick, argent=argent, cards=["end"])
 		return None
 
 	if PT > DT:
 		argent += 1.5 * mise
-		reply("You won " + str(mise * 1.5) + "$ ! You now have " + str(argent) + "$ ")
+		reply("You won $" + str(mise * 1.5) + "! You now have $" + str(argent))
 
 
 	elif PT == DT:
 		argent += mise
-		reply("You won " + str(mise) + "$ ! You now have " + str(argent) + "$ ")
+		reply("You won $" + str(mise) + "! You now have $" + str(argent))
 
 
 	else:
 
 		argent = argent - mise
-		reply("You've lost " + str(mise) + "$ ! You now have " + str(argent) + "$ ")
+		reply("You've lost $" + str(mise) + "! You now have $" + str(argent))
 
 	savePlayerData(nick, argent=argent, cards=["end"])
 	game.reset()
