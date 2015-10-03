@@ -76,6 +76,17 @@ def load_key(bot):
 def youtube_url(match, event):
 	if event.chan == "#harmonyhosting":  # if the channel is #harmonyhosting
 		return None  # return None, canceling the action
+
+	try:
+		with open('data/lastYT.url', 'r') as infile:
+			if infile.readline().strip() == match.group(1):
+				return "NOPE !"
+	except:
+		open('data/lastYT.url', 'a').close()
+
+	with open('data/lastYT.url', 'w') as outfile:
+		outfile.write(match.group(1))
+
 	return get_video_description(match.group(1))
 
 
@@ -151,6 +162,18 @@ ytpl_re = re.compile(r'(.*:)//(www.youtube.com/playlist|youtube.com/playlist)(:[
 def ytplaylist_url(match, event):
 	if event.chan == "#harmonyhosting":  # if the channel is #harmonyhosting
 		return None  # return None, canceling the action
+
+	try:
+		with open('data/lastYT.url', 'r') as infile:
+			if infile.readline().strip() == match.group(1):
+				return "NOPE !"
+	except:
+		open('data/lastYT.url', 'a').close()
+
+	with open('data/lastYT.url', 'w') as outfile:
+		outfile.write(match.group(1))
+
+
 
 	location = match.group(4).split("=")[-1]
 	json = requests.get(playlist_api_url, params={"id": location, "key": dev_key}).json()

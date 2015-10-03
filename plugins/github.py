@@ -14,7 +14,10 @@ shortcuts = {
 
 @hook.command("version", "ver")
 def version(reply):
-	reply("GIT : " + str(subprocess.check_output(['git', 'rev-parse', 'HEAD'])))
+	try:
+		reply("GIT : " + str(subprocess.check_output(['git', 'rev-parse', 'HEAD'])))
+	except subprocess.CalledProcessError:
+		reply("GIT : N/A")
 	reply("PYTHON: " + str(sys.version))
 
 
