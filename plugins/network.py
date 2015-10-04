@@ -224,7 +224,7 @@ def hhstatus(reply, notice, nick):
 
 @hook.command("serverinfo", "servinfo")
 def servinfo(reply, text):
-	host = text[0]
+	host = text
 
 	# First of all, check the ping !
 	ping = pingavg(host)
