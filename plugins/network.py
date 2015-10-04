@@ -223,7 +223,12 @@ def hhstatus(reply, notice, nick):
 
 
 @hook.command("serverinfo", "servinfo")
-def servinfo(reply, text):
+def servinfo(reply, text, notice, nick):
+	if getTokens(nick) < 1000:
+		notice("You don't have enough tokens to do a portscan (1000 needed)... Help a little more !")
+		return None
+
+	takeTokens(250, nick, notice)
 	host = text
 
 	# First of all, check the ping !
