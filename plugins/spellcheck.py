@@ -5,8 +5,9 @@ from enchant import Dict
 from cloudbot import hook
 
 
+
 # locale = "en_US"
-locale = "fr_FR"
+locale = "en_EN"
 en_dict = Dict(locale)
 
 
