@@ -280,3 +280,5 @@ def servinfo(reply, text):
 		toreply += "$(dark_green)smtp  $(clear)"
 	else:
 		toreply += "$(red)smtp $(clear)"
+
+	reply(parse(toreply))
