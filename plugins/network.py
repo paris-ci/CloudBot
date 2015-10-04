@@ -220,3 +220,63 @@ def hhstatus(reply, notice, nick):
 
 	reply(toreplyINT)
 	reply(toreplyEXT)
+
+
+@hook.command("serverinfo", "servinfo")
+def servinfo(reply, text):
+	host = text[0]
+
+	# First of all, check the ping !
+	ping = pingavg(host)
+
+	# Check if ssh is working (port 22 open)
+	sshWorking = scanport(host, 22)
+
+	# Check if web HTTP is working
+	httpWorking = scanport(host, 80)
+
+	# Check if web HTTP is working
+	httpsWorking = scanport(host, 443)
+
+	# Check if DNS is working
+	dnsWorking = scanport(host, 53)
+
+	# Check if SMTP is working
+	smtpWorking = scanport(host, 25)
+
+	# Lets reply that !
+	toreply = ""
+
+	if ping == -1:
+		toreply += "$(dark_red)ping $(clear)"
+	elif ping <= 20:
+		toreply += "$(dark_green)ping $(clear)"
+	elif ping <= 1000:
+		toreply += "$(orange)ping (" + str(ping) + " ms)" + "$(clear)"
+	else:
+		toreply += "$(red)ping $(clear)"
+
+	if sshWorking:
+		toreply += "$(dark_green)ssh $(clear)"
+	else:
+		toreply += "$(red)ssh $(clear)"
+
+	if httpWorking:
+		toreply += "$(dark_green)http $(clear)"
+	else:
+		toreply += "$(red)http $(clear)"
+
+	if httpsWorking:
+		toreply += "$(dark_green)https $(clear)"
+	else:
+		toreply += "$(red)https $(clear)"
+
+	if dnsWorking:
+		toreply += "$(dark_green)dns $(clear)"
+	else:
+		toreply += "$(red)dns $(clear)"
+
+	if smtpWorking:
+		toreply += "$(dark_green)smtp  $(clear)"
+	else:
+		toreply += "$(red)smtp $(clear)"

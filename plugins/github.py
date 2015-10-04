@@ -58,3 +58,4 @@ def issue(text):
 def whatthecommit(reply):
 
 	reply(random.choice(commits).strip())
+
