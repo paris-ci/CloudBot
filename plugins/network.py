@@ -227,7 +227,7 @@ def servinfo(reply, text):
 	host = text
 
 	# First of all, check the ping !
-	ping = int(pingavg(host))
+	ping = float(pingavg(host))
 
 	# Check if ssh is working (port 22 open)
 	sshWorking = scanport(host, 22)
