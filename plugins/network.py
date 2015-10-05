@@ -135,12 +135,55 @@ def ping(text, reply):
 	if os.name == "nt":
 		m = re.search(win_ping_regex, pingcmd)
 		r = int(m.group(2)) - int(m.group(1))
-		return "min: %sms, max: %sms, average: %sms, range: %sms, count: %s" \
-			   % (m.group(1), m.group(2), m.group(3), r, count)
+		min, max, avg, range, count = str(m.group(1)), str(m.group(2)), str(m.group(3)), str(r), str(count)
+	#		return "min: %sms, max: %sms, average: %sms, range: %sms, count: %s" \
+	#			   % (m.group(1), m.group(2), m.group(3), r, count)
 	else:
 		m = re.search(unix_ping_regex, pingcmd)
-		return "min: %sms, max: %sms, average: %sms, range: %sms, count: %s" \
-			   % (m.group(1), m.group(3), m.group(2), m.group(4), count)
+		min, max, avg, range, count = str(m.group(1)), str(m.group(3)), str(m.group(2)), str(m.group(4)), str(count)
+	#		return "min: %sms, max: %sms, average: %sms, range: %sms, count: %s" \
+	#			   % (m.group(1), m.group(3), m.group(2), m.group(4), count)
+
+	# Build up a toreply str
+	toreply = "min: "
+
+	if float(min) <= 20:
+		toreply += "$(dark_green)" + min + "$(clear)"
+	elif float(min) <= 50:
+		toreply += "$(orange)" + min + "$(clear)"
+	else:
+		toreply += "$(red)" + min + "$(clear)"
+
+	toreply += ", max: "
+
+	if float(max) <= 30:
+		toreply += "$(dark_green)" + max + "$(clear)"
+	elif float(max) <= 100:
+		toreply += "$(orange)" + max + "$(clear)"
+	else:
+		toreply += "$(red)" + max + "$(clear)"
+
+	toreply += ", average: "
+
+	if float(avg) <= 25:
+		toreply += "$(dark_green)" + avg + "$(clear)"
+	elif float(avg) <= 75:
+		toreply += "$(orange)" + avg + "$(clear)"
+	else:
+		toreply += "$(red)" + avg + "$(clear)"
+
+	toreply += ", range: "
+
+	if int(range) <= 5:
+		toreply += "$(dark_green)" + range + "$(clear)"
+	elif int(range) <= 10:
+		toreply += "$(orange)" + range + "$(clear)"
+	else:
+		toreply += "$(red)" + range + "$(clear)"
+
+	toreply += ", count: " + count
+
+	return toreply
 
 
 def pingavg(host):
