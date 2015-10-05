@@ -183,7 +183,7 @@ def ping(text, reply):
 
 	toreply += ", count: " + count
 
-	return toreply
+	return parse(toreply)
 
 
 def pingavg(host):
