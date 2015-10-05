@@ -174,9 +174,9 @@ def ping(text, reply):
 
 	toreply += ", range: "
 
-	if int(range) <= 5:
+	if float(range) <= 5:
 		toreply += "$(dark_green)" + range + "$(clear)"
-	elif int(range) <= 10:
+	elif float(range) <= 10:
 		toreply += "$(orange)" + range + "$(clear)"
 	else:
 		toreply += "$(red)" + range + "$(clear)"
