@@ -183,7 +183,7 @@ def ping(text, reply):
 
 	toreply += ", count: " + count
 
-	return parse(toreply)
+	return parse(host + " : " + toreply)
 
 
 def pingavg(host):
@@ -329,4 +329,4 @@ def servinfo(reply, text, notice, nick):
 	else:
 		toreply += "$(red)smtp $(clear)"
 
-	reply(parse(toreply))
+	reply(host + " : " + parse(toreply))
