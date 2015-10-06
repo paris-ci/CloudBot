@@ -16,7 +16,12 @@ def invite(irc_paramlist, conn):
 	"""
 	invite_join = conn.config.get('invite_join', True)
 	if invite_join:
+		# print(str(irc_paramlist)) ['pouet', ':#channel']
 		conn.join(irc_paramlist[-1])
+		conn.message(irc_paramlist[-1].strip(":"), "Hello ! I'm an IRC bot. " + irc_paramlist[
+			-2] + " invited me here! Check what I can do with !help.")
+		conn.message(irc_paramlist[-1].strip(":"),
+					 "You can check more info about me at github : https://github.com/paris-ci/CloudBot")
 
 
 # Identify to NickServ (or other service)

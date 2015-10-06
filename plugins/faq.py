@@ -1,9 +1,8 @@
-import json
 import difflib
 
 from cloudbot import hook
 from cloudbot.util import web
-
+from cloudbot.util import WorkingWithFiles
 
 class FuzzyDict(dict):
 	"""Provides a dictionary that performs fuzzy lookup"""
@@ -99,33 +98,51 @@ class FuzzyDict(dict):
 
 		return item
 
-def loadfromdisk():
-	file = open('data/faq.json', 'r')
-	data = json.load(file)
-	return data
+
+WorkingWithFiles.checkExistsPath("data/local_faq/")
 
 
-def saveToDisk(data):
-	with open('data/faq.json', 'w') as outfile:
-		json.dump(data, outfile, sort_keys=True, indent=4, ensure_ascii=False)
+def FindTheWord(LocalData, GlobalData, word):
+	try:
+		answer = LocalData[word]
+		return answer
+	except:
+		pass
+
+	try:
+		answer = GlobalData[word]
+		return answer
+	except:
+		pass
+
+	try:
+		answer = FuzzyDict(LocalData)[word]
+		return answer
+	except:
+		pass
+
+	answer = FuzzyDict(GlobalData)[word]
+	return answer
+
 
 
 @hook.command("faq")
-def faq(text, reply, notice):
-	data = loadfromdisk()
+def faq(text, reply, notice, event):
 	text = text.split()
-	data = FuzzyDict(data)
+	GlobalData = WorkingWithFiles.JSONloadFromDisk("data/faq.json")
+	LocalData = WorkingWithFiles.JSONloadFromDisk("data/local_faq/" + event.chan)
 
 	try:
-		reponse = data[text[0]]
+		reponse = FindTheWord(LocalData, GlobalData, text[0])
 
 	except:
-		reply("Le mot recherché n'as pas été trouvé dans la FAQ ! Cherchez dans la FAQ avec la liste : !listfaq")
+
+		reply("This word havent been found in the FAQ! Try to list it : !listfaq")
 		return
 
 	try:
 		notice(reponse, text[1])
-		notice("Transmis !")
+		notice("Transmitted !")
 
 	except:
 		reply(reponse)
@@ -133,8 +150,7 @@ def faq(text, reply, notice):
 
 @hook.command("faqadd", "addfaq", permissions=["faq"])
 def faqadd(text, reply):
-
-	data = loadfromdisk()
+	data = WorkingWithFiles.JSONloadFromDisk("data/faq.json")
 	text = text.split()
 
 	word = text[0]
@@ -143,12 +159,35 @@ def faqadd(text, reply):
 
 	data[word] = answer
 
-	saveToDisk(data)
+	WorkingWithFiles.JSONsaveToDisk(data, "data/faq.json")
 
-	reply("Le mot " + word + " as été ajouté a la FAQ. Il refere à : " + answer)
+	reply("The word " + word + " has been added to the FAQ. It refers to : " + answer)
+
+
+@hook.command("lfaqadd", "laddfaq", permissions=["faq"])
+def lfaqadd(text, reply, event):
+	data = WorkingWithFiles.JSONloadFromDisk("data/local_faq/" + event.chan)
+	text = text.split()
+
+	word = text[0]
+
+	answer = ' '.join(text[1:])
+
+	data[word] = answer
+
+	WorkingWithFiles.JSONsaveToDisk(data, "data/local_faq/" + event.chan)
+
+	reply("The word " + word + " has been added to the LOCAL FAQ. It refers to : " + answer)
 
 @hook.command("faqlist","listfaq")
 def listfaq(reply):
 	file = open('data/faq.json', 'r').read()
+	lien = web.paste(file)
+	reply(str(lien))
+
+
+@hook.command("lfaqlist", "llistfaq")
+def listfaq(reply, event):
+	file = open("data/local_faq/" + event.chan, 'r').read()
 	lien = web.paste(file)
 	reply(str(lien))
