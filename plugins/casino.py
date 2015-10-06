@@ -10,52 +10,38 @@ Created By:
 
 License:
     GNU General Public License (Version 3)"""
-import json
 from random import randrange
 import random
-import os
 import time
 
 from math import ceil
 from cloudbot import hook
+from cloudbot.util import WorkingWithFiles
 
 default = {"money": 100, "bet": 1, "cards": ""}
 
 # save / load
 
-if not os.path.exists("data/casino.json"):
-	with open("data/casino.json")as f:
-		f.write("{}")
-
-
-def saveToDisk(data):
-	with open('data/casino.json', 'w') as outfile:
-		json.dump(data, outfile, sort_keys=True, indent=4, ensure_ascii=False)
-
-
-def loadFromDisk():
-	file = open('data/casino.json')
-	data = json.load(file)
-	return data
+WorkingWithFiles.checkExistsFile("data/casino.json")
 
 
 # Parsing
 
 def getMoney(nick):
-	data = loadFromDisk()  # Get data from file
-	argent = int(data.get(nick, default)["money"])  # Extract money of a player
+	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)  # Get data from file
+	argent = int(data["nick"]["money"])  # Extract money of a player
 	return argent
 
 
 def getBet(nick):
-	data = loadFromDisk()  # Get data from file
-	bet = int(data.get(nick, default)["bet"])  # Extract bet of a player
+	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)  # Get data from file
+	bet = int(data.get["nick"]["bet"])  # Extract bet of a player
 	return bet
 
 
 def getCards(nick):
-	data = loadFromDisk()  # Get data from file
-	cards = data.get(nick, default)["cards"]  # Extract cards of a player
+	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)  # Get data from file
+	cards = data.get["nick"]["cards"]  # Extract cards of a player
 	return list(cards)
 
 
@@ -72,16 +58,16 @@ def savePlayerData(nick, argent="NotProvided", mise=None, cards=None):
 
 		cards = getCards(nick)
 
-	data = loadFromDisk()
+	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)
 	data[nick] = {"money": int(argent), "bet": int(mise), "cards": list(cards)}  # Save to data
-	saveToDisk(data)  # Save to disk
+	WorkingWithFiles.JSONsaveToDisk(data, 'data/casino.json')  # Save to disk
 
 
 @hook.command("reset", "resetPlayer", permissions=["botcontrol"])
 def reset(nick, reply, text):
-	data = loadFromDisk()
+	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)
 	data[text] = default  # Save to data
-	saveToDisk(data)  # Save to disk
+	WorkingWithFiles.JSONsaveToDisk(data, 'data/casino.json')  # Save to disk
 	reply(text + " stats was deleted by " + nick)
 
 
