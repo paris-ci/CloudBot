@@ -9,20 +9,20 @@ socket.setdefaulttimeout(10)
 # Auto-join on Invite (Configurable, defaults to True)
 @asyncio.coroutine
 @hook.irc_raw('INVITE')
-def invite(irc_paramlist, conn):
+def invite(irc_paramlist, conn, event):
 	"""
 	:type irc_paramlist: list[str]
 	:type conn: cloudbot.client.Client
 	"""
 	invite_join = conn.config.get('invite_join', True)
 	if invite_join:
-		# print(str(irc_paramlist)) ['pouet', ':#channel']
 		conn.join(irc_paramlist[-1])
-		conn.message(irc_paramlist[-1].strip(":"), "Hello ! I'm an IRC bot. " + irc_paramlist[
-			-2] + " invited me here! Check what I can do with !help.")
+		invite = event.irc_raw.replace(":", "")
+		#		message(invite.split()[0] + " invited me to " + invite.split()[-1], invite.split()[-1])
+		conn.message(irc_paramlist[-1].strip(":"), "Hello ! I'm an IRC bot. " + invite.split()[
+			0] + " invited me here! Check what I can do with !help.")
 		conn.message(irc_paramlist[-1].strip(":"),
 					 "You can check more info about me at github : https://github.com/paris-ci/CloudBot")
-
 
 # Identify to NickServ (or other service)
 @asyncio.coroutine
