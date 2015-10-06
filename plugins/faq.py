@@ -188,6 +188,7 @@ def listfaq(reply):
 
 @hook.command("lfaqlist", "llistfaq")
 def listfaq(reply, event):
+	WorkingWithFiles.checkExistsFile("data/local_faq/" + event.chan)
 	file = open("data/local_faq/" + event.chan, 'r').read()
 	lien = web.paste(file)
 	reply(str(lien))
