@@ -227,7 +227,7 @@ def restart(text, bot):
 
 @asyncio.coroutine
 @hook.command(permissions=["botcontrol"])
-def join(text, conn, notice):
+def join(text, conn, notice, nick):
 	"""<channel> - joins <channel>
 	:type text: str
 	:type conn: cloudbot.client.Client
@@ -237,6 +237,9 @@ def join(text, conn, notice):
 			target = "#{}".format(target)
 		notice("Attempting to join {}...".format(target))
 		conn.join(target)
+
+		conn.message(target, "Hello ! I'm an IRC bot. " + nick + " sent me here! Check what I can do with !help.")
+		conn.message(target, "You can check more info about me at github : https://github.com/paris-ci/CloudBot")
 
 
 @asyncio.coroutine
