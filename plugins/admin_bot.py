@@ -355,3 +355,10 @@ def me(text, conn, chan):
 		channel = chan
 		text = text
 	conn.ctcp(channel, "ACTION", text)
+
+
+@hook.regex(".*")
+def iAmABot(chan, event, conn):
+	search = re.search("\W*((?i)" + conn.nick + "(?-i))\W*", event.content)
+	if search:
+		conn.message(chan, "I'm a bot !")
