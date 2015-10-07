@@ -216,7 +216,7 @@ def hhstatus(reply, notice, nick):
 
 	notice("Je vérifie le statut des serveurs ! Cela prends environ 20 secondes, voire moins !")
 	InternalHosts = sorted(["lisa", "homer", "marge", "maggie", "flanders", "www", "apu", "burns", "irc"])
-	ExternalHosts = sorted(["bukkit.fr", "google.fr", "ovh.com", "proof.ovh.net"])
+	ExternalHosts = sorted(["bukkit.fr", "google.fr", "ovh.com", "proof.ovh.net", "iooner.klat00.org"])
 	#	dead = []
 	#	good = []
 	#	bad = []
