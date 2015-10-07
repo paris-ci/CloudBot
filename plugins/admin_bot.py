@@ -359,6 +359,6 @@ def me(text, conn, chan):
 
 @hook.regex(".*")
 def iAmABot(chan, event, conn):
-	search = re.search("\W*((?i)" + conn.nick + "(?-i))\W*", event.content)
+	search = re.search(conn.nick, event.content)
 	if search:
 		conn.message(chan, "I'm a bot !")
