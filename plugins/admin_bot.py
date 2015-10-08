@@ -358,10 +358,9 @@ def me(text, conn, chan):
 		text = text
 	conn.ctcp(channel, "ACTION", text)
 
-
-@hook.regex(".*")
-def iAmABot(chan, event, conn):
-	search = re.search(conn.nick, event.content)
-	if search:
-		conn.message(chan, "I'm a bot! You can check everything I can do by typing " + conn.config[
-			"command_prefix"] + "help. You can also check my GitHub page at https://github.com/paris-ci/CloudBot/ to get more info about me.")
+# @hook.regex(".*")
+# def iAmABot(chan, event, conn):
+#	search = re.search(conn.nick, event.content)
+#	if search:
+#		conn.message(chan, "I'm a bot! You can check everything I can do by typing " + conn.config[
+#			"command_prefix"] + "help. You can also check my GitHub page at https://github.com/paris-ci/CloudBot/ to get more info about me.")
