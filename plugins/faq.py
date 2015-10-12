@@ -81,14 +81,14 @@ class FuzzyDict(dict):
 			best_ratio)
 
 	def __contains__(self, item):
-		"Overides Dictionary __contains__ to use fuzzy matching"
+		"""Overides Dictionary __contains__ to use fuzzy matching"""
 		if self._search(item, True)[0]:
 			return True
 		else:
 			return False
 
 	def __getitem__(self, lookfor):
-		"Overides Dictionary __getitem__ to use fuzzy matching"
+		"""Overides Dictionary __getitem__ to use fuzzy matching"""
 		matched, key, item, ratio = self._search(lookfor)
 
 		if not matched:
