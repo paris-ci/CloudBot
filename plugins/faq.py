@@ -181,7 +181,7 @@ def lfaqadd(text, reply, event):
 
 @hook.command("faqlist","listfaq")
 def listfaq(reply):
-	file = open('data/faq.json', 'r').read()
+	file = open('data/faq.json', 'r').read().encode('UTF-8')
 	lien = web.paste(file)
 	reply(str(lien))
 
