@@ -28,8 +28,6 @@ notifications:
       - "Commit message : %{commit_message}"
       - "Build details: %{build_url}"
       - "Change view : %{compare_url}"
-      - "Update your bots guys !"
-      - "!restart UPDATE : #%{build_number} - %{commit_message} !"
   on_failure: always
   on_success: always
   skip_join: false

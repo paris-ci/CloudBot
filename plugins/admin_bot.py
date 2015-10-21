@@ -238,7 +238,9 @@ def join(text, conn, notice, nick):
 		notice("Attempting to join {}...".format(target))
 		conn.join(target)
 
-		conn.message(target, "Hello ! I'm an IRC bot. " + nick + " sent me here! Check what I can do with !help.")
+		conn.message(target,
+					 "Hello ! I'm an IRC bot. " + nick + " sent me here! Check what I can do with " + conn.config[
+						 "command_prefix"] + "help.")
 		conn.message(target, "You can check more info about me at github : https://github.com/paris-ci/CloudBot")
 
 
@@ -355,3 +357,10 @@ def me(text, conn, chan):
 		channel = chan
 		text = text
 	conn.ctcp(channel, "ACTION", text)
+
+# @hook.regex(".*")
+# def iAmABot(chan, event, conn):
+#	search = re.search(conn.nick, event.content)
+#	if search:
+#		conn.message(chan, "I'm a bot! You can check everything I can do by typing " + conn.config[
+#			"command_prefix"] + "help. You can also check my GitHub page at https://github.com/paris-ci/CloudBot/ to get more info about me.")

@@ -4,102 +4,96 @@ it expects a valid empty folder in data/usedata
 
 """
 
-import json
-import os
+enableTokens = True
+staticTokens = int(999999999999)  # Change this to the ammount of tokens everybody will have if enableTokens is False
 
 from cloudbot import hook
-
+if enableTokens:
+	from cloudbot.util import WorkingWithFiles
 default = """{
 "tokens": 0
 }"""
 
-if not os.path.exists("data/usedata"):
-	os.makedirs("data/usedata")
-
-
-def saveToDisk(data, nick):
-	with open('data/usedata/' + nick + '.json', 'w') as outfile:
-		json.dump(data, outfile, sort_keys=True, indent=4, ensure_ascii=False)
-
-
-def loadFromDisk(nick):
-	try:
-		file = open('data/usedata/' + nick + '.json', 'r')
-		data = json.load(file)
-		return data
-	except IOError:
-		file = open('data/usedata/' + nick + '.json', 'w')
-		file.write(str(default))
-		file.close()
-		file = open('data/usedata/' + nick + '.json', 'r')
-		data = json.load(file)
-		return data
+if enableTokens:
+	WorkingWithFiles.checkExistsPath("data/usedata/")
 
 
 def getTokens(nick):
-	data = loadFromDisk(nick)  # Get data from file
-	argent = int(data.get("tokens", default))  # Extract tokens of a player
-	return argent
+	if enableTokens:
+		data = WorkingWithFiles.JSONloadFromDisk('data/usedata/' + nick + '.json', default)  # Get data from file
+		tokens = int(data.get("tokens", default))  # Extract tokens of a player
+		return tokens
+	else:
+		return staticTokens
 
 
 def giveTokens(NumberOftokens, nick):
-	argent = getTokens(nick)
-	argent += NumberOftokens
-	savePlayerData(nick=nick, argent=argent)
+	if enableTokens:
+		tokens = getTokens(nick)
+		tokens += NumberOftokens
+		saveUseData(nick=nick, tokens=tokens)
 
 
 def takeTokens(NumberOftokens, nick, notice=None):
-	argent = getTokens(nick)
-	argent = argent - NumberOftokens
-	if notice is not None:
-		notice("-" + str(NumberOftokens) + " Left: " + str(argent))
-	savePlayerData(nick=nick, argent=argent)
+	if enableTokens:
+		tokens = getTokens(nick)
+		tokens = tokens - NumberOftokens
+		if notice is not None:
+			notice("-" + str(NumberOftokens) + " Left: " + str(tokens))
+		saveUseData(nick=nick, tokens=tokens)
 
 
-def savePlayerData(nick, argent=None):
-	if not argent:
-
-		argent = getTokens(nick)
-
-	data = {"tokens": int(argent)}  # Save to data
-	saveToDisk(data, nick)  # Save to disk
+def saveUseData(nick, tokens):
+	if enableTokens:
+		data = {"tokens": int(tokens)}  # Save to data
+		WorkingWithFiles.JSONsaveToDisk(data, 'data/usedata/' + nick + '.json')  # Save to disk
 
 
 @hook.command("Treset", "TresetPlayer", permissions=["botcontrol"])
 def reset(nick, reply, text):
-	saveToDisk(default, nick)  # Save to disk
-	reply(text + " usetokens was deleted by " + nick)
+	if enableTokens:
+		WorkingWithFiles.JSONsaveToDisk(default, 'data/usedata/' + nick + '.json')  # Save to disk
+		reply(text + " usetokens was deleted by " + nick)
+	else:
+		reply("Tokens are not enabled !")
 
 
 @hook.command("setTokens", permissions=["botcontrol"])
 def setTokens(reply, text):
-	args = text.split()
-	try:
-		nick = args[0]
-		argent = args[1]
-	except IndexError:
-		reply("Syntax error : !setTokens nickname number")
-		return None
+	if enableTokens:
+		args = text.split()
+		try:
+			nick = args[0]
+			tokens = args[1]
+		except IndexError:
+			reply("Syntax error : !setTokens nickname number")
+			return None
 
-	oldArgent = getTokens(nick)  # Extract tokens of a player
+		oldTokens = getTokens(nick)  # Extract tokens of a player
 
-	savePlayerData(nick, argent=argent)
+		saveUseData(nick, tokens)
 
-	reply(nick + " had " + str(oldArgent) + " tokens. He/She have " + str(argent) + " tokens now!")
+		reply(nick + " had " + str(oldTokens) + " tokens. He/She have " + str(tokens) + " tokens now!")
 
+	else:
+		reply("Tokens are not enabled !")
 
 @hook.command("tokens")
 def tokens(nick, notice, text):
-	try:
-		player = text.split()[0]
-		notice(player + " have " + str(getTokens(player)) + " tokens !")
-		return None
+	if enableTokens:
+		try:
+			player = text.split()[0]
+			notice(player + " have " + str(getTokens(player)) + " tokens !")
+			return None
 
-	except IndexError:
-		notice("You have " + str(getTokens(nick)) + " tokens !")
-		return None
+		except IndexError:
+			notice("You have " + str(getTokens(nick)) + " tokens !")
 
+			return None
+	else:
+		notice("Tokens are not enabled !")
 
 @hook.regex("(.*)")
 def addTokensPriv(nick):
-	giveTokens(10, nick)
+	if enableTokens:
+		giveTokens(10, nick)

@@ -1,10 +1,10 @@
-from _ssl import PROTOCOL_SSLv23
 import asyncio
 import re
 import ssl
 import logging
 from ssl import SSLContext
 
+from _ssl import PROTOCOL_SSLv23
 from cloudbot.client import Client
 from cloudbot.event import Event, EventType
 
@@ -128,7 +128,7 @@ class IrcClient(Client):
 		self.set_pass(self.config["connection"].get("password"))
 		self.set_nick(self.nick)
 		self.cmd("USER", self.config.get('user', 'cloudbot'), "3", "*",
-				 self.config.get('realname', 'CloudBot - https://git.io/CloudBot'))
+				 self.config.get('realname', 'CloudBot Paris-Ci version- http://git.io/vCIv9'))
 
 	def quit(self, reason=None):
 		if self._quit:
