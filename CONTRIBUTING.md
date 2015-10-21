@@ -2,7 +2,7 @@
 
 Thanks for taking a insterst in helping make this fork of cloudbot the best. Even if you don't know how to code you can still contrubute by opening a issue and suggesting a new feature or reporting bugs. 
 
-The following guidelines for contribution should be followed if you want to submit a pull request. If you have any troubles, just come and ask us for help on our IRC channel.
+The following guidelines for contribution should be followed if you want to submit a pull request. If you have any troubles, just come and ask us for help on our IRC channel or create a issue on github.
 
 ## Basic Overview
 
