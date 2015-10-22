@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/paris-ci/CloudBot.svg?branch=master)](https://travis-ci.org/paris-ci/CloudBot)
+[![Build Status](https://travis-ci.org/Afootpluto/CloudBot.svg?branch=master)](https://travis-ci.org/paris-ci/CloudBot)
 
 [![Coverage Status](https://coveralls.io/repos/paris-ci/CloudBot/badge.svg?branch=master&service=github)](https://coveralls.io/github/paris-ci/CloudBot?branch=master)
 
