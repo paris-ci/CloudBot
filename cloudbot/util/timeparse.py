@@ -108,7 +108,6 @@ def _interpret_as_minutes(string, mdict):
 		mdict['hours'] = mdict['mins']
 		mdict['mins'] = mdict['secs']
 		mdict.pop('secs')
-		pass
 	return mdict
 
 
