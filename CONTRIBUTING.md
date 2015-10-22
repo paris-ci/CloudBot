@@ -1,6 +1,6 @@
 # How to contribute
 
-Thanks for taking a insterst in helping make this fork of cloudbot the best. Even if you don't know how to code you can still contrubute by opening a issue and suggesting a new feature or reporting bugs. 
+Thanks for taking interest in making this fork of cloudbot the best. Even if you don't know how to code you can still contrubute by opening a issue and suggesting a new feature or by reporting bugs.
 
 The following guidelines for contribution should be followed if you want to submit a pull request. If you have any troubles, just come and ask us for help on our IRC channel or create a issue on github.
 
@@ -9,7 +9,6 @@ The following guidelines for contribution should be followed if you want to subm
 * Read [Github documentation](http://help.github.com/) and [Pull Request documentation](http://help.github.com/send-pull-requests/)
 * Fork the repository
 * Edit the files, add new files
-* Check the files with [`pep8`](https://pypi.python.org/pypi/pep8), fix any reported errors
 * Check that the files work as expected in CloudBot
 * Create a new branch with a descriptive name for your feature (optional)
 * Commit changes, push to your fork on GitHub
@@ -36,7 +35,7 @@ The following guidelines for contribution should be followed if you want to subm
 ## Submit Changes
 
 * Push your changes to a topic branch in your fork of the repository.
-* Open a pull request to the original repository and choose the `python3.4` branch.
+* Open a pull request to the original repository and choose the `master` branch.
 	_Advanced users may use [`hub`](https://github.com/defunkt/hub#git-pull-request) gem for that._
 * If not done in commit messages (which you really should do) please reference and update your issue with the code changes. But _please do not close the issue yourself_.
 _Notice: You can [turn your previously filed issues into a pull-request here](http://issue2pr.herokuapp.com/)._
