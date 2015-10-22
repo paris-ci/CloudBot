@@ -12,6 +12,7 @@ install:
 
 script:
   - "python ./travis/test_json.py"
+  - "python ./travis/test_python_syntax.py"
   - "py.test . -v --cov . --cov-report term-missing"
 
 before_cache:
