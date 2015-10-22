@@ -1,6 +1,7 @@
 language: python
 sudo: false
 cache: pip
+
 python:
   - "3.5"
 
@@ -12,6 +13,9 @@ install:
 script:
   - "python ./travis/test_json.py"
   - "py.test . -v --cov . --cov-report term-missing"
+
+before_cache:
+  - rm -f $HOME/.cache/pip/log/debug.log
 
 after_success:
   - "coveralls"
