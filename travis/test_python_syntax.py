@@ -1,6 +1,5 @@
 __author__ = 'arthur'
 import fnmatch
-import codecs
 import os
 import sys
 
