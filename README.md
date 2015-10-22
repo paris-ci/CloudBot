@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/paris-ci/CloudBot.svg?branch=master)](https://travis-ci.org/paris-ci/CloudBot)
-
+[![Codacy Badge](https://api.codacy.com/project/badge/08352bf9ff174854aefa4aa8b594a993)](https://www.codacy.com/app/jovart-arthur/CloudBot)
 [![Coverage Status](https://coveralls.io/repos/paris-ci/CloudBot/badge.svg?branch=master&service=github)](https://coveralls.io/github/paris-ci/CloudBot?branch=master)
 
 # CloudBot

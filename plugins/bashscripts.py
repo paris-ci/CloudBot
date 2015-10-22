@@ -35,7 +35,7 @@ def screensaver(reply):
 
 
 @hook.command("installjava8", "java8")
-def cheat(reply):
+def java8(reply):
 	reply("Commande pour l'installation de java 8 : wget -O - http://serv.api-d.com/scripts/java.bash | bash")
 
 
