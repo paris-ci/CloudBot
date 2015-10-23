@@ -17,6 +17,11 @@ import cloudbot
 def ctcp_version(notice):
 	notice("\x01VERSION: CloudBot {} - http://github.com/paris-ci/CloudBot/".format(cloudbot.__version__))
 
+@asyncio.coroutine
+@hook.regex(r'^\x01CLIENTINFO\x01$')
+def ctcp_clientinfo(notice):
+	notice("\x01VERSION: CloudBot {} - http://github.com/paris-ci/CloudBot/".format(cloudbot.__version__))
+
 
 @asyncio.coroutine
 @hook.regex(r'^\x01PING\x01$')
