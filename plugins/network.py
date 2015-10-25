@@ -39,7 +39,7 @@ def scanOne(reply, text, nick, notice):
 		return None
 
 	takeTokens(100, nick, notice)
-	socket.setdefaulttimeout(2)
+	socket.setdefaulttimeout(5)
 	reply("Scanning port number " + str(PORT) + " for ip " + str(IP))
 
 	result = scanport(IP, PORT)
@@ -64,7 +64,9 @@ def scan3000(reply, text, nick, notice):
 	takeTokens(500, nick, notice)
 	IP = text
 	openPorts = []
-	socket.setdefaulttimeout(2)
+	timeout = float((float(pingavg(IP)) / 100) + 0.5)
+	socket.setdefaulttimeout(timeout)
+	notice("i'm scanning with a timeout of " + str(timeout))
 	reply("Scanning 3000 ports... It's a long task, you'll have to wait !")
 
 	for PORT in toScan:
@@ -346,7 +348,9 @@ def bungeesec(reply, text, nick, notice):
 
 	takeTokens(750, nick, notice)
 	IP = text
-	socket.setdefaulttimeout(1)
+	timeout = float((float(pingavg(IP)) / 100) + 0.5)
+	socket.setdefaulttimeout(timeout)
+	notice("i'm scanning with a timeout of " + str(timeout))
 	reply("Scanning ports... I'll tell you my progress, please wait !")
 	toreply = "List of minecraft servers found for : " + str(IP) + ":\n"
 
