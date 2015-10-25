@@ -9,6 +9,7 @@ from cloudbot import hook
 from plugins.usingBot import getTokens, takeTokens
 from cloudbot.util.colors import parse
 from data.ports import toScan
+from plugins.minecraft_ping import *
 
 
 def scanport(IP, PORT):
@@ -330,3 +331,60 @@ def servinfo(reply, text, notice, nick):
 		toreply += "$(red)smtp $(clear)"
 
 	reply(host + " : " + parse(toreply))
+
+@hook.command("securebungee", "bungeesecure", "bungee")
+def bungeesec(reply, text, nick, notice):
+	"""
+	This will scan ports near 25565 to check if a bungee server is secured or not.
+	"""
+	if getTokens(nick) < 15000:
+		notice("You don't have enough tokens to do a bungeesecure (15000 needed)... Help a little more !")
+		return None
+
+	if not text:
+		reply("Please specify an IP address/ dns ! !bungeesecure IP")
+
+	takeTokens(750, nick, notice)
+	IP = text
+	socket.setdefaulttimeout(1)
+	reply("Scanning ports... I'll tell you my progress, please wait !")
+	toreply = "List of minecraft servers found for : " + str(IP) + ":\n"
+
+
+	for PORT in range(25000,26000):
+		if scanport(IP, PORT):
+			mcinfo = pingmc(IP,PORT)
+			if mcinfo:
+				toreply += "Server found on port " + str(PORT) + " : " + str(mcinfo) + "\n"
+
+		if PORT % 100 == 0:
+			notice("Progress bungeesec (" + str(IP) + "): " + str(int(PORT) - 25000) + " / 1000")
+
+	return toreply
+
+
+
+
+def pingmc(ip, port):
+
+
+	try:
+		server = MinecraftServer.lookup(str(ip) + ":" + str(port))
+		s = server.status()
+	except (IOError, ValueError) as e:
+		return None
+
+	if isinstance(s.description, dict):
+		description = format_colors(" ".join(s.description["text"].split()))
+	else:
+		description = format_colors(" ".join(s.description.split()))
+
+	if s.latency:
+		return "{}\x0f - \x02{}\x0f - \x02{:.1f}ms\x02" \
+			   " - \x02{}/{}\x02 players".format(description, s.version.name_clean, s.latency,
+												 s.players.online, s.players.max).replace("\n", "\x0f - ")
+	else:
+		return "{}\x0f - \x02{}\x0f" \
+			   " - \x02{}/{}\x02 players".format(description, s.version.name_clean,
+												 s.players.online, s.players.max).replace("\n", "\x0f - ")
+
