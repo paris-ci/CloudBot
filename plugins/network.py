@@ -377,7 +377,7 @@ def bungeesec(reply, text, nick, notice):
 	if found < 5:
 		return toreply
 	else:
-		web.paste(strip_all(toreply))
+		return web.paste(strip_all(toreply))
 
 
 
