@@ -346,7 +346,7 @@ def bungeesec(reply, text, nick, notice):
 	if not text:
 		reply("Please specify an IP address/ dns ! !bungeesecure IP")
 
-	takeTokens(750, nick, notice)
+	takeTokens(2000, nick, notice)
 	IP = text
 	timeout = float((float(pingavg(IP)) / 100) + 0.5)
 	socket.setdefaulttimeout(timeout)
@@ -356,8 +356,10 @@ def bungeesec(reply, text, nick, notice):
 
 	found = False
 
+	start = 20000
+	end = 40000
 
-	for PORT in range(20000,40000):
+	for PORT in range(start,end):
 		if scanport(IP, PORT):
 			mcinfo = pingmc(IP,PORT)
 			if mcinfo:
