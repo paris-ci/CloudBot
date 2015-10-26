@@ -354,15 +354,21 @@ def bungeesec(reply, text, nick, notice):
 	reply("Scanning ports... I'll tell you my progress, please wait !")
 	toreply = "List of minecraft servers found for : " + str(IP) + ":\n"
 
+	found = False
 
-	for PORT in range(25000,26000):
+
+	for PORT in range(20000,40000):
 		if scanport(IP, PORT):
 			mcinfo = pingmc(IP,PORT)
 			if mcinfo:
 				toreply += "Server found on port " + str(PORT) + " : " + str(mcinfo) + "\n"
+				found = True
 
-		if PORT % 100 == 0:
-			notice("Progress bungeesec (" + str(IP) + "): " + str(int(PORT) - 25000) + " / 1000")
+		if PORT % 250 == 0:
+			notice("Progress bungeesec (" + str(IP) + "): " + str(int(PORT) - 20000) + " / 20000")
+
+	if not found:
+		toreply += "No servers found. Check the entered IP address."
 
 	return toreply
 
@@ -375,7 +381,7 @@ def pingmc(ip, port):
 	try:
 		server = MinecraftServer.lookup(str(ip) + ":" + str(port))
 		s = server.status()
-	except (IOError, ValueError) as e:
+	except:
 		return None
 
 	if isinstance(s.description, dict):
