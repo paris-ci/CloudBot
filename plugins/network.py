@@ -4,10 +4,12 @@ import random
 import subprocess
 import re
 import os
+from cloudbot.util import web
 
 from cloudbot import hook
 from plugins.usingBot import getTokens, takeTokens
-from cloudbot.util.colors import parse
+
+from cloudbot.util.colors import parse, strip_all
 from data.ports import toScan
 from plugins.minecraft_ping import *
 
@@ -348,13 +350,13 @@ def bungeesec(reply, text, nick, notice):
 
 	takeTokens(2000, nick, notice)
 	IP = text
-	timeout = float((float(pingavg(IP)) / 100) + 0.5)
+	timeout = float((float(pingavg(IP)) / 100) + 0.1)
 	socket.setdefaulttimeout(timeout)
 	notice("i'm scanning with a timeout of " + str(timeout))
 	reply("Scanning ports... I'll tell you my progress, please wait !")
 	toreply = "List of minecraft servers found for : " + str(IP) + ":\n"
 
-	found = False
+	found = 0
 
 	start = 20000
 	end = 40000
@@ -364,15 +366,18 @@ def bungeesec(reply, text, nick, notice):
 			mcinfo = pingmc(IP,PORT)
 			if mcinfo:
 				toreply += "Server found on port " + str(PORT) + " : " + str(mcinfo) + "\n"
-				found = True
+				found += 1
 
 		if PORT % 250 == 0:
-			notice("Progress bungeesec (" + str(IP) + "): " + str(int(PORT) - 20000) + " / 20000")
+			notice("Progress bungeesec (" + str(IP) + "): " + str(int(PORT) - 20000) + " / 20000 | Found so far : " + str(found))
 
-	if not found:
+	if found == 0:
 		toreply += "No servers found. Check the entered IP address."
 
-	return toreply
+	if found < 5:
+		return toreply
+	else:
+		web.paste(strip_all(toreply))
 
 
 
