@@ -1,17 +1,16 @@
-import socket
 import time
 import random
 import subprocess
 import re
 import os
+import socket
+
 from cloudbot.util import web
-
-from cloudbot import hook
-from plugins.usingBot import getTokens, takeTokens
-
 from cloudbot.util.colors import parse, strip_all
 from data.ports import toScan
 from plugins.minecraft_ping import *
+from cloudbot import hook
+from plugins.usingBot import getTokens, takeTokens
 
 
 def scanport(IP, PORT):
@@ -107,7 +106,7 @@ win_ping_regex = re.compile(r"Minimum = (\d+)ms, Maximum = (\d+)ms, Average = (\
 
 
 @hook.command()
-def ping(text, reply):
+def ping(text, reply, notice):
 	"""<host> [count] - pings <host> [count] times"""
 
 	args = text.split(' ')
@@ -128,7 +127,7 @@ def ping(text, reply):
 	else:
 		args = ["ping", "-c", count, host]
 
-	reply("Attempting to ping {} {} times...".format(host, count))
+	notice("Attempting to ping {} {} times...".format(host, count))
 	try:
 		pingcmd = subprocess.check_output(args).decode("utf-8")
 	except subprocess.CalledProcessError:
@@ -141,12 +140,12 @@ def ping(text, reply):
 		m = re.search(win_ping_regex, pingcmd)
 		r = int(m.group(2)) - int(m.group(1))
 		min, max, avg, range, count = str(m.group(1)), str(m.group(2)), str(m.group(3)), str(r), str(count)
-	#		return "min: %sms, max: %sms, average: %sms, range: %sms, count: %s" \
+	# return "min: %sms, max: %sms, average: %sms, range: %sms, count: %s" \
 	#			   % (m.group(1), m.group(2), m.group(3), r, count)
 	else:
 		m = re.search(unix_ping_regex, pingcmd)
 		min, max, avg, range, count = str(m.group(1)), str(m.group(3)), str(m.group(2)), str(m.group(4)), str(count)
-	#		return "min: %sms, max: %sms, average: %sms, range: %sms, count: %s" \
+	# return "min: %sms, max: %sms, average: %sms, range: %sms, count: %s" \
 	#			   % (m.group(1), m.group(3), m.group(2), m.group(4), count)
 
 	# Build up a toreply str
@@ -336,6 +335,7 @@ def servinfo(reply, text, notice, nick):
 
 	reply(host + " : " + parse(toreply))
 
+
 @hook.command("securebungee", "bungeesecure", "bungee")
 def bungeesec(reply, text, nick, notice):
 	"""
@@ -361,15 +361,17 @@ def bungeesec(reply, text, nick, notice):
 	start = 20000
 	end = 40000
 
-	for PORT in range(start,end):
+	for PORT in range(start, end):
 		if scanport(IP, PORT):
-			mcinfo = pingmc(IP,PORT)
+			mcinfo = pingmc(IP, PORT)
 			if mcinfo:
 				toreply += "Server found on port " + str(PORT) + " : " + str(mcinfo) + "\n"
 				found += 1
 
 		if PORT % 250 == 0:
-			notice("Progress bungeesec (" + str(IP) + "): " + str(int(PORT) - 20000) + " / 20000 | Found so far : " + str(found))
+			notice(
+				"Progress bungeesec (" + str(IP) + "): " + str(int(PORT) - 20000) + " / 20000 | Found so far : " + str(
+					found))
 
 	if found == 0:
 		toreply += "No servers found. Check the entered IP address."
@@ -380,11 +382,7 @@ def bungeesec(reply, text, nick, notice):
 		return web.paste(strip_all(toreply))
 
 
-
-
 def pingmc(ip, port):
-
-
 	try:
 		server = MinecraftServer.lookup(str(ip) + ":" + str(port))
 		s = server.status()
@@ -404,4 +402,3 @@ def pingmc(ip, port):
 		return "{}\x0f - \x02{}\x0f" \
 			   " - \x02{}/{}\x02 players".format(description, s.version.name_clean,
 												 s.players.online, s.players.max).replace("\n", "\x0f - ")
-
