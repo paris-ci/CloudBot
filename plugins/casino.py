@@ -27,19 +27,19 @@ WorkingWithFiles.checkExistsFile("data/casino.json")
 
 def getMoney(nick):
 	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)  # Get data from file
-	argent = int(data["nick"]["money"])  # Extract money of a player
+	argent = int(data[nick]["money"])  # Extract money of a player
 	return argent
 
 
 def getBet(nick):
 	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)  # Get data from file
-	bet = int(data.get["nick"]["bet"])  # Extract bet of a player
+	bet = int(data.get[nick]["bet"])  # Extract bet of a player
 	return bet
 
 
 def getCards(nick):
 	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)  # Get data from file
-	cards = data.get["nick"]["cards"]  # Extract cards of a player
+	cards = data.get[nick]["cards"]  # Extract cards of a player
 	return list(cards)
 
 
