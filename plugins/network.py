@@ -14,6 +14,9 @@ from plugins.usingBot import getTokens, takeTokens
 
 
 def scanport(IP, PORT):
+	"""
+	:return: True/False if the port is open for the give ip:port
+	"""
 	time.sleep(0.005)
 	# noinspection PyBroadException
 	try:
@@ -24,8 +27,33 @@ def scanport(IP, PORT):
 		return False
 
 
+def colorize(number, low, med, lowcolor="$(dark_green)", medcolor="$(orange)", highcolor="$(red)",
+			 clearcolor="$(clear)"):
+	"""
+	:param number: The value to test
+	:param low: limit where the result will be lowcolor
+	:param med: limit where the resul will be medcolor. If it's higher it'll turn highcolor
+	:param lowcolor: color to use for the lower values (default to green)
+	:param medcolor: color to use for the medium values (default to orange)
+	:param highcolor: color to use for the lower values (default to red)
+	:param clearcolor: color to use to clear (default to clear)
+	:return: a ready to be parsed string
+	"""
+
+	if float(number) <= low:
+		return lowcolor + number + clearcolor
+	elif float(number) <= med:
+		return medcolor + number + clearcolor
+	else:
+		return highcolor + number + clearcolor
+
+
 @hook.command("portscan1", "ps1", "scan1")
 def scanOne(reply, text, nick, notice):
+	"""
+	Command to scan a single port
+	"""
+
 	if getTokens(nick) < 1000:
 		notice("You don't have enough tokens to do a portscan (1000 needed)... Help a little more !")
 		return None
@@ -53,6 +81,9 @@ def scanOne(reply, text, nick, notice):
 
 @hook.command("portscan3000", "scan3000", "ps3000")
 def scan3000(reply, text, nick, notice):
+	"""
+	Command to scan the 3000 most used ports. List from nmap
+	"""
 	if getTokens(nick) < 10000:
 		notice("You don't have enough tokens to do a portscan3000 (10000 needed)... Help a little more !")
 		return None
@@ -84,6 +115,10 @@ def scan3000(reply, text, nick, notice):
 
 @hook.command("passwordgenerator", "genpass", "passgen", "password")
 def passgen(reply, nick, notice):
+	"""
+	Command to generate a random 10 chars password
+	"""
+
 	if getTokens(nick) < 100:
 		notice("You don't have enough tokens to do a password generation (100 needed)... Help a little more !")
 		return None
@@ -149,43 +184,9 @@ def ping(text, reply, notice):
 	#			   % (m.group(1), m.group(3), m.group(2), m.group(4), count)
 
 	# Build up a toreply str
-	toreply = "min: "
-
-	if float(min) <= 20:
-		toreply += "$(dark_green)" + min + "$(clear)"
-	elif float(min) <= 50:
-		toreply += "$(orange)" + min + "$(clear)"
-	else:
-		toreply += "$(red)" + min + "$(clear)"
-
-	toreply += ", max: "
-
-	if float(max) <= 30:
-		toreply += "$(dark_green)" + max + "$(clear)"
-	elif float(max) <= 100:
-		toreply += "$(orange)" + max + "$(clear)"
-	else:
-		toreply += "$(red)" + max + "$(clear)"
-
-	toreply += ", average: "
-
-	if float(avg) <= 25:
-		toreply += "$(dark_green)" + avg + "$(clear)"
-	elif float(avg) <= 75:
-		toreply += "$(orange)" + avg + "$(clear)"
-	else:
-		toreply += "$(red)" + avg + "$(clear)"
-
-	toreply += ", range: "
-
-	if float(range) <= 5:
-		toreply += "$(dark_green)" + range + "$(clear)"
-	elif float(range) <= 10:
-		toreply += "$(orange)" + range + "$(clear)"
-	else:
-		toreply += "$(red)" + range + "$(clear)"
-
-	toreply += ", count: " + count
+	toreply = "min: " + colorize(min, 20, 50) + ", max: " + colorize(max, 30, 100) + ", average: " + colorize(avg, 25,
+																											  75) + ", range: " + colorize(
+		range, 5, 10) + ", count: " + count
 
 	return parse(host + " : " + toreply)
 
@@ -214,6 +215,9 @@ def pingavg(host):
 
 @hook.command("harmonystatus", "hhstatus", "harmony", "ddos", "pinghh", "hh")
 def hhstatus(reply, notice, nick):
+	"""
+	:return: Check the status of harmonyhosting's servers, and some external servers.
+	"""
 	if getTokens(nick) < 100:
 		notice("You don't have enough tokens. (100 needed)... Help a little more !")
 		return None
@@ -271,6 +275,9 @@ def hhstatus(reply, notice, nick):
 
 @hook.command("serverinfo", "servinfo")
 def servinfo(reply, text, notice, nick):
+	"""
+	:return: Give the user info about a server common services
+	"""
 	if getTokens(nick) < 1000:
 		notice("You don't have enough tokens to do a portscan (1000 needed)... Help a little more !")
 		return None
@@ -352,7 +359,7 @@ def bungeesec(reply, text, nick, notice):
 	IP = text
 	timeout = float((float(pingavg(IP)) / 100) + 0.1)
 	socket.setdefaulttimeout(timeout)
-	notice("i'm scanning with a timeout of " + str(timeout))
+	notice("I'm scanning with a timeout of " + str(timeout))
 	reply("Scanning ports... I'll tell you my progress, please wait !")
 	toreply = "List of minecraft servers found for : " + str(IP) + ":\n"
 
@@ -382,7 +389,13 @@ def bungeesec(reply, text, nick, notice):
 		return web.paste(strip_all(toreply))
 
 
-def pingmc(ip, port):
+def pingmc(ip, port=25565):
+	"""
+	:param ip: The IP/DNS of the server
+	:param port: The port to check, usually 25565
+	:return: A formatted string giving info on the minecraft server
+	"""
+
 	try:
 		server = MinecraftServer.lookup(str(ip) + ":" + str(port))
 		s = server.status()
