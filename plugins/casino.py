@@ -26,24 +26,41 @@ WorkingWithFiles.checkExistsFile("data/casino.json")
 # Parsing
 
 def getMoney(nick):
+	"""
+	:param nick: The nickname of the player
+	:return int: The money of the specified player
+	"""
 	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)  # Get data from file
 	argent = int(data[nick]["money"])  # Extract money of a player
 	return argent
 
 
 def getBet(nick):
+	"""
+	:param nick: The nickname of the player
+	:return int: The bet of the specified player
+	"""
 	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)  # Get data from file
 	bet = int(data.get[nick]["bet"])  # Extract bet of a player
 	return bet
 
 
 def getCards(nick):
+	"""
+	:param nick: The nickname of the player
+	:return list: The cards of the specified player
+	"""
 	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)  # Get data from file
 	cards = data.get[nick]["cards"]  # Extract cards of a player
 	return list(cards)
 
 
 def savePlayerData(nick, argent="NotProvided", mise=None, cards=None):
+
+	"""
+	Save a player data
+	"""
+
 	if argent == "NotProvided":
 
 		argent = getMoney(nick)
@@ -60,47 +77,13 @@ def savePlayerData(nick, argent="NotProvided", mise=None, cards=None):
 	data[nick] = {"money": int(argent), "bet": int(mise), "cards": list(cards)}  # Save to data
 	WorkingWithFiles.JSONsaveToDisk(data, 'data/casino.json')  # Save to disk
 
-
-@hook.command("reset", "resetPlayer", permissions=["botcontrol"])
-def reset(nick, reply, text):
-	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)
-	data[text] = default  # Save to data
-	WorkingWithFiles.JSONsaveToDisk(data, 'data/casino.json')  # Save to disk
-	reply(text + " stats was deleted by " + nick)
-
-
-# Money
-
-@hook.command("setMoney", permissions=["botcontrol"])
-def setMoney(reply, text):
-	args = text.split()
-	try:
-		nick = args[0]
-		argent = args[1]
-	except IndexError:
-		reply("Syntax error : !setMoney nickname number")
-		return None
-
-	oldArgent = getMoney(nick)  # Extract money of a player
-
-	savePlayerData(nick, argent=argent)
-
-	reply(nick + " had $" + str(oldArgent) + ". He/She have $" + str(argent) + " now!")
-
-
-@hook.command("money", "bal", "balance")
-def money(nick, notice, text):
-	try:
-		player = text.split()[0]
-		notice(player + " have $" + str(getMoney(player)) + " !")
-		return None
-
-	except IndexError:
-		notice("You have $" + str(getMoney(nick)) + " !")
-		return None
-
-
 def checkMoneyBet(nick, notice):
+	"""
+	Check if the bet of a player is not higher than his current money
+	:param nick: Nickname of the player
+	:return argent: The money of the player
+	:return mise: The bet of a player
+	"""
 	argent = getMoney(nick)
 	mise = getBet(nick)
 	if argent < 50:
@@ -119,11 +102,62 @@ def checkMoneyBet(nick, notice):
 	return argent, mise
 
 
+@hook.command("reset", "resetPlayer", permissions=["botcontrol"])
+def reset(reply, text):
+	"""
+	Command to reset a player casino data
+	"""
+	data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)
+	data[text] = default  # Save to data
+	WorkingWithFiles.JSONsaveToDisk(data, 'data/casino.json')  # Save to disk
+	reply(text + " stats was deleted")
+
+
+# Money
+
+@hook.command("setMoney", permissions=["botcontrol"])
+def setMoney(reply, text):
+	"""
+	Cheat : set the money of a player
+	"""
+	args = text.split()
+	try:
+		nick = args[0]
+		argent = args[1]
+	except IndexError:
+		reply("Syntax error : !setMoney nickname number")
+		return None
+
+	oldArgent = getMoney(nick)  # Extract money of a player
+
+	savePlayerData(nick, argent=argent)
+
+	reply(nick + " had $" + str(oldArgent) + ". He/She have $" + str(argent) + " now!")
+
+
+@hook.command("money", "bal", "balance")
+def money(nick, notice, text):
+	"""
+	Command to get the money of the player
+	"""
+	try:
+		player = text.split()[0]
+		notice(player + " have $" + str(getMoney(player)) + " !")
+		return None
+
+	except IndexError:
+		notice("You have $" + str(getMoney(nick)) + " !")
+		return None
+
+
 ########
 # Wheel
 ########
 
 def runEngine(argent, mise, reply, notice):
+	"""
+	The real game is here
+	"""
 	notice("Welcome to the casino ! You have $" + str(argent) + " !")
 	numero_gagnant = randrange(50)
 	nombre_mise = randrange(50)
@@ -150,9 +184,11 @@ def runEngine(argent, mise, reply, notice):
 
 	return argent
 
-
 @hook.command("roulette", "wheel")
 def launchGame(nick, reply, notice):
+	"""
+	Command to start the wheel gale
+	"""
 	argent, mise = checkMoneyBet(nick, notice)
 
 	argent = runEngine(argent, mise, reply, notice)  # Return money of a player
@@ -164,6 +200,9 @@ def launchGame(nick, reply, notice):
 
 @hook.command("bet")
 def setBet(nick, notice, text):
+	"""
+	Command to let a player bet for the money he wants
+	"""
 	argent = getMoney(nick)  # Extract money of a player
 	mise = int(text)  # Save the bet
 
@@ -179,12 +218,14 @@ def setBet(nick, notice, text):
 
 	notice("Done. Your bet is now : $" + str(mise))
 
-
 #######
 # Black Jack
 #######
 
 class BlackJack:
+	"""
+	BlackJack class, stores cards
+	"""
 	cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
 			 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
 			 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
@@ -207,6 +248,9 @@ class BlackJack:
 
 
 def startBJ(notice, nick):
+	"""
+	Command to start the black jack game
+	"""
 	if not getCards(nick) or getCards(nick)[0] == "end":
 		notice("You started a new BlackJack game with the dealer")
 		game = BlackJack()
@@ -229,6 +273,9 @@ def startBJ(notice, nick):
 
 
 def getBJ(notice, nick, reply):
+	"""
+	Command to get another card in blackjack
+	"""
 	game = BlackJack()
 	cards = getCards(nick)
 
@@ -250,6 +297,9 @@ def getBJ(notice, nick, reply):
 
 
 def endBJ(notice, nick, reply):
+	"""
+	End the black jack game
+	"""
 	game = BlackJack()
 	argent, mise = checkMoneyBet(nick, notice)
 
@@ -318,6 +368,10 @@ def endBJ(notice, nick, reply):
 
 @hook.command("bj", "blackjack")
 def blackJack(notice, text, nick, reply):
+	"""
+	Warpper for the BlackJack game
+	"""
+
 	if text == "start":
 		startBJ(notice, nick)
 
