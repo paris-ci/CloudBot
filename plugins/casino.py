@@ -103,11 +103,8 @@ def checkMoneyBet(nick, notice):
     return argent, mise
 
 
-@hook.command("reset", "resetPlayer", permissions=["botcontrol"])
+@hook.command("resetPlayer", permissions=["botcontrol"])
 def reset(reply, text):
-    """
-    Command to reset a player casino data
-    """
     data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)
     data[text] = default  # Save to data
     WorkingWithFiles.JSONsaveToDisk(data, 'data/casino.json')  # Save to disk
@@ -118,9 +115,6 @@ def reset(reply, text):
 
 @hook.command("setMoney", permissions=["botcontrol"])
 def setMoney(reply, text):
-    """
-    Cheat : set the money of a player
-    """
     args = text.split()
     try:
         nick = args[0]
@@ -138,9 +132,6 @@ def setMoney(reply, text):
 
 @hook.command("money", "bal", "balance")
 def money(nick, notice, text):
-    """
-    Command to get the money of the player
-    """
     try:
         player = text.split()[0]
         notice(player + " have $" + str(getMoney(player)) + " !")
@@ -188,9 +179,6 @@ def runEngine(argent, mise, reply, notice):
 
 @hook.command("roulette", "wheel")
 def launchGame(nick, reply, notice):
-    """
-    Command to start the wheel gale
-    """
     argent, mise = checkMoneyBet(nick, notice)
 
     argent = runEngine(argent, mise, reply, notice)  # Return money of a player
@@ -202,9 +190,6 @@ def launchGame(nick, reply, notice):
 
 @hook.command("bet")
 def setBet(nick, notice, text):
-    """
-    Command to let a player bet for the money he wants
-    """
     argent = getMoney(nick)  # Extract money of a player
     mise = int(text)  # Save the bet
 
@@ -258,7 +243,7 @@ class BlackJack:
 
 def startBJ(notice, nick):
     """
-    Command to start the black jack game
+    Start the black jack game
     """
     if not getCards(nick) or getCards(nick)[0] == "end":
         notice("You started a new BlackJack game with the dealer")
@@ -283,7 +268,7 @@ def startBJ(notice, nick):
 
 def getBJ(notice, nick, reply):
     """
-    Command to get another card in blackjack
+    Get another card in blackjack
     """
     game = BlackJack()
     cards = getCards(nick)
@@ -376,10 +361,6 @@ def endBJ(notice, nick, reply):
 
 @hook.command("bj", "blackjack")
 def blackJack(notice, text, nick, reply):
-    """
-    Warpper for the BlackJack game
-    """
-
     if text == "start":
         startBJ(notice, nick)
 
