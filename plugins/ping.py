@@ -12,6 +12,3 @@ Modified By:
 License:
     GPL v3
 """
-
-
-

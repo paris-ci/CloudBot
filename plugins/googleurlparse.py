@@ -8,10 +8,10 @@ spamurl = re.compile(r'.*(((www\.)?google\.com/url\?)[^ ]+)', re.I)
 
 @hook.regex(spamurl)
 def google_url(match):
-	matches = match.group(1)
-	url = matches
+    matches = match.group(1)
+    url = matches
 
-	url = "http://{}".format(url)
-	out = "".join([(unquote(a[4:]) if a[:4] == "url=" else "") for a in url.split("&")]) \
-		.replace(", ,", "").strip()
-	return out
+    url = "http://{}".format(url)
+    out = "".join([(unquote(a[4:]) if a[:4] == "url=" else "") for a in url.split("&")]) \
+        .replace(", ,", "").strip()
+    return out

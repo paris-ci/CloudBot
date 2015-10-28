@@ -8,28 +8,28 @@ from cloudbot import hook
 
 @hook.command("e", "etymology")
 def etymology(text):
-	"""<word> - retrieves the etymology of <word>
-	:type text: str
-	"""
+    """<word> - retrieves the etymology of <word>
+    :type text: str
+    """
 
-	url = 'http://www.etymonline.com/index.php'
+    url = 'http://www.etymonline.com/index.php'
 
-	response = requests.get(url, params={"term": text})
-	if response.status_code != requests.codes.ok:
-		return "Error reaching etymonline.com: {}".format(response.status_code)
+    response = requests.get(url, params={"term": text})
+    if response.status_code != requests.codes.ok:
+        return "Error reaching etymonline.com: {}".format(response.status_code)
 
-	h = html.fromstring(response.text)
+    h = html.fromstring(response.text)
 
-	etym = h.xpath('//dl')
+    etym = h.xpath('//dl')
 
-	if not etym:
-		return 'No etymology found for {} :('.format(text)
+    if not etym:
+        return 'No etymology found for {} :('.format(text)
 
-	etym = etym[0].text_content()
+    etym = etym[0].text_content()
 
-	etym = ' '.join(etym.split())
+    etym = ' '.join(etym.split())
 
-	if len(etym) > 400:
-		etym = etym[:etym.rfind(' ', 0, 400)] + ' ...'
+    if len(etym) > 400:
+        etym = etym[:etym.rfind(' ', 0, 400)] + ' ...'
 
-	return etym
+    return etym

@@ -9,53 +9,51 @@ from cloudbot.util import web, formatting
 from data.commits import commits
 
 shortcuts = {
-	'cloudbot': 'CloudBotIRC/CloudBot'
+    'cloudbot': 'CloudBotIRC/CloudBot'
 }
 
 
 @hook.command("version", "ver")
 def version(reply):
-	try:
-		reply("GIT : " + str(subprocess.check_output(['git', 'rev-parse', 'HEAD'])))
-	except subprocess.CalledProcessError:
-		reply("GIT : N/A")
-	reply("PYTHON: " + str(sys.version))
+    try:
+        reply("GIT : " + str(subprocess.check_output(['git', 'rev-parse', 'HEAD'])))
+    except subprocess.CalledProcessError:
+        reply("GIT : N/A")
+    reply("PYTHON: " + str(sys.version))
 
 
 @hook.command("ghissue", "issue")
 def issue(text):
-	"""<username|repo> [number] - gets issue [number]'s summary, or the open issue count if no issue is specified"""
-	args = text.split()
-	repo = args[0] if args[0] not in shortcuts else shortcuts[args[0]]
-	issue = args[1] if len(args) > 1 else None
+    """<username|repo> [number] - gets issue [number]'s summary, or the open issue count if no issue is specified"""
+    args = text.split()
+    repo = args[0] if args[0] not in shortcuts else shortcuts[args[0]]
+    issue = args[1] if len(args) > 1 else None
 
-	if issue:
-		r = requests.get('https://api.github.com/repos/{}/issues/{}'.format(repo, issue))
-		j = r.json()
+    if issue:
+        r = requests.get('https://api.github.com/repos/{}/issues/{}'.format(repo, issue))
+        j = r.json()
 
-		url = web.try_shorten(j['html_url'], service='git.io')
-		number = j['number']
-		title = j['title']
-		summary = formatting.truncate(j['body'].split(' ')[0], 25)
-		if j['state'] == 'open':
-			state = '\x033\x02Opened\x02\x0f by {}'.format(j['user']['login'])
-		else:
-			state = '\x034\x02Closed\x02\x0f by {}'.format(j['closed_by']['login'])
+        url = web.try_shorten(j['html_url'], service='git.io')
+        number = j['number']
+        title = j['title']
+        summary = formatting.truncate(j['body'].split(' ')[0], 25)
+        if j['state'] == 'open':
+            state = '\x033\x02Opened\x02\x0f by {}'.format(j['user']['login'])
+        else:
+            state = '\x034\x02Closed\x02\x0f by {}'.format(j['closed_by']['login'])
 
-		return 'Issue #{} ({}): {} | {}: {}'.format(number, state, url, title, summary)
-	else:
-		r = requests.get('https://api.github.com/repos/{}/issues'.format(repo))
-		j = r.json()
+        return 'Issue #{} ({}): {} | {}: {}'.format(number, state, url, title, summary)
+    else:
+        r = requests.get('https://api.github.com/repos/{}/issues'.format(repo))
+        j = r.json()
 
-		count = len(j)
-		if count is 0:
-			return 'Repository has no open issues.'
-		else:
-			return 'Repository has {} open issues.'.format(count)
+        count = len(j)
+        if count is 0:
+            return 'Repository has no open issues.'
+        else:
+            return 'Repository has {} open issues.'.format(count)
 
 
 @hook.command("whatthecommit", "wtc")
 def whatthecommit(reply):
-
-	reply(random.choice(commits).strip())
-
+    reply(random.choice(commits).strip())

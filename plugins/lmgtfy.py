@@ -6,8 +6,8 @@ from cloudbot.util import web
 
 @hook.command("lmgtfy", "gfy")
 def lmgtfy(text):
-	"""[phrase] - gets a lmgtfy.com link for the specified phrase"""
+    """[phrase] - gets a lmgtfy.com link for the specified phrase"""
 
-	link = "http://lmgtfy.com/?q={}".format(requests.utils.quote(text))
+    link = "http://lmgtfy.com/?q={}".format(requests.utils.quote(text))
 
-	return web.try_shorten(link)
+    return web.try_shorten(link)

@@ -14,48 +14,48 @@ mc_colors = [('\xa7f', '\x0300'), ('\xa70', '\x0301'), ('\xa71', '\x0302'), ('\x
 
 
 def format_colors(description):
-	for original, replacement in mc_colors:
-		description = description.replace(original, replacement)
-	return description.replace("\xa7k", "")
+    for original, replacement in mc_colors:
+        description = description.replace(original, replacement)
+    return description.replace("\xa7k", "")
 
 
 @hook.command("mcping", "mcp")
 def mcping(text, notice, nick):
-	"""<server[:port]> - gets info about the Minecraft server at <server[:port]>"""
-	if getTokens(nick) < 100:
-		notice("You don't have enough tokens to do a mcping... Help a little more !")
-		return None
-	else:
-		takeTokens(10, nick, notice)
+    """<server[:port]> - gets info about the Minecraft server at <server[:port]>"""
+    if getTokens(nick) < 100:
+        notice("You don't have enough tokens to do a mcping... Help a little more !")
+        return None
+    else:
+        takeTokens(10, nick, notice)
 
-	try:
-		server = MinecraftServer.lookup(text)
-	except (IOError, ValueError) as e:
-		return e
+    try:
+        server = MinecraftServer.lookup(text)
+    except (IOError, ValueError) as e:
+        return e
 
-	try:
-		s = server.status()
-	except socket.gaierror:
-		return "Invalid hostname"
-	except socket.timeout:
-		return "Request timed out"
-	except ConnectionRefusedError:
-		return "Connection refused"
-	except ConnectionError:
-		return "Connection error"
-	except (IOError, ValueError) as e:
-		return "Error pinging server: {}".format(e)
+    try:
+        s = server.status()
+    except socket.gaierror:
+        return "Invalid hostname"
+    except socket.timeout:
+        return "Request timed out"
+    except ConnectionRefusedError:
+        return "Connection refused"
+    except ConnectionError:
+        return "Connection error"
+    except (IOError, ValueError) as e:
+        return "Error pinging server: {}".format(e)
 
-	if isinstance(s.description, dict):
-		description = format_colors(" ".join(s.description["text"].split()))
-	else:
-		description = format_colors(" ".join(s.description.split()))
+    if isinstance(s.description, dict):
+        description = format_colors(" ".join(s.description["text"].split()))
+    else:
+        description = format_colors(" ".join(s.description.split()))
 
-	if s.latency:
-		return "{}\x0f - \x02{}\x0f - \x02{:.1f}ms\x02" \
-		       " - \x02{}/{}\x02 players".format(description, s.version.name_clean, s.latency,
-		                                         s.players.online, s.players.max).replace("\n", "\x0f - ")
-	else:
-		return "{}\x0f - \x02{}\x0f" \
-		       " - \x02{}/{}\x02 players".format(description, s.version.name_clean,
-		                                         s.players.online, s.players.max).replace("\n", "\x0f - ")
+    if s.latency:
+        return "{}\x0f - \x02{}\x0f - \x02{:.1f}ms\x02" \
+               " - \x02{}/{}\x02 players".format(description, s.version.name_clean, s.latency,
+                                                 s.players.online, s.players.max).replace("\n", "\x0f - ")
+    else:
+        return "{}\x0f - \x02{}\x0f" \
+               " - \x02{}/{}\x02 players".format(description, s.version.name_clean,
+                                                 s.players.online, s.players.max).replace("\n", "\x0f - ")
