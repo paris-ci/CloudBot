@@ -50,9 +50,6 @@ def colorize(number, low, med, lowcolor="$(dark_green)", medcolor="$(orange)", h
 
 @hook.command("portscan1", "ps1", "scan1")
 def scanOne(reply, text, nick, notice):
-    """
-    Command to scan a single port
-    """
 
     if getTokens(nick) < 1000:
         notice("You don't have enough tokens to do a portscan (1000 needed)... Help a little more !")
@@ -81,9 +78,6 @@ def scanOne(reply, text, nick, notice):
 
 @hook.command("portscan3000", "scan3000", "ps3000")
 def scan3000(reply, text, nick, notice):
-    """
-    Command to scan the 3000 most used ports. List from nmap
-    """
     if getTokens(nick) < 10000:
         notice("You don't have enough tokens to do a portscan3000 (10000 needed)... Help a little more !")
         return None
@@ -115,9 +109,6 @@ def scan3000(reply, text, nick, notice):
 
 @hook.command("passwordgenerator", "genpass", "passgen", "password")
 def passgen(reply, nick, notice):
-    """
-    Command to generate a random 10 chars password
-    """
 
     if getTokens(nick) < 100:
         notice("You don't have enough tokens to do a password generation (100 needed)... Help a little more !")
@@ -215,9 +206,6 @@ def pingavg(host):
 
 @hook.command("harmonystatus", "hhstatus", "harmony", "ddos", "pinghh", "hh")
 def hhstatus(reply, notice, nick):
-    """
-    :return: Check the status of harmonyhosting's servers, and some external servers.
-    """
     if getTokens(nick) < 100:
         notice("You don't have enough tokens. (100 needed)... Help a little more !")
         return None
@@ -275,9 +263,6 @@ def hhstatus(reply, notice, nick):
 
 @hook.command("serverinfo", "servinfo")
 def servinfo(reply, text, notice, nick):
-    """
-    :return: Give the user info about a server common services
-    """
     if getTokens(nick) < 1000:
         notice("You don't have enough tokens to do a portscan (1000 needed)... Help a little more !")
         return None
@@ -345,9 +330,6 @@ def servinfo(reply, text, notice, nick):
 
 @hook.command("securebungee", "bungeesecure", "bungee")
 def bungeesec(reply, text, nick, notice):
-    """
-    This will scan ports near 25565 to check if a bungee server is secured or not.
-    """
     if getTokens(nick) < 15000:
         notice("You don't have enough tokens to do a bungeesecure (15000 needed)... Help a little more !")
         return None
