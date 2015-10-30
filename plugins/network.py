@@ -8,9 +8,10 @@ import socket
 from cloudbot.util import web
 from cloudbot.util.colors import parse, strip_all
 from data.ports import toScan
-from plugins.minecraft_ping import *
 from cloudbot import hook
 from plugins.usingBot import getTokens, takeTokens
+from plugins.minecraft_ping import MinecraftServer, format_colors
+
 
 
 def scanport(IP, PORT):
