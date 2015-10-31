@@ -6,7 +6,7 @@ import os
 import socket
 
 from cloudbot.util import web
-from cloudbot.util.colors import parse, strip_all
+from cloudbot.util.colors import parse, strip_all, colorize
 from data.ports import toScan
 from cloudbot import hook
 from plugins.usingBot import getTokens, takeTokens
@@ -26,27 +26,6 @@ def scanport(IP, PORT):
         return True
     except:
         return False
-
-
-def colorize(number, low, med, lowcolor="$(dark_green)", medcolor="$(orange)", highcolor="$(red)",
-             clearcolor="$(clear)"):
-    """
-    :param number: The value to test
-    :param low: limit where the result will be lowcolor
-    :param med: limit where the resul will be medcolor. If it's higher it'll turn highcolor
-    :param lowcolor: color to use for the lower values (default to green)
-    :param medcolor: color to use for the medium values (default to orange)
-    :param highcolor: color to use for the lower values (default to red)
-    :param clearcolor: color to use to clear (default to clear)
-    :return: a ready to be parsed string
-    """
-
-    if float(number) <= low:
-        return lowcolor + number + clearcolor
-    elif float(number) <= med:
-        return medcolor + number + clearcolor
-    else:
-        return highcolor + number + clearcolor
 
 
 @hook.command("portscan1", "ps1", "scan1")

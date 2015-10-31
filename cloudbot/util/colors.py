@@ -223,3 +223,23 @@ def _convert(string):
             ret += get_format(formatting)
 
     return ret.strip()
+
+def colorize(number, low, med, lowcolor="$(dark_green)", medcolor="$(orange)", highcolor="$(red)",
+             clearcolor="$(clear)"):
+    """
+    :param number: The value to test
+    :param low: limit where the result will be lowcolor
+    :param med: limit where the resul will be medcolor. If it's higher it'll turn highcolor
+    :param lowcolor: color to use for the lower values (default to green)
+    :param medcolor: color to use for the medium values (default to orange)
+    :param highcolor: color to use for the lower values (default to red)
+    :param clearcolor: color to use to clear (default to clear)
+    :return: a ready to be parsed string
+    """
+
+    if float(number) <= low:
+        return lowcolor + str(number) + clearcolor
+    elif float(number) <= med:
+        return medcolor + str(number) + clearcolor
+    else:
+        return highcolor + str(number) + clearcolor

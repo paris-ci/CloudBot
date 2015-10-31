@@ -16,7 +16,7 @@ wunder_api = "http://api.wunderground.com/api/{}/forecast/geolookup/conditions/q
 
 # Change this to a ccTLD code (eg. uk, nz) to make results more targeted towards that specific country.
 # <https://developers.google.com/maps/documentation/geocoding/#RegionCodes>
-bias = None
+bias = "fr"
 
 
 def check_status(status):
