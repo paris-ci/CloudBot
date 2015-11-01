@@ -183,64 +183,6 @@ def pingavg(host):
         m = re.search(unix_ping_regex, pingcmd)
         return m.group(2)
 
-
-@hook.command("harmonystatus", "hhstatus", "harmony", "ddos", "pinghh", "hh")
-def hhstatus(reply, notice, nick):
-    if getTokens(nick) < 100:
-        notice("You don't have enough tokens. (100 needed)... Help a little more !")
-        return None
-
-    notice("Je vérifie le statut des serveurs ! Cela prends environ 20 secondes, voire moins !")
-    InternalHosts = sorted(["lisa", "homer", "marge", "maggie", "flanders", "www", "apu", "burns", "irc"])
-    ExternalHosts = sorted(["bukkit.fr", "google.fr", "ovh.com", "proof.ovh.net", "iooner.klat00.org"])
-    #	dead = []
-    #	good = []
-    #	bad = []
-    toreply = "NODES : "
-
-    for host in InternalHosts:
-        avg = float(pingavg(host + ".harmony-hosting.com"))
-
-        if avg == -1:
-            # dead.append(host)
-            toreply += "$(dark_red)" + host + "(ERR)" + "$(clear) "
-        elif avg <= 20:
-            # good.append(host)
-            toreply += "$(dark_green)" + host + "$(clear) "
-        elif avg <= 1000:
-            # bad.append(host)
-            toreply += "$(orange)" + host + "(" + str(avg) + " ms)" + "$(clear) "
-        else:
-            # dead.append(host)
-            toreply += "$(red)" + host + "(" + str(avg) + " ms)" + "$(clear) "
-
-    toreplyINT = parse(toreply)
-
-    toreply = "SERVICES: "
-    for host in ExternalHosts:
-        avg = float(pingavg(host))
-
-        host = host.replace('.', '_')
-
-        if avg == -1:
-            # dead.append(host)
-            toreply += "$(dark_red)" + host + "$(clear) "
-        elif avg <= 20:
-            # good.append(host)
-            toreply += "$(dark_green)" + host + "$(clear) "
-        elif avg <= 1000:
-            # bad.append(host)
-            toreply += "$(orange)" + host + "(" + str(avg) + " ms)" + "$(clear) "
-        else:
-            # dead.append(host)
-            toreply += "$(red)" + host + "$(clear) "
-
-    toreplyEXT = parse(toreply)
-
-    reply(toreplyINT)
-    reply(toreplyEXT)
-
-
 @hook.command("serverinfo", "servinfo")
 def servinfo(reply, text, notice, nick):
     if getTokens(nick) < 1000:

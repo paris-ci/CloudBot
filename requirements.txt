@@ -19,3 +19,4 @@ pyenchant
 pythonwhois
 imgurpython
 isodate
+urlfetch
