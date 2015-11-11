@@ -1,7 +1,8 @@
 import json
 
-import urllib.parse
 import urllib.request
+import urllib.parse
+
 from cloudbot.util.colors import parse, colorize
 from cloudbot import hook
 from plugins.usingBot import getTokens, takeTokens
