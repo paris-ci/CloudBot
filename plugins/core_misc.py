@@ -22,7 +22,7 @@ def invite(irc_paramlist, conn, event):
             0].partition('!')
         #		message(invite.split()[0] + " invited me to " + invite.split()[-1], invite.split()[-1])
         conn.message(irc_paramlist[-1].strip(":"),
-                     "Hello ! I'm an IRC bot. " + head + " invited me here! Check what I can do with " + conn.config[
+                     "Hello! I'm " + conn.config["nick"] + ". " + head + " invited me here! Check what I can do with " + conn.config[
                          "command_prefix"] + "help.")
         conn.message(irc_paramlist[-1].strip(":"),
                      "You can check more info about me at github : https://github.com/paris-ci/CloudBot")
