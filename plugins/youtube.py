@@ -18,8 +18,18 @@ playlist_api_url = base_url + 'playlists?part=snippet%2CcontentDetails%2Cstatus'
 video_url = "http://youtu.be/%s"
 err_no_api = "The YouTube API is off in the Google Developers Console."
 
+global time_last_request
+time_last_request = time.time()
 
 def get_video_description(video_id):
+    global time_last_request
+    time_elapsed = time.time() - time_last_request
+    if time_elapsed > 10:
+
+        time_last_request = time.time()
+    else:
+        #return "This looks like a YouTube video. However, the YT api have been called too much, I'm sorry I won't be able to fetch details for you."
+        return None
     json = requests.get(api_url.format(video_id, dev_key)).json()
 
     if json.get('error'):
@@ -70,7 +80,7 @@ def get_video_description(video_id):
     #		r'(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))',
     #		'[URL]', out)
 
-    return out.replace("youtu", "you tu")
+    return out.replace("youtu", "you tu") #nup. No spam please
 
 
 @hook.on_start()
@@ -157,6 +167,13 @@ ytpl_re = re.compile(r'(.*:)//(www.youtube.com/playlist|youtube.com/playlist)(:[
 
 @hook.regex(ytpl_re)
 def ytplaylist_url(match, event):
+    global time_last_request
+    time_elapsed = time.time() - time_last_request
+    if time_elapsed > 10:
+        time_last_request = time.time()
+    else:
+        #return "This looks like a YouTube Playlist. However, the YT api have been called too much, I'm sorry I won't be able to fetch details for you."
+        return None
     if event.chan == "#harmonyhosting":  # if the channel is #harmonyhosting
         return None  # return None, canceling the action
 

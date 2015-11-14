@@ -127,7 +127,7 @@ def FindTheWord(LocalData, GlobalData, word):
 
 
 @hook.command("faq")
-def faq(text, reply, notice, event):
+def faq(text, reply, notice, event, message):
     text = text.split()
     GlobalData = WorkingWithFiles.JSONloadFromDisk("data/faq.json")
     LocalData = WorkingWithFiles.JSONloadFromDisk("data/local_faq/" + event.chan)
@@ -136,16 +136,14 @@ def faq(text, reply, notice, event):
         reponse = FindTheWord(LocalData, GlobalData, text[0])
 
     except:
-
-        reply("This word havent been found in the FAQ! Try to list it : !listfaq")
-        return
+        return "I'm Sorry, but I can't find this! Use !listfaq and !llistfaq to see what are the current defined factoids."
 
     try:
-        notice(reponse, text[1])
-        notice("Transmitted !")
+        message(" > " + text[1] + " => " + reponse)
 
     except:
         reply(reponse)
+        notice("Did you know ? You can use !faq word user to HL a particular user ")
 
 
 @hook.command("faqadd", "addfaq", permissions=["faq"])

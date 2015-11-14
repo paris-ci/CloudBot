@@ -19,11 +19,13 @@ def airparif(text):
         url = "http://www.airparif.asso.fr/appli/api/indice?date=demain"
     else:
         url = "http://www.airparif.asso.fr/appli/api/indice?date=jour"
-
-    req = urllib.request.Request(url)
-    response = urllib.request.urlopen(req)
-    response = response.read().decode("utf-8")
-    response = json.loads(response)
+    try:
+        req = urllib.request.Request(url)
+        response = urllib.request.urlopen(req)
+        response = response.read().decode("utf-8")
+        response = json.loads(response)
+    except Exception as e:
+        return "Aie ! Une erreur est survenue avec l'api de airparif : " + str(e)
 
     toreply = ""
 
