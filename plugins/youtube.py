@@ -18,7 +18,6 @@ playlist_api_url = base_url + 'playlists?part=snippet%2CcontentDetails%2Cstatus'
 video_url = "http://youtu.be/%s"
 err_no_api = "The YouTube API is off in the Google Developers Console."
 
-global time_last_request
 time_last_request = time.time()
 
 def get_video_description(video_id):
