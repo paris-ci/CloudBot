@@ -42,7 +42,7 @@ def getBet(nick):
     :return int: The bet of the specified player
     """
     data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)  # Get data from file
-    bet = int(data.get[nick]["bet"])  # Extract bet of a player
+    bet = int(data[nick]["bet"])  # Extract bet of a player
     return bet
 
 
@@ -52,7 +52,7 @@ def getCards(nick):
     :return list: The cards of the specified player
     """
     data = WorkingWithFiles.JSONloadFromDisk('data/casino.json', default)  # Get data from file
-    cards = data.get[nick]["cards"]  # Extract cards of a player
+    cards = data[nick]["cards"]  # Extract cards of a player
     return list(cards)
 
 
