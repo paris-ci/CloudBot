@@ -336,7 +336,7 @@ def endBJ(notice, nick, reply):
     else:
         notice("Dealer busts")
         argent += mise * 3
-        reply("You won " + str(mise * 3) + "$ ! You now have $ " + str(argent))
+        reply("You won " + str(mise * 3) + "$ ! You now have $" + str(argent))
         savePlayerData(nick, argent=argent, cards=["end"])
         return None
 

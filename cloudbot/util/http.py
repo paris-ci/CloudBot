@@ -21,7 +21,7 @@ from urllib.error import URLError, HTTPError
 # security
 parser = etree.XMLParser(resolve_entities=False, no_network=True)
 
-ua_cloudbot = 'Cloudbot/DEV http://github.com/CloudDev/CloudBot'
+ua_cloudbot = 'Cloudbot/DEV http://github.com/paris-ci/CloudBot'
 
 ua_firefox = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:17.0) Gecko/17.0' \
              ' Firefox/17.0'

@@ -7,7 +7,7 @@ def checkExistsPath(path):
 def checkExistsFile(path):
     import os
     if not os.path.exists(path):
-        with open(path)as f:
+        with open(path, "a") as f:
             f.write(path)
 
 

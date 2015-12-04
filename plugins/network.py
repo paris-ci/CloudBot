@@ -1,27 +1,80 @@
-import time
-import random
-import subprocess
-import re
 import os
+import random
+import re
 import socket
+import subprocess
+import threading
 
+from cloudbot import hook
 from cloudbot.util import web
 from cloudbot.util.colors import parse, strip_all, colorize
 from data.ports import toScan
-from cloudbot import hook
-from plugins.usingBot import getTokens, takeTokens
 from plugins.minecraft_ping import MinecraftServer, format_colors
+from plugins.usingBot import getTokens, takeTokens
 
+
+class Scanner(object):
+
+    open = [] # Populated while we are running
+    host = "" # List of host in our input queue
+    ports = []
+
+    # How many ping process at the time.
+    thread_count = 255
+
+    # Lock object to keep track the threads in loops, where it can potentially be race conditions.
+    lock = threading.Lock()
+
+    def pop_queue(self):
+
+        port = None
+
+        self.lock.acquire() # Grab or wait+grab the lock.
+
+        if self.ports:
+            port = self.ports.pop()
+
+        self.lock.release() # Release the lock, so another thread could grab it.
+
+        return port
+
+    def dequeue(self):
+        while True:
+            port = self.pop_queue()
+
+            if not port:
+                return None
+
+            result = scanport(self.host, port)
+            if result:
+                self.open.append(port)
+
+    def start(self):
+        threads = []
+
+
+        for i in range(self.thread_count):
+            # Create self.thread_count number of threads that together will
+            # cooperate removing every ip in the list. Each thread will do the
+            # job as fast as it can.
+            t = threading.Thread(target=self.dequeue)
+            t.start()
+            threads.append(t)
+
+        # Wait until all the threads are done. .join() is blocking.
+        [ t.join() for t in threads ]
+
+        return self.open
 
 
 def scanport(IP, PORT):
     """
     :return: True/False if the port is open for the give ip:port
     """
-    time.sleep(0.005)
     # noinspection PyBroadException
     try:
         s = socket.socket()
+        print(IP,":",PORT)
         s.connect((IP, PORT))
         return True
     except:
@@ -30,7 +83,6 @@ def scanport(IP, PORT):
 
 @hook.command("portscan1", "ps1", "scan1")
 def scanOne(reply, text, nick, notice):
-
     if getTokens(nick) < 1000:
         notice("You don't have enough tokens to do a portscan (1000 needed)... Help a little more !")
         return None
@@ -65,23 +117,20 @@ def scan3000(reply, text, nick, notice):
     if not text:
         reply("Please specify an IP address/ dns ! !ps3000 IP")
 
-    scanned = 0
 
     takeTokens(500, nick, notice)
     IP = text
-    openPorts = []
     timeout = float((float(pingavg(IP)) / 100) + 0.5)
     socket.setdefaulttimeout(timeout)
     notice("i'm scanning with a timeout of " + str(timeout))
     reply("Scanning 3000 ports... It's a long task, you'll have to wait !")
 
-    for PORT in toScan:
-        scanned += 1
-        if scanport(IP, PORT):
-            openPorts.append(PORT)
+    scan = Scanner()
+    scan.open = []
+    scan.host = IP
+    scan.ports = toScan
 
-        if scanned % 250 == 0:
-            notice("Progress (" + str(IP) + "): " + str(scanned) + " / 3000")
+    openPorts = scan.start()
 
     openPorts.sort()
     reply("Open ports found for " + text + " (" + str(len(openPorts)) + "): " + str(openPorts))
@@ -89,7 +138,6 @@ def scan3000(reply, text, nick, notice):
 
 @hook.command("passwordgenerator", "genpass", "passgen", "password")
 def passgen(reply, nick, notice):
-
     if getTokens(nick) < 100:
         notice("You don't have enough tokens to do a password generation (100 needed)... Help a little more !")
         return None
@@ -161,7 +209,6 @@ def ping(text, reply, notice):
 
     return parse(host + " : " + toreply)
 
-
 def pingavg(host):
     if os.name == "nt":
         args = ["ping", "-n", "2", host]
@@ -182,6 +229,7 @@ def pingavg(host):
     else:
         m = re.search(unix_ping_regex, pingcmd)
         return m.group(2)
+
 
 @hook.command("serverinfo", "servinfo")
 def servinfo(reply, text, notice, nick):
@@ -264,33 +312,40 @@ def bungeesec(reply, text, nick, notice):
     timeout = float((float(pingavg(IP)) / 100) + 0.1)
     socket.setdefaulttimeout(timeout)
     notice("I'm scanning with a timeout of " + str(timeout))
-    reply("Scanning ports... I'll tell you my progress, please wait !")
+    reply("Scanning ports... Please wait a moment !")
     toreply = "List of minecraft servers found for : " + str(IP) + ":\n"
 
-    found = 0
 
     start = 20000
     end = 40000
 
-    for PORT in range(start, end):
-        if scanport(IP, PORT):
-            mcinfo = pingmc(IP, PORT)
-            if mcinfo:
-                toreply += "Server found on port " + str(PORT) + " : " + str(mcinfo) + "\n"
-                found += 1
+    scan = Scanner()
+    scan.open = []
+    scan.host = IP
+    scan.ports = list(range(start, end))
 
-        if PORT % 250 == 0:
-            notice(
-                "Progress bungeesec (" + str(IP) + "): " + str(int(PORT) - 20000) + " / 20000 | Found so far : " + str(
-                    found))
+    serversPorts = scan.start()
+    others = []
 
-    if found == 0:
+    for port in serversPorts:
+        mcinf = pingmc(IP, port)
+        if mcinf:
+            toreply += "Server found on port " + str(port) + " : " + str(mcinf) + "\n"
+        else:
+            others.append(port)
+
+    if others:
+        toreply += "Other(s) open ports found, but that don't seems to have a minecraft server on them :" + str(others)
+
+
+
+    if len(serversPorts) == 0:
         toreply += "No servers found. Check the entered IP address."
 
-    if found < 5:
+    if len(serversPorts) < 5:
         return toreply
     else:
-        return web.paste(strip_all(toreply))
+        return web.paste(strip_all(toreply).encode("latin-1",errors='replace'))
 
 
 def pingmc(ip, port=25565):
@@ -319,3 +374,5 @@ def pingmc(ip, port=25565):
         return "{}\x0f - \x02{}\x0f" \
                " - \x02{}/{}\x02 players".format(description, s.version.name_clean,
                                                  s.players.online, s.players.max).replace("\n", "\x0f - ")
+
+
