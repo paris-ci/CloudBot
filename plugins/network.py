@@ -13,17 +13,16 @@ from plugins.minecraft_ping import MinecraftServer, format_colors
 from plugins.usingBot import getTokens, takeTokens
 
 
-class Scanner(object):
+class Scanner(object, ):
+    def __init__(self):
 
-    open = [] # Populated while we are running
-    host = "" # List of host in our input queue
-    ports = []
+        self.open = [] # Populated while we are running
+        self.host = "" # List of host in our input queue
+        self.ports = []
+        self.thread_count = 255
 
-    # How many ping process at the time.
-    thread_count = 255
-
-    # Lock object to keep track the threads in loops, where it can potentially be race conditions.
-    lock = threading.Lock()
+        # Lock object to keep track the threads in loops, where it can potentially be race conditions.
+        self.lock = threading.Lock()
 
     def pop_queue(self):
 
@@ -126,9 +125,10 @@ def scan3000(reply, text, nick, notice):
     reply("Scanning 3000 ports... It's a long task, you'll have to wait !")
 
     scan = Scanner()
+    scan.__init__()
     scan.open = []
     scan.host = IP
-    scan.ports = toScan
+    scan.ports = toScan[:]
 
     openPorts = scan.start()
 
