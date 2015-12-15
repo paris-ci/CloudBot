@@ -19,7 +19,7 @@ class Scanner(object, ):
         self.open = [] # Populated while we are running
         self.host = "" # List of host in our input queue
         self.ports = []
-        self.thread_count = 255
+        self.thread_count = 50
 
         # Lock object to keep track the threads in loops, where it can potentially be race conditions.
         self.lock = threading.Lock()
@@ -97,14 +97,14 @@ def scanOne(reply, text, nick, notice):
 
     takeTokens(100, nick, notice)
     socket.setdefaulttimeout(5)
-    reply("Scanning port number " + str(PORT) + " for ip " + str(IP))
+    #reply("Scanning port number " + str(PORT) + " for ip " + str(IP))
 
     result = scanport(IP, PORT)
 
     if result:
-        reply("The port " + str(PORT) + " of the IP " + IP + " is OPEN !")
+        reply("The port " + str(PORT) + " for " + IP + " is OPEN !")
     elif not result:
-        reply("The port " + str(PORT) + " of the IP " + IP + " is CLOSED ! ")
+        reply("The port " + str(PORT) + " for " + IP + " is CLOSED ! ")
 
 
 @hook.command("portscan3000", "scan3000", "ps3000")
@@ -313,7 +313,7 @@ def bungeesec(reply, text, nick, notice):
     socket.setdefaulttimeout(timeout)
     notice("I'm scanning with a timeout of " + str(timeout))
     reply("Scanning ports... Please wait a moment !")
-    toreply = "List of minecraft servers found for : " + str(IP) + ":\n"
+    toreply = "List of minecraft servers found for : " + str(IP) + ":"
 
 
     start = 20000
@@ -330,17 +330,17 @@ def bungeesec(reply, text, nick, notice):
     for port in serversPorts:
         mcinf = pingmc(IP, port)
         if mcinf:
-            toreply += "Server found on port " + str(port) + " : " + str(mcinf) + "\n"
+            toreply += "\nServer found on port " + str(port) + " : " + str(mcinf) + ""
         else:
             others.append(port)
 
     if others:
-        toreply += "Other(s) open ports found, but that don't seems to have a minecraft server on them :" + str(others)
+        toreply += "\nOther(s) open ports found, but that don't seems to have a minecraft server on them :" + str(others)
 
 
 
     if len(serversPorts) == 0:
-        toreply += "No servers found. Check the entered IP address."
+        toreply += "\nNo servers found. Check the entered IP address."
 
     if len(serversPorts) < 5:
         return toreply
