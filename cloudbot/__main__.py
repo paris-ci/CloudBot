@@ -1,9 +1,9 @@
 import asyncio
 import logging
 import os
+import signal
 import sys
 import time
-import signal
 
 # store the original working directory, for use when restarting
 original_wd = os.path.realpath(".")

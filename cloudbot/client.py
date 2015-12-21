@@ -1,6 +1,6 @@
 import asyncio
-import logging
 import collections
+import logging
 
 from cloudbot.permissions import PermissionManager
 

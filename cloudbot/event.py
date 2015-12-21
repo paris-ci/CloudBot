@@ -1,7 +1,7 @@
 import asyncio
+import concurrent.futures
 import enum
 import logging
-import concurrent.futures
 
 logger = logging.getLogger("cloudbot")
 

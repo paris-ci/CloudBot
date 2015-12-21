@@ -1,8 +1,8 @@
 import asyncio
 import os.path
 
-from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
+from watchdog.observers import Observer
 
 
 class PluginReloader(object):

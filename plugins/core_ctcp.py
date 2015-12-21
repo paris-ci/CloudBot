@@ -1,8 +1,8 @@
 import asyncio
 import time
 
-from cloudbot import hook
 import cloudbot
+from cloudbot import hook
 
 
 # CTCP responses

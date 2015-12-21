@@ -1,10 +1,10 @@
 import asyncio
+import logging
 import re
 import ssl
-import logging
 from ssl import SSLContext
 
-from _ssl import PROTOCOL_SSLv23
+# from _ssl import PROTOCOL_SSLv23
 from cloudbot.client import Client
 from cloudbot.event import Event, EventType
 
@@ -25,10 +25,10 @@ def irc_clean(dirty):
 
 irc_command_to_event_type = {
     "PRIVMSG": EventType.message,
-    "JOIN"   : EventType.join,
-    "PART"   : EventType.part,
-    "KICK"   : EventType.kick,
-    "NOTICE" : EventType.notice
+    "JOIN": EventType.join,
+    "PART": EventType.part,
+    "KICK": EventType.kick,
+    "NOTICE": EventType.notice
 }
 
 
@@ -122,7 +122,7 @@ class IrcClient(Client):
         if self.local_bind:
             optional_params["local_addr"] = self.local_bind
         self._transport, self._protocol = yield from self.loop.create_connection(
-            lambda: _IrcProtocol(self), host=self.server, port=self.port, ssl=self.ssl_context, **optional_params)
+                lambda: _IrcProtocol(self), host=self.server, port=self.port, ssl=self.ssl_context, **optional_params)
 
         # send the password, nick, and user
         self.set_pass(self.config["connection"].get("password"))
@@ -306,7 +306,7 @@ class _IrcProtocol(asyncio.Protocol):
                 prefix_line_match = irc_prefix_re.match(line)
                 if prefix_line_match is None:
                     logger.critical("[{}] Received invalid IRC line '{}' from {}".format(
-                        self.conn.name, line, self.conn.describe_server()))
+                            self.conn.name, line, self.conn.describe_server()))
                     continue
 
                 netmask_prefix, command, params = prefix_line_match.groups()
@@ -328,7 +328,7 @@ class _IrcProtocol(asyncio.Protocol):
                 noprefix_line_match = irc_noprefix_re.match(line)
                 if noprefix_line_match is None:
                     logger.critical("[{}] Received invalid IRC line '{}' from {}".format(
-                        self.conn.name, line, self.conn.describe_server()))
+                            self.conn.name, line, self.conn.describe_server()))
                     continue
                 command = noprefix_line_match.group(1)
                 params = noprefix_line_match.group(2)

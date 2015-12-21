@@ -1,23 +1,23 @@
 import asyncio
-import time
-import logging
 import collections
-import re
-import os
 import gc
+import logging
+import os
+import re
+import time
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.schema import MetaData
 
 from cloudbot.client import Client
-from cloudbot.config import Config
-from cloudbot.reloader import PluginReloader
-from cloudbot.plugin import PluginManager
-from cloudbot.event import Event, CommandEvent, RegexEvent, EventType
-from cloudbot.util import database, formatting
 from cloudbot.clients.irc import IrcClient
+from cloudbot.config import Config
+from cloudbot.event import Event, CommandEvent, RegexEvent, EventType
+from cloudbot.plugin import PluginManager
+from cloudbot.reloader import PluginReloader
+from cloudbot.util import database, formatting
 
 try:
     from cloudbot.web.main import WebInterface
@@ -84,9 +84,9 @@ class CloudBot:
 
         # set values for reloading
         self.plugin_reloading_enabled = self.config.get(
-            "reloading", {}).get("plugin_reloading", False)
+                "reloading", {}).get("plugin_reloading", False)
         self.config_reloading_enabled = self.config.get(
-            "reloading", {}).get("config_reloading", True)
+                "reloading", {}).get("config_reloading", True)
 
         # this doesn't REALLY need to be here but it's nice
         self.user_agent = self.config.get('user_agent', 'CloudBot/3.0 - CloudBot Refresh '
@@ -99,7 +99,7 @@ class CloudBot:
         self.db_session = scoped_session(self.db_factory)
         self.db_metadata = MetaData()
         self.db_base = declarative_base(
-            metadata=self.db_metadata, bind=self.db_engine)
+                metadata=self.db_metadata, bind=self.db_engine)
 
         # create web interface
         if self.config.get("web", {}).get("enabled", False) and web_installed:
@@ -234,29 +234,29 @@ class CloudBot:
             # a plugin argument
             if not raw_hook.threaded:
                 run_before_tasks.append(
-                    self.plugin_manager.launch(raw_hook, Event(hook=raw_hook, base_event=event)))
+                        self.plugin_manager.launch(raw_hook, Event(hook=raw_hook, base_event=event)))
             else:
                 tasks.append(self.plugin_manager.launch(
-                    raw_hook, Event(hook=raw_hook, base_event=event)))
+                        raw_hook, Event(hook=raw_hook, base_event=event)))
         if event.irc_command in self.plugin_manager.raw_triggers:
             for raw_hook in self.plugin_manager.raw_triggers[event.irc_command]:
                 tasks.append(self.plugin_manager.launch(
-                    raw_hook, Event(hook=raw_hook, base_event=event)))
+                        raw_hook, Event(hook=raw_hook, base_event=event)))
 
         # Event hooks
         if event.type in self.plugin_manager.event_type_hooks:
             for event_hook in self.plugin_manager.event_type_hooks[event.type]:
                 tasks.append(self.plugin_manager.launch(
-                    event_hook, Event(hook=event_hook, base_event=event)))
+                        event_hook, Event(hook=event_hook, base_event=event)))
 
         if event.type is EventType.message:
             # Commands
             if event.chan.lower() == event.nick.lower():  # private message, no command prefix
                 command_re = r'(?i)^(?:[{}]?|{}[,;:]+\s+)(\w+)(?:$|\s+)(.*)'.format(
-                    command_prefix, event.conn.nick)
+                        command_prefix, event.conn.nick)
             else:
                 command_re = r'(?i)^(?:[{}]|{}[,;:]+\s+)(\w+)(?:$|\s+)(.*)'.format(
-                    command_prefix, event.conn.nick)
+                        command_prefix, event.conn.nick)
 
             cmd_match = re.match(command_re, event.content)
 
@@ -267,7 +267,7 @@ class CloudBot:
                     command_event = CommandEvent(hook=command_hook, text=cmd_match.group(2).strip(),
                                                  triggered_command=command, base_event=event)
                     tasks.append(self.plugin_manager.launch(
-                        command_hook, command_event))
+                            command_hook, command_event))
                 else:
                     potential_matches = []
                     for potential_match, plugin in self.plugin_manager.commands.items():
@@ -279,10 +279,10 @@ class CloudBot:
                             command_event = CommandEvent(hook=command_hook, text=cmd_match.group(2).strip(),
                                                          triggered_command=command, base_event=event)
                             tasks.append(self.plugin_manager.launch(
-                                command_hook, command_event))
+                                    command_hook, command_event))
                         else:
                             event.notice("Possible matches: {}".format(
-                                formatting.get_text_list([command for command, plugin in potential_matches])))
+                                    formatting.get_text_list([command for command, plugin in potential_matches])))
 
             # Regex hooks
             for regex, regex_hook in self.plugin_manager.regex_hooks:
@@ -292,9 +292,9 @@ class CloudBot:
                     regex_match = regex.search(event.content)
                     if regex_match:
                         regex_event = RegexEvent(
-                            hook=regex_hook, match=regex_match, base_event=event)
+                                hook=regex_hook, match=regex_match, base_event=event)
                         tasks.append(self.plugin_manager.launch(
-                            regex_hook, regex_event))
+                                regex_hook, regex_event))
 
         # Run the tasks
         yield from asyncio.gather(*run_before_tasks, loop=self.loop)

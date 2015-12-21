@@ -32,37 +32,37 @@ def _setup():
     logging.captureWarnings(True)
 
     dict_config = {
-        "version"   : 1,
+        "version": 1,
         "formatters": {
             "brief": {
-                "format" : "[%(asctime)s] [%(levelname)s] %(message)s",
+                "format": "[%(asctime)s] [%(levelname)s] %(message)s",
                 "datefmt": "%H:%M:%S"
             },
-            "full" : {
-                "format" : "[%(asctime)s] [%(levelname)s] %(message)s",
+            "full": {
+                "format": "[%(asctime)s] [%(levelname)s] %(message)s",
                 "datefmt": "%Y-%m-%d][%H:%M:%S"
             }
         },
-        "handlers"  : {
+        "handlers": {
             "console": {
-                "class"    : "logging.StreamHandler",
+                "class": "logging.StreamHandler",
                 "formatter": "brief",
-                "level"    : "INFO",
-                "stream"   : "ext://sys.stdout"
+                "level": "INFO",
+                "stream": "ext://sys.stdout"
             },
-            "file"   : {
-                "class"      : "logging.handlers.RotatingFileHandler",
-                "maxBytes"   : 1000000,
+            "file": {
+                "class": "logging.handlers.RotatingFileHandler",
+                "maxBytes": 1000000,
                 "backupCount": 5,
-                "formatter"  : "full",
-                "level"      : "INFO",
-                "encoding"   : "utf-8",
-                "filename"   : os.path.join(logging_dir, "bot.log")
+                "formatter": "full",
+                "level": "INFO",
+                "encoding": "utf-8",
+                "filename": os.path.join(logging_dir, "bot.log")
             }
         },
-        "loggers"   : {
+        "loggers": {
             "cloudbot": {
-                "level"   : "DEBUG",
+                "level": "DEBUG",
                 "handlers": ["console", "file"]
             }
         }
@@ -71,19 +71,19 @@ def _setup():
     if logging_config.get("console_debug", False):
         dict_config["handlers"]["console"]["level"] = "DEBUG"
         dict_config["loggers"]["asyncio"] = {
-            "level"   : "DEBUG",
+            "level": "DEBUG",
             "handlers": ["console", "file"]
         }
 
     if logging_config.get("file_debug", True):
         dict_config["handlers"]["debug_file"] = {
-            "class"      : "logging.handlers.RotatingFileHandler",
-            "maxBytes"   : 1000000,
+            "class": "logging.handlers.RotatingFileHandler",
+            "maxBytes": 1000000,
             "backupCount": 5,
-            "formatter"  : "full",
-            "encoding"   : "utf-8",
-            "level"      : "DEBUG",
-            "filename"   : os.path.join(logging_dir, "debug.log")
+            "formatter": "full",
+            "encoding": "utf-8",
+            "level": "DEBUG",
+            "filename": os.path.join(logging_dir, "debug.log")
         }
         dict_config["loggers"]["cloudbot"]["handlers"].append("debug_file")
 

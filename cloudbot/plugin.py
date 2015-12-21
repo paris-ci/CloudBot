@@ -29,7 +29,7 @@ def find_hooks(parent, module):
     event = []
     periodic = []
     on_start = []
-    type_lists = {"command" : command, "regex": regex, "irc_raw": raw, "sieve": sieve, "event": event,
+    type_lists = {"command": command, "regex": regex, "irc_raw": raw, "sieve": sieve, "event": event,
                   "periodic": periodic, "on_start": on_start}
     for name, func in module.__dict__.items():
         if hasattr(func, "_cloudbot_hook"):
@@ -176,14 +176,13 @@ class PluginManager:
             asyncio.async(self._start_periodic(periodic_hook))
             self._log_hook(periodic_hook)
 
-
         # register commands
         for command_hook in plugin.commands:
             for alias in command_hook.aliases:
                 if alias in self.commands:
                     logger.warning(
-                        "Plugin {} attempted to register command {} which was already registered by {}. "
-                        "Ignoring new assignment.".format(plugin.title, alias, self.commands[alias].plugin.title))
+                            "Plugin {} attempted to register command {} which was already registered by {}. "
+                            "Ignoring new assignment.".format(plugin.title, alias, self.commands[alias].plugin.title))
                 else:
                     self.commands[alias] = command_hook
             self._log_hook(command_hook)
@@ -506,7 +505,7 @@ class Plugin:
         self.file_name = filename
         self.title = title
         self.commands, self.regexes, self.raw_hooks, self.sieves, self.events, self.periodic, self.run_on_start = find_hooks(
-            self, code)
+                self, code)
         # we need to find tables for each plugin so that they can be unloaded from the global metadata when the
         # plugin is reloaded
         self.tables = find_tables(code)
@@ -590,7 +589,7 @@ class Hook:
 
     def __repr__(self):
         return "type: {}, plugin: {}, permissions: {}, single_thread: {}, threaded: {}".format(
-            self.type, self.plugin.title, self.permissions, self.single_thread, self.threaded
+                self.type, self.plugin.title, self.permissions, self.single_thread, self.threaded
         )
 
 
@@ -751,11 +750,11 @@ class OnStartHook(Hook):
 
 
 _hook_name_to_plugin = {
-    "command" : CommandHook,
-    "regex"   : RegexHook,
-    "irc_raw" : RawHook,
-    "sieve"   : SieveHook,
-    "event"   : EventHook,
+    "command": CommandHook,
+    "regex": RegexHook,
+    "irc_raw": RawHook,
+    "sieve": SieveHook,
+    "event": EventHook,
     "periodic": PeriodicHook,
     "on_start": OnStartHook
 }

@@ -1,5 +1,5 @@
-from fnmatch import fnmatch
 import logging
+from fnmatch import fnmatch
 
 logger = logging.getLogger("cloudbot")
 
@@ -175,8 +175,8 @@ class PermissionManager(object):
                 # Okay, maybe a warning, but no support.
                 if group not in config_groups:
                     logger.warning(
-                        "[{}|permissions] Can't remove user from group due to"
-                        " upper-case group names!".format(self.name))
+                            "[{}|permissions] Can't remove user from group due to"
+                            " upper-case group names!".format(self.name))
                     continue
                 config_group = config_groups.get(group)
                 config_users = config_group.get("users")

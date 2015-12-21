@@ -4,12 +4,12 @@ from cloudbot import hook
 from cloudbot.util import database
 
 table = Table(
-    "regex_chans",
-    database.metadata,
-    Column("connection", String),
-    Column("channel", String),
-    Column("status", String),
-    UniqueConstraint("connection", "channel")
+        "regex_chans",
+        database.metadata,
+        Column("connection", String),
+        Column("channel", String),
+        Column("status", String),
+        UniqueConstraint("connection", "channel")
 )
 
 # Default value.
@@ -42,7 +42,7 @@ def set_status(db, conn, chan, status):
     if (conn, chan) in status_cache:
         # if we have a set value, update
         db.execute(
-            table.update().values(status=status).where(table.c.connection == conn).where(table.c.channel == chan))
+                table.update().values(status=status).where(table.c.connection == conn).where(table.c.channel == chan))
     else:
         # otherwise, insert
         db.execute(table.insert().values(connection=conn, channel=chan, status=status))

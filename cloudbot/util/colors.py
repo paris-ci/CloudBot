@@ -40,53 +40,53 @@ import re
 from random import randint
 
 IRC_COLOUR_DICT = {
-    "white"     : "00",
-    "black"     : "01",
-    "dblue"     : "02",
-    "dark_blue" : "02",
+    "white": "00",
+    "black": "01",
+    "dblue": "02",
+    "dark_blue": "02",
     "dark_green": "03",
-    "dgreen"    : "03",
-    "red"       : "04",
-    "dark_red"  : "05",
-    "dred"      : "05",
-    "brown"     : "05",  # Note: This appears to show up as brown for some clients, dark red for others.
-    "purple"    : "06",
-    "orange"    : "07",
-    "yellow"    : "08",
-    "green"     : "09",
-    "lime"      : "09",
-    "cyan"      : "10",
-    "teal"      : "11",
-    "blue"      : "12",
-    "pink"      : "13",
-    "dgrey"     : "14",
-    "dark_grey" : "14",
-    "dgray"     : "14",
-    "dark_gray" : "14",
-    "grey"      : "15",
-    "gray"      : "15",
-    "random"    : ""  # Special keyword, generate a random number.
+    "dgreen": "03",
+    "red": "04",
+    "dark_red": "05",
+    "dred": "05",
+    "brown": "05",  # Note: This appears to show up as brown for some clients, dark red for others.
+    "purple": "06",
+    "orange": "07",
+    "yellow": "08",
+    "green": "09",
+    "lime": "09",
+    "cyan": "10",
+    "teal": "11",
+    "blue": "12",
+    "pink": "13",
+    "dgrey": "14",
+    "dark_grey": "14",
+    "dgray": "14",
+    "dark_gray": "14",
+    "grey": "15",
+    "gray": "15",
+    "random": ""  # Special keyword, generate a random number.
 }
 
 IRC_FORMATTING_DICT = {
-    "colour"    : "\x03",
-    "color"     : "\x03",
+    "colour": "\x03",
+    "color": "\x03",
 
-    "bold"      : "\x02",
-    "b"         : "\x02",
+    "bold": "\x02",
+    "b": "\x02",
 
     "underlined": "\x1F",
-    "underline" : "\x1F",
-    "ul"        : "\x1F",
+    "underline": "\x1F",
+    "ul": "\x1F",
 
-    "italics"   : "\x1D",
-    "italic"    : "\x1D",
-    "i"         : "\x1D",
+    "italics": "\x1D",
+    "italic": "\x1D",
+    "i": "\x1D",
 
-    "reverse"   : "\x16",
+    "reverse": "\x16",
 
-    "reset"     : "\x0F",
-    "clear"     : "\x0F"
+    "reset": "\x0F",
+    "clear": "\x0F"
 }
 
 COLOR_RE = re.compile(r"\$\(.*?\)", re.I)
@@ -223,6 +223,7 @@ def _convert(string):
             ret += get_format(formatting)
 
     return ret.strip()
+
 
 def colorize(number, low, med, lowcolor="$(dark_green)", medcolor="$(orange)", highcolor="$(red)",
              clearcolor="$(clear)"):

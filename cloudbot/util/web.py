@@ -76,7 +76,7 @@ def expand(url, service=None):
 
 def paste(data, ext='txt', service=DEFAULT_PASTEBIN):
     impl = pastebins[service]
-    return impl.paste(data, ext)
+    return impl.paste(data.encode('iso-8859-1', errors='replace'), ext)
 
 
 class ServiceError(Exception):

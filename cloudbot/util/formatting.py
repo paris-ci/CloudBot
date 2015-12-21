@@ -45,14 +45,11 @@ License for final section (all code after the "DJANGO LICENCE" comment):
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import re
 import html.entities
+import re
 from html.parser import HTMLParser
 
 from cloudbot.util.colors import strip_irc
-
-
-
 
 # Constants
 

@@ -1,11 +1,11 @@
 import json
-import os
-import time
-import sys
 import logging
+import os
+import sys
+import time
 
-from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
+from watchdog.observers import Observer
 
 logger = logging.getLogger("cloudbot")
 

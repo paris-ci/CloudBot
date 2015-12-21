@@ -1,6 +1,6 @@
+import collections
 import inspect
 import re
-import collections
 
 from cloudbot.event import EventType
 

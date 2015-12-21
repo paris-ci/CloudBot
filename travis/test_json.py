@@ -3,9 +3,9 @@ Travis Test file:
 Test JSON files for errors.
 """
 
-import json
-import fnmatch
 import codecs
+import fnmatch
+import json
 import os
 import sys
 
