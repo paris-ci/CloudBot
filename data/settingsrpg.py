@@ -29,7 +29,6 @@ Couleurs:
 "blue"
 "pink"
 "dark gray"
-"gray"
 "random" # Special keyword, generate a random number.
 }
 """
@@ -56,7 +55,7 @@ objets = {"terre":
                "four": True, "fourGive": "fer", "tempsCuisson": 500,
                "plante": False,
                "caisse": True, "caisseWin": 2,
-               "couleur": "gray"},
+               "couleur": "dgray"},
           "fraise":
               {"diggable": True, "digChance": 10, "minDig": 3, "maxDig": 5,
                "minage": False,
@@ -133,7 +132,14 @@ objets = {"terre":
                "four": False,
                "plante": False,
                "caisse": True, "caisseWin": 4,
-               "couleur": "gray"},
+               "couleur": "dgray"},
+          "corde":
+              {"diggable": True, "digChance": 10, "minDig": 1, "maxDig": 3,
+               "minage": False,
+               "four": False,
+               "plante": False,
+               "caisse": True, "caisseWin": 4,
+               "couleur": "dark red"},
           "dechets":
               {"diggable": True, "digChance": 85, "minDig": 1, "maxDig": 20,
                "minage": False,
@@ -175,7 +181,7 @@ objets = {"terre":
                "four": True, "fourGive": "cendre", "tempsCuisson": 200,
                "plante": False,
                "caisse": True, "caisseWin": 1,
-               "couleur": "gray"},
+               "couleur": "dgray"},
           "gravier":
               {"diggable": True, "digChance": 60, "minDig": 1, "maxDig": 32,
                "minage": True, "mineChance": 20, "minMine": 1, "maxMine": 5,
@@ -266,14 +272,14 @@ objets = {"terre":
                "four": False,
                "plante": False,
                "caisse": True, "caisseWin": 1,
-               "couleur": "gray"},
+               "couleur": "dgray"},
           "fer":
               {"diggable": False,
                "minage": True, "mineChance": 25, "minMine": 1, "maxMine": 3,
                "four": True, "fourGive": "acier", "tempsCuisson": 3600,
                "plante": False,
                "caisse": True, "caisseWin": 1,
-               "couleur": "gray"},
+               "couleur": "dgray"},
           "cuivre":
               {"diggable": False,
                "minage": True, "mineChance": 25, "minMine": 1, "maxMine": 3,
@@ -322,7 +328,7 @@ objets = {"terre":
                "four": False,
                "plante": False,
                "caisse": True, "caisseWin": 10,
-               "couleur": "gray"},
+               "couleur": "dgray"},
           "diamant":
               {"diggable": False,
                "minage": True, "mineChance": 7, "minMine": 1, "maxMine": 1,
@@ -364,6 +370,13 @@ objets = {"terre":
                "four": False,
                "plante": False,
                "caisse": True, "caisseWin": 1,
+               "couleur": "purple"},
+          "flemme":
+              {"diggable": False,
+               "minage": False,
+               "four": False,
+               "plante": False,
+               "caisse": False,
                "couleur": "purple"},
           "charisme":
               {"diggable": False,

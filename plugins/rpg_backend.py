@@ -95,10 +95,10 @@ def addToInv(nick, objet, nombre=1):
     setValue(nick + "/inventory.json", {objet: int(getValue(nick + "/inventory.json", objet, 1)) + nombre})
 
 
-def rollCrate(nick, message):
+def rollCrate(nick, notice):
     chance = random.randrange(0, 101)
     if chance <= crateFindChance:
-        message("... En revenant a son campement, " + nick + " trouves aussi une caisse ! Bravo !")
+        notice("... En revenant a son campement, " + nick + " trouves aussi une caisse ! Bravo !")
         setValue(nick + "/inventory.json", {"caisse": int(getValue(nick + "/inventory.json", "caisse", 1)) + 1})
         return None
 
@@ -106,12 +106,12 @@ def rollCrate(nick, message):
     if chance <= megaExpBonusChance:
         expWin = random.randrange(250, 10000)
         setValue(nick + "/stats.json", {"exp": int(getValue(nick + "/stats.json", "exp", startExp)) + expWin})
-        message(
+        notice(
             "... En revenant a son campement, " + nick + " tombes sur un mage, qui lui apprends des sorts! Il gagne " + str(
                 expWin) + " points d'experience!")
     elif chance <= expBonusChance:
         expWin = random.randrange(25, 250)
         setValue(nick + "/stats.json", {"exp": int(getValue(nick + "/stats.json", "exp", startExp)) + expWin})
-        message(
+        notice(
             "... En revenant a son campement, " + nick + " tombes sur l'enfant d'un mage, qui lui apprends des sorts! Il gagne " + str(
                 expWin) + " points d'experience!")
