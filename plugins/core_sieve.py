@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from time import time
-
+import plugins.rpg_backend as backend
 from cloudbot import hook
 from cloudbot.util.tokenbucket import TokenBucket
 
@@ -67,6 +67,8 @@ def sieve_suite(bot, event, _hook):
 
         if not allowed:
             event.notice("Sorry, you are not allowed to use this command.")
+            backend.addToInv(event.nick, "journal à scandale", 1)
+            event.notice("Tu va ou la ? ! +1 journal à scandale")
             return None
 
     # check command spam tokens
@@ -91,6 +93,9 @@ def sieve_suite(bot, event, _hook):
             bot.logger.info("[{}|sieve] Refused command from {}. "
                             "Entity had {} tokens, needed {}.".format(conn.name, uid, bucket.tokens,
                                                                       message_cost))
+            backend.addToInv(event.nick, "spam", 1)
+            event.notice("Nan mais tu as vu comment tu parles trop ! +1 spam")
+
             if strict:
                 # bad person loses all tokens
                 bucket.empty()

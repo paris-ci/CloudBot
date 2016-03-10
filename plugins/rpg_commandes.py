@@ -503,7 +503,7 @@ def vend(nick, message, text, notice):
             accessList.remove("data/marche.json")
             return None
         if not backend.checkObjetInventaire(nick, objet, nombreMini=quentite):
-            notice(nick + ", vous n'avez pas assez de " + objet + " pour en vendre")
+            notice(nick + ", vous n'avez pas assez de " + objet + " pour en vendre (il faut qu'il vous en reste minimum 1 à la fin de la vente !)")
             accessList.remove("data/marche.json")
             return None
         if prix < 0:
@@ -576,7 +576,7 @@ def acheter(nick, message, text, notice):
                         json.dump(marche, f)
 
                     accessList.remove("data/marche.json")
-                    message(nick + ", bon choix!")
+                    message(nick + " achete " + str(offre["quentite"]) + "x " + str(objet) + " sur la place du marché à " + str(offre["vendeur"]) + " pour " + str(offre["prix"]) + "x or ! C'est de la bonne qualitée !")
                     return None
                 else:
                     notice(nick + ", vous n'avez pas " + str(offre["prix"]) + "x or !")

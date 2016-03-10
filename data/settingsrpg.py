@@ -4,13 +4,13 @@
 # Remember :
 """
 Temps :
-1 seconde       = 1
-1 minute        = 60
-1 heure         = 3600
-1 journée       = 86400
-1 semaine       = 604800
-1 mois (30 jrs.)= 2592000
-1 an            = 31536000
+1 seconde        = 1
+1 minute         = 60
+1 heure          = 3600
+1 journée        = 86400
+1 semaine        = 604800
+1 mois (30 jrs.) = 2592000
+1 an             = 31536000
 
 Couleurs:
 "white"
@@ -31,6 +31,15 @@ Couleurs:
 "dark gray"
 "random" # Special keyword, generate a random number.
 }
+
+"nomobjet":
+              {"diggable": True, "digChance": 90, "minDig": 1, "maxDig": 32,
+               "minage": True, "mineChance": 20, "minMine": 1, "maxMine": 5,
+               "four": True, "fourGive": "gravier", "tempsCuisson": 5,
+               "plante": True, "planteGive": "blé", "tempsPousse": 15,
+               "caisse": True, "caisseWin": 3,
+               "couleur": "green"},
+
 """
 
 startExp = 0
@@ -378,6 +387,27 @@ objets = {"terre":
                "plante": False,
                "caisse": False,
                "couleur": "purple"},
+          "spam":
+              {"diggable": False,
+               "minage": False,
+               "four": True, "fourGive": "troll", "tempsCuisson": 600,
+               "plante": False,
+               "caisse": False,
+               "couleur": "red"},
+          "troll":
+              {"diggable": False,
+               "minage": False,
+               "four": True, "fourGive": "troll", "tempsCuisson": 600,
+               "plante": False,
+               "caisse": False,
+               "couleur": "dark red"},
+          "journal à scandale":
+              {"diggable": False,
+               "minage": False,
+               "four": False,
+               "plante": False,
+               "caisse": False,
+               "couleur": "red"},
           "charisme":
               {"diggable": False,
                "minage": False,
